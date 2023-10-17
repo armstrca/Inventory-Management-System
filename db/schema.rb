@@ -59,10 +59,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_202615) do
     t.integer "sku"
     t.decimal "price"
     t.integer "stock_quantity"
-    t.integer "category_id_id", null: false
+    t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["category_id_id"], name: "index_products_on_category_id_id"
+    t.index ["category_id"], name: "index_products_on_category_id"
   end
 
   create_table "reports", force: :cascade do |t|
@@ -111,7 +111,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_17_202615) do
   add_foreign_key "order_items", "quantity_ordereds"
   add_foreign_key "order_items", "shipping_costs"
   add_foreign_key "order_items", "unit_prices"
-  add_foreign_key "products", "category_ids"
+  add_foreign_key "products", "categories"
   add_foreign_key "roles", "admins"
   add_foreign_key "roles", "managers"
   add_foreign_key "roles", "staffs"

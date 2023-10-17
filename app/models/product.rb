@@ -10,15 +10,15 @@
 #  stock_quantity :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  category_id_id :integer          not null
+#  category_id    :integer          not null
 #
 # Indexes
 #
-#  index_products_on_category_id_id  (category_id_id)
+#  index_products_on_category_id  (category_id)
 #
 # Foreign Keys
 #
-#  category_id_id  (category_id_id => category_ids.id)
+#  category_id  (category_id => categories.id)
 #
 class Product < ApplicationRecord
   belongs_to :category_id
