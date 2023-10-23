@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
 
+  # devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
+
+  # Define the authentication keys (usually :email, but you can use a different attribute)
+  def self.authentication_keys
+    [:email]
+  end
+
   # GET /users or /users.json
   def index
     @users = User.all

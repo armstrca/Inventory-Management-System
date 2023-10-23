@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :users
-  root to: "users#show"
+  root "users#show"
   devise_for :users
+  resources :users
   resources :reports
   resources :locations
   resources :roles

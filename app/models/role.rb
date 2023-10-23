@@ -22,7 +22,5 @@
 #  staff_id    (staff_id => staffs.id)
 #
 class Role < ApplicationRecord
-  belongs_to :admin
-  belongs_to :staff
-  belongs_to :manager
+  belongs_to :user
 end

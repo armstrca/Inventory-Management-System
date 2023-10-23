@@ -22,7 +22,7 @@
 #  unit_price_id        (unit_price_id => unit_prices.id)
 #
 class OrderItem < ApplicationRecord
-  belongs_to :quantity_ordered
-  belongs_to :unit_price
-  belongs_to :shipping_cost
+  # belongs_to :quantity_ordered_id
+  # belongs_to :unit_price
+  # belongs_to :shipping_cost
 end
