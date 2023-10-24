@@ -1,13 +1,14 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Inventory transactions</h1>
-
+<hr>
 <div id="inventory_transactions">
   <% @inventory_transactions.each do |inventory_transaction| %>
     <%= render inventory_transaction %>
     <p>
       <%= link_to "Show this inventory transaction", inventory_transaction %>
     </p>
+    <hr>
   <% end %>
 </div>
 

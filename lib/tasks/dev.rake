@@ -15,12 +15,12 @@ task({ :sample_data => :environment }) do
     User.destroy_all
   end
 
-  people = []
+  # people = []
 
-  people << { first_name: "Alice", last_name: "Smith" }
-  people << { first_name: "Bob", last_name: "Smith" }
-  people << { first_name: "Carol", last_name: "Smith" }
-  people << { first_name: "Doug", last_name: "Smith" }
+  # people << { first_name: "Alice", last_name: "Smith" }
+  # people << { first_name: "Bob", last_name: "Smith" }
+  # people << { first_name: "Carol", last_name: "Smith" }
+  # people << { first_name: "Doug", last_name: "Smith" }
 
   10.times do
     Category.create(
@@ -109,9 +109,12 @@ task({ :sample_data => :environment }) do
   20.times do
     User.create(
       email: Faker::Internet.email,
-      encrypted_password: Devise.friendly_token,
+      password: "password",
       role: %w(admin staff manager).sample,
       bio: Faker::Lorem.paragraph,
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      image: Faker::Avatar.image,
     )
   end
 

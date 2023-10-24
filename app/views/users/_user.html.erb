@@ -1,12 +1,23 @@
 <div id="<%= dom_id user %>">
+
+  <p>
+    <strong>Name:</strong>
+    <%= user.first_name + " " + user.last_name %>
+  </p>
+
+  <p>
+    <strong>Email:</strong>
+    <%= user.email %>
+  </p>
+
   <p>
     <strong>Image:</strong>
-    <%= user.image %>
+    <%= image_tag user.image %>
   </p>
 
   <p>
     <strong>Role:</strong>
-    <%= user.role %>
+    <%= user.role.capitalize %>
   </p>
 
   <p>
