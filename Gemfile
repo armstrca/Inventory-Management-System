@@ -5,6 +5,10 @@ ruby "3.2.1"
 
 gem "pundit"
 
+gem 'coreui-rails', '~> 1.1'
+
+gem 'sass-rails', '~> 6.0'
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.4", ">= 7.0.4.3"
 
