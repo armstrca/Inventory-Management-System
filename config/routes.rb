@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "users#show"
+  root "themes#index"
   devise_for :users
   resources :users
   resources :reports

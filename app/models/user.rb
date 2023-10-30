@@ -23,4 +23,16 @@
 #
 class User < ApplicationRecord
   devise :database_authenticatable
+
+  def self.admins
+    User.where(role: "admin")
+  end
+
+  def self.managers
+    User.where(role: "manager")
+  end
+
+  def self.staff
+    User.where(role: "staff")
+  end
 end
