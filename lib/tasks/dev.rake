@@ -3,16 +3,19 @@ task({ :sample_data => :environment }) do
   # Seed Categories table with sample data
 
   if Rails.env.development?
-    Category.destroy_all
-    InventoryTransaction.destroy_all
-    Location.destroy_all
-    OrderItem.destroy_all
-    Order.destroy_all
-    Product.destroy_all
-    Report.destroy_all
-    Role.destroy_all
-    Supplier.destroy_all
-    User.destroy_all
+    ActiveRecord::Base.transaction do
+      Product.destroy_all
+      Category.destroy_all
+      Location.destroy_all
+      Report.destroy_all
+      Role.destroy_all
+      Supplier.destroy_all
+      Order.destroy_all
+      OrderItem.destroy_all
+      InventoryTransaction.destroy_all
+      User.destroy_all
+    end
+  
   end
 
   # people = []

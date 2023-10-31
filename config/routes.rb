@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  root "themes#index"
+  root "profiles#index"
   devise_for :users
-  resources :users
+  resources :profiles
   resources :reports
   resources :locations
   resources :roles

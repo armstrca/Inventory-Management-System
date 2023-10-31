@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render 'profiles/profile', user: @user %>
+
+<div>
+  <%= link_to "Edit this user", edit_profile_path(@user) %> |
+  <%= link_to "Back to users", profiles_path %>
+  <% if current_user.role == "admin" %>
+    <%= button_to "Destroy this user", @user, method: :delete %>
+  <% elsif current_user.role == "manager" %>
+    <%= button_to "Destroy this user", @user, method: :delete %>
+  <% end %>
+</div>
