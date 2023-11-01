@@ -22,8 +22,20 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
-  devise :database_authenticatable
 
+validate :email_uniqueness_on_update, on: :update
+
+def email_uniqueness_on_update
+  if email_changed? && User.exists?(email: email)
+    errors.add(:email, 'has already been taken')
+  end
+end
+
+
+
+  has_one_attached :image
+  devise :database_authenticatable
+  ROLES = %w[admin manager staff].freeze
   def self.admins
     User.where(role: "admin")
   end
@@ -35,4 +47,10 @@ class User < ApplicationRecord
   def self.staff
     User.where(role: "staff")
   end
+
+  validates :first_name, presence: { message: "First name is required" }
+  validates :last_name, presence: { message: "Last name is required" }
+  validates :email, presence: { message: "Email is required" },
+                    format: { with: URI::MailTo::EMAIL_REGEXP, message: "Invalid email format" }
+  validates :role, presence: { message: "Role is required" }
 end

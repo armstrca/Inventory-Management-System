@@ -1,11 +1,11 @@
-<h1>Profiles</h1>
+<h1>U s e r s</h1>
 <hr>
 <div class="row">
   <div id="admins" class="col">
     <h2>Admin</h2>
     <% @users.admins.each do |user| %>
       <p>
-        <%= link_to user.first_name, profile_path(user) %>
+        <%= link_to user.first_name, user_path(user) %>
       </p>
     <% end %>
   </div>
@@ -13,7 +13,7 @@
     <h2>Manager</h2>
     <% @users.managers.each do |user| %>
       <p>
-        <%= link_to user.first_name, profile_path(user) %>
+        <%= link_to user.first_name, user_path(user) %>
       </p>
     <% end %>
   </div>
@@ -21,7 +21,7 @@
     <h2>Staff</h2>
     <% @users.staff.each do |user| %>
       <p>
-        <%= link_to user.first_name, profile_path(user) %>
+        <%= link_to user.first_name, user_path(user) %>
       </p>
     <% end %>
   </div>
@@ -31,7 +31,7 @@
   <div class="container text-center">
     <div class="row">
       <div id="create_user" class="col">
-        <h1><%= link_to "Create User", new_profile_path %></h1>
+        <h1><%= link_to "Create User", new_user_path %></h1>
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@
   <div class="container text-center">
     <div class="row">
       <div id="create_user" class="col">
-        <h1><%= link_to "Create User", new_profile_path %></h1>
+        <h1><%= link_to "Create User", new_user_path %></h1>
       </div>
     </div>
   </div>

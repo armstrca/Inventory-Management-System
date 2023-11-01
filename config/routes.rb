@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  root "profiles#index"
+  root "users#index"
   devise_for :users
-  resources :profiles
+  resources :users
   resources :reports
   resources :locations
   resources :roles

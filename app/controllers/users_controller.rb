@@ -1,4 +1,4 @@
-class ProfilesController < ApplicationController
+class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
 
   # devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
@@ -13,16 +13,16 @@ class ProfilesController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  # GET /profiles/new
+  # GET /users/new
   def new
     @user = User.new
   end
 
   # GET /users/1/edit
   def edit
+    @user = User.find(params[:id])
   end
 
-  # POST /users or /users.json
   def create
     @user = User.new(user_params)
 
@@ -37,7 +37,6 @@ class ProfilesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
       if @user.update(user_params)
@@ -50,13 +49,16 @@ class ProfilesController < ApplicationController
     end
   end
 
+
+
+
   # DELETE /users/1 or /users/1.json
   def destroy
     @user = User.find(params[:id])
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to profiles_url, notice: "User was successfully destroyed." }
+      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -70,6 +72,14 @@ class ProfilesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:id, :first_name, :last_name, :email, :image, :role, :bio)
+    params.require(:user).permit(:first_name, :last_name, :image, :role, :bio).tap do |whitelisted|
+      whitelisted[:email] = params[:user][:email] if valid_email?(params[:user][:email]) && params[:user][:email] != @user.email
+    end
+  end
+
+
+  def valid_email?(email)
+    # Use a regular expression to validate the email format
+    email =~ /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   end
 end
