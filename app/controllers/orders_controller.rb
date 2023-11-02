@@ -1,13 +1,20 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[ show edit update destroy ]
+  # before_action :set_order, only: %i[ show edit update destroy ]
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.all
+    if params == 'incoming'
+      @orders = Order.where(receiving_address: Location.pluck(:address))
+    elsif params == 'outgoing'
+      @orders = Order.where(sending_address: Location.pluck(:address))
+    else
+      @orders = Order.all
+    end
   end
 
   # GET /orders/1 or /orders/1.json
   def show
+    @order = Order.find(params[:status])
   end
 
   # GET /orders/new
@@ -59,9 +66,9 @@ class OrdersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params[:id])
-    end
+    # def set_order
+    #   @order = Order.find(params[:id])
+    # end
 
     # Only allow a list of trusted parameters through.
     def order_params

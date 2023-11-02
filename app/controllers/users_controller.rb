@@ -51,7 +51,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     respond_to do |format|
-      if @user.update(user_params)
+      if @user.update(user_params_without_password)
         format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -60,6 +60,9 @@ class UsersController < ApplicationController
       end
     end
   end
+
+
+
 
 
 
@@ -102,6 +105,12 @@ class UsersController < ApplicationController
 
   private
 
+  def user_params_without_password
+    # Allow updating all user attributes except password-related ones
+    params.require(:user).permit(:first_name, :last_name, :email, :role, :bio, :image)
+  end
+
+  
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = current_user
@@ -109,8 +118,9 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :image, :role, :bio)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :role, :bio, :image)
   end
+
 
   def valid_email?(email)
     # Use a regular expression to validate the email format

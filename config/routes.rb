@@ -7,11 +7,14 @@ Rails.application.routes.draw do
   resources :roles
   resources :inventory_transactions
   resources :order_items
+  get 'orders/incoming', to: 'orders#index'
+  get 'orders/outgoing', to: 'orders#index'
   resources :orders
   resources :suppliers
   resources :categories
   resources :products
   post 'users/check_email_availability', to: 'users#check_email_availability'
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
 end
