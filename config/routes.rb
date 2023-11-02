@@ -7,8 +7,8 @@ Rails.application.routes.draw do
   resources :roles
   resources :inventory_transactions
   resources :order_items
-  get 'orders/incoming', to: 'orders#index'
-  get 'orders/outgoing', to: 'orders#index'
+  get 'orders/incoming', to: 'orders#incoming', as: 'incoming_orders'
+  get 'orders/outgoing', to: 'orders#outgoing', as: 'outgoing_orders'
   resources :orders
   resources :suppliers
   resources :categories

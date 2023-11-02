@@ -3,7 +3,7 @@
 <h1>Orders</h1>
 <hr>
 <div id="orders">
-  <% @orders.outgoing.each do |order| %>
+  <% @outgoing_orders.each do |order| %>
     <%= render order %>
     <p>
       <%= link_to "Show this order", order %>
@@ -13,6 +13,3 @@
 </div>
 
 <%= link_to "New order", new_order_path %>
-
-
-pp @orders.outgoing.each

@@ -1,17 +1,27 @@
 <div id="<%= dom_id order %>">
   <p>
     <strong>Expected delivery:</strong>
-    <%= order.expected_delivery %>
+    <%= order.expected_delivery.strftime('%A, %B %e') %>
   </p>
 
   <p>
     <strong>Status:</strong>
-    <%= order.status %>
+    <%= order.status.gsub('_', ' ').titleize %>
   </p>
 
   <p>
     <strong>Description:</strong>
     <%= order.description %>
+  </p>
+
+  <p>
+    <strong>Sending Address:</strong>
+    <%= order.sending_address %>
+  </p>
+
+  <p>
+    <strong>Receiving Address:</strong>
+    <%= order.receiving_address %>
   </p>
 
 </div>

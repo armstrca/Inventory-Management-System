@@ -1,20 +1,24 @@
 class OrdersController < ApplicationController
-  # before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :set_order, only: %i[ show edit update destroy ]
 
   # GET /orders or /orders.json
   def index
-    if params == 'incoming'
-      @orders = Order.where(receiving_address: Location.pluck(:address))
-    elsif params == 'outgoing'
-      @orders = Order.where(sending_address: Location.pluck(:address))
-    else
-      @orders = Order.all
-    end
+    @orders = Order.all
+  end
+
+  # GET /orders/incoming
+  def incoming
+    @incoming_orders = Order.incoming
+  end
+
+  # GET /orders/outgoing
+  def outgoing
+    @outgoing_orders = Order.outgoing
   end
 
   # GET /orders/1 or /orders/1.json
   def show
-    @order = Order.find(params[:status])
+    @order = Order.find(params[:id])
   end
 
   # GET /orders/new
@@ -22,8 +26,8 @@ class OrdersController < ApplicationController
     @order = Order.new
   end
 
-  # GET /orders/1/edit
   def edit
+    @order = Order.find(params[:id]) # Retrieve the order by its ID
   end
 
   # POST /orders or /orders.json
@@ -43,6 +47,7 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1 or /orders/1.json
   def update
+    @order = Order.find(params[:id])
     respond_to do |format|
       if @order.update(order_params)
         format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
@@ -65,13 +70,14 @@ class OrdersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    # def set_order
-    #   @order = Order.find(params[:id])
-    # end
 
-    # Only allow a list of trusted parameters through.
-    def order_params
-      params.require(:order).permit(:expected_delivery, :status, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_order
+    @order = Order.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def order_params
+    params.require(:order).permit(:expected_delivery, :status, :description, :receiving_address, :sending_address)
+  end
 end

@@ -18,7 +18,21 @@
 
   <div>
     <%= form.label :status, style: "display: block" %>
-    <%= form.text_field :status.capitalize %>
+    <%= form.select :status, ['Processing', 'In Transit', 'Delivered'] %>
+  </div>
+
+  <div>
+    <%= form.label :sending_address, style: "display: block" %>
+    <% if order.new_record? %>
+      <%= form.collection_select :sending_address, Location.all, :address, :address %>
+    <% else %>
+      <%= form.text_field :sending_address %>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :receiving_address, style: "display: block" %>
+    <%= form.text_field :receiving_address %>
   </div>
 
   <div>

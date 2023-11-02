@@ -17,13 +17,6 @@ task({ :sample_data => :environment }) do
     end
   end
 
-  # people = []
-
-  # people << { first_name: "Alice", last_name: "Smith" }
-  # people << { first_name: "Bob", last_name: "Smith" }
-  # people << { first_name: "Carol", last_name: "Smith" }
-  # people << { first_name: "Doug", last_name: "Smith" }
-
   10.times do
     Category.create(
       name: Faker::Commerce.department,
@@ -69,12 +62,21 @@ task({ :sample_data => :environment }) do
 
   # Seed Orders table with sample data
   15.times do
+    sending_address = addresses.sample
+    receiving_address = addresses.sample
+
+    # Ensure that at least one of the addresses matches a Location.address
+    while !(Location.exists?(address: sending_address) || Location.exists?(address: receiving_address))
+      sending_address = addresses.sample
+      receiving_address = addresses.sample
+    end
+
     Order.create(
       expected_delivery: Faker::Time.forward(days: 30),
       status: %w(delivered processing in_transit).sample,
       description: "#{["FedEx", "UPS", "USPS"].sample} tracking ##{rand(1000000000000)}",
-      sending_address: addresses.sample,
-      receiving_address: addresses.sample,
+      sending_address: sending_address,
+      receiving_address: receiving_address,
     )
   end
 
@@ -131,5 +133,14 @@ task({ :sample_data => :environment }) do
     )
   end
 
+  User.create(
+
+    first_name: "Alice",
+    last_name: "Smith",
+    email: "alice@smith.com",
+    password: "password",
+    role: 'admin',
+    bio: Faker::Lorem.paragraph,
+  )
   puts "Sample data has been seeded into the database."
 end
