@@ -30,10 +30,16 @@ def email_uniqueness_on_update
     errors.add(:email, 'has already been taken')
   end
 end
+has_one_attached :image
 
+def image_url
+  if image.attached?
+    Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
+  else
+    '/img/default_user_image.jpg' # Provide a default image URL or handle this case as needed
+  end
+end
 
-
-  has_one_attached :image
   devise :database_authenticatable
   ROLES = %w[admin manager staff].freeze
   def self.admins

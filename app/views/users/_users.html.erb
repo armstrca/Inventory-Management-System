@@ -11,14 +11,10 @@
   </p>
 
   <p>
-    <% if @user.image.attached? %>
-      <strong>Image:</strong>
-      <p>
-        <%= image_tag @user.image, style: "max-width: 500px;" %>
-      </p>
-    <% else %>
-      <p>No image available</p>
-    <% end %>
+    <strong>Image:</strong>
+  </p>
+  <p>
+    <%= image_tag user.image_url, style: "max-width: 500px;" %>
   </p>
 
   <p>

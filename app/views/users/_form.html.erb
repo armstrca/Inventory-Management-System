@@ -1,4 +1,6 @@
-<%= form_with(model: user, url: user.persisted? ? user_path(user) : users_path, method: user.persisted? ? :patch : :post) do |form| %>  <% if user.errors.any? %>
+
+<%= form_with(model: user, url: @form_url, method: @http_method) do |form| %>
+  <% if user.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
 
@@ -10,37 +12,61 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :first_name, style: "display: block" %>
-    <%= form.text_field :first_name, required: true %>
-  </div>
+<div>
+  <%= form.label :first_name, style: "display: block" %>
+  <%= form.text_field :first_name, required: true %>
+</div>
 
-  <div>
-    <%= form.label :last_name, style: "display: block" %>
-    <%= form.text_field :last_name, required: true %>
-  </div>
+<div>
+  <%= form.label :last_name, style: "display: block" %>
+  <%= form.text_field :last_name, required: true %>
+</div>
 
-  <div>
-    <%= form.label :email, style: "display: block" %>
-    <%= form.text_field :email, required: true %>
-  </div>
+<div>
+  <%= form.label :email, style: "display: block" %>
+  <%= form.text_field :email, required: true, id: "user_email" %>
+  <span id="email-availability"></span>
+</div>
 
-  <div>
-    <%= form.label :image, style: "display: block" %>
-    <%= form.file_field :image, accept: 'image/*' %>
-  </div>
+<div>
+  <%= form.label :image, style: "display: block" %>
+  <%= form.file_field :image, accept: 'image/*' %>
+</div>
 
-  <div>
-    <%= form.label :role, style: "display: block" %>
-    <%= form.collection_select :role, User::ROLES, :to_s, :humanize, include_blank: true %>
-  </div>
+<div>
+  <%= form.label :role, style: "display: block" %>
+  <%= form.collection_select :role, User::ROLES, :to_s, :humanize, include_blank: true %>
+</div>
 
-  <div>
-    <%= form.label :bio, style: "display: block" %>
-    <%= form.text_field :bio, required: true %>
-  </div>
+<div>
+  <%= form.label :bio, style: "display: block" %>
+  <%= form.text_field :bio, required: true %>
+</div>
 
-  <div>
-    <%= form.submit %>
-  </div>
+<div>
+  <%= form.submit @action, id: 'create-update-button' %>
+
+</div>
+
+<script>
+  // Function to check email availability
+  function checkEmailAvailability() {
+    const email = $('#user_email').val();
+
+    $.post('/users/check_email_availability', { email: email }, function (data) {
+      if (data.available) {
+        $('#email-availability').text('Email is available');
+        $('#email-availability').removeClass('unavailable');
+        $('#create-update-button').prop('disabled', false); // Enable the button
+      } else {
+        $('#email-availability').text('Email is already taken');
+        $('#email-availability').addClass('unavailable');
+        $('#create-update-button').prop('disabled', true); // Disable the button
+      }
+    });
+  }
+
+  // Bind the function to the email input's change event
+  $('#user_email').on('change', checkEmailAvailability);
+</script>
 <% end %>

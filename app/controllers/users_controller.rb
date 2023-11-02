@@ -16,28 +16,40 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
+
+    @action = 'Create User' # Set the action for the button
+    if @user.new_record?
+      @form_url = users_path
+      @http_method = :post
+    else
+      @form_url = user_path(@user)
+      @http_method = :patch
+    end
+  end
+
+
+  def check_email_availability
+    email = params[:email]
+    user = User.find_by(email: email)
+
+    if user
+      render json: { available: false }
+      # format.html { render :edit, status: :unprocessable_entity }
+        # format.json { render json: @user.errors, status: :unprocessable_entity }
+    else
+      render json: { available: true }
+    end
   end
 
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
-  end
-
-  def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+    @action = 'Update User' # Set the action for the button
   end
 
   def update
+    @user = User.find(params[:id])
+
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
@@ -48,6 +60,31 @@ class UsersController < ApplicationController
       end
     end
   end
+
+
+
+  def create
+    @user = User.new(user_params)
+
+    respond_to do |format|
+      begin
+        if @user.save
+          format.html { redirect_to user_url(@user), notice: "User was successfully created." }
+          format.json { render :show, status: :created, location: @user }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
+      rescue ActiveRecord::RecordNotUnique => e
+        format.html {
+          flash.now[:error] = "Email address is already taken. Please choose a different one."
+          render :new, status: :unprocessable_entity
+        }
+        format.json { render json: { error: "Email address is already taken. Please choose a different one." }, status: :unprocessable_entity }
+      end
+    end
+  end
+
 
 
 
@@ -72,11 +109,8 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :image, :role, :bio).tap do |whitelisted|
-      whitelisted[:email] = params[:user][:email] if valid_email?(params[:user][:email]) && params[:user][:email] != @user.email
-    end
+    params.require(:user).permit(:first_name, :last_name, :email, :image, :role, :bio)
   end
-
 
   def valid_email?(email)
     # Use a regular expression to validate the email format

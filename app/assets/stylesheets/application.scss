@@ -18,3 +18,11 @@
  @import "css/sb-admin-2.css";
  @import "fontawesome-free/css/all.css";
  
+ #email-availability {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+#email-availability.unavailable {
+  color: red;
+}
