@@ -19,27 +19,19 @@
     <body id="page-top">
 
       <!-- Page Wrapper -->
-      <div id="wrapper">
+      <!-- application.html.erb -->
+      <div id="wrapper" class="d-flex">
         <%= render 'layouts/sidebar' %>
-
-        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-          <!-- Main Content -->
-          <div id="content">
-            <%= render 'layouts/topbar' %>
-
-            <!-- Begin Page Content -->
-            <div class="container">
-              <% if notice.present? %>
-                <%= render partial: "shared/flash", locals: { message: notice, css_class: "success" } %>
-              <% end %>
-
-              <% if alert.present? %>
-                <%= render partial: "shared/flash", locals: { message: alert, css_class: "danger" } %>
-              <% end %>
-
-              <%= yield %>
-            </div>
+          <%= render 'layouts/topbar' %>
+          <div class="container">
+            <% if notice.present? %>
+              <%= render partial: "shared/flash", locals: { message: notice, css_class: "success" } %>
+            <% end %>
+            <% if alert.present? %>
+              <%= render partial: "shared/flash", locals: { message: alert, css_class: "danger" } %>
+            <% end %>
+            <%= yield %>
           </div>
         </div>
       </div>

@@ -13,10 +13,11 @@
 #
 class Order < ApplicationRecord
   def self.incoming
-    Order.where(receiving_address: Location.pluck(:address))
+    Order.where(receiving_address: Location.pluck(:address)).order(expected_delivery: :asc)
   end
 
   def self.outgoing
-    Order.where(sending_address: Location.pluck(:address))
+    Order.where(sending_address: Location.pluck(:address)).order(expected_delivery: :asc)
   end
 end
+
