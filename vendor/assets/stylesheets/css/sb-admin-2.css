@@ -38,7 +38,7 @@
   --breakpoint-lg: 992px;
   --breakpoint-xl: 1200px;
   --font-family-sans-serif: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-family-monospace: "Nunito", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 *,
@@ -338,7 +338,7 @@ progress {
 }
 
 ::-webkit-file-upload-button {
-  font: inherit;
+  font: 'Flexure' sans-serif;
   -webkit-appearance: button;
 }
 
@@ -10475,8 +10475,8 @@ a:focus {
 .sidebar .sidebar-heading {
   text-align: center;
   padding: 0 1rem;
-  font-weight: 800;
-  font-size: 0.65rem;
+  font-weight: 600;
+  font-size: 0.85rem;
 }
 
 .sidebar .sidebar-card {
