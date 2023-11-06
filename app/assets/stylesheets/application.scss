@@ -37,6 +37,22 @@ h6,
 }
 
 
+element.style {
+  transform: rotate(0deg);
+}
+
+.datatable-sort-icon {
+  opacity: 0;
+  color: var(--mdb-datatable-muted-color);
+  cursor: pointer;
+  transition-property: opacity,transform;
+  transition-duration: var(--mdb-datatable-sort-icon-transition-duration);
+  transition-timing-function: linear;
+  position: absolute;
+  left: var(--mdb-datatable-sort-icon-left);
+  top: var(--mdb-datatable-sort-icon-top);
+}
+
 // Apply 'Philosopher' font to body text (paragraphs)
 p,
 .body-text {

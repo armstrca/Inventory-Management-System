@@ -4,9 +4,9 @@ task({ :sample_data => :environment }) do
 
   if Rails.env.development?
     ActiveRecord::Base.transaction do
-      Product.destroy_all
       Category.destroy_all
       Location.destroy_all
+      Product.destroy_all
       Report.destroy_all
       Role.destroy_all
       Supplier.destroy_all
@@ -60,6 +60,17 @@ task({ :sample_data => :environment }) do
   # Combine the arrays
   addresses = location_addresses + faker_addresses
 
+  50.times do
+    Product.create(
+      name: Faker::Commerce.product_name,
+      description: Faker::Lorem.sentence,
+      sku: Faker::Number.number(digits: 6),
+      price: Faker::Commerce.price(range: 10.0..100.0),
+      stock_quantity: Faker::Number.between(from: 0, to: 1000),
+      category_id: Faker::Number.between(from: 1, to: 10),
+    )
+  end
+
   # Seed Orders table with sample data
   15.times do
     sending_address = addresses.sample
@@ -77,18 +88,6 @@ task({ :sample_data => :environment }) do
       description: "#{["FedEx", "UPS", "USPS"].sample} tracking ##{rand(1000000000000)}",
       sending_address: sending_address,
       receiving_address: receiving_address,
-    )
-  end
-
-  # Seed Products table with sample data
-  50.times do
-    Product.create(
-      name: Faker::Commerce.product_name,
-      description: Faker::Lorem.sentence,
-      sku: Faker::Number.unique.number(digits: 6),
-      price: Faker::Commerce.price(range: 10.0..100.0),
-      stock_quantity: Faker::Number.between(from: 0, to: 1000),
-      category_id: Faker::Number.between(from: 1, to: 10),
     )
   end
 
@@ -139,8 +138,9 @@ task({ :sample_data => :environment }) do
     last_name: "Smith",
     email: "alice@smith.com",
     password: "password",
-    role: 'admin',
+    role: "admin",
     bio: Faker::Lorem.paragraph,
   )
+
   puts "Sample data has been seeded into the database."
 end
