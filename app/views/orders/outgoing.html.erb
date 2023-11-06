@@ -1,15 +1,28 @@
-
-
-<h1>Orders</h1>
+<p>
+<div class="header">
+  <h1>Outgoing</h1>
+<% if current_user.role == "admin" %>
+  <div class="container text-right">
+    <div class="row">
+      <div id="create_user" class="col">
+        <h1><%= link_to "New Order", new_order_path %></h1>
+      </div>
+    </div>
+  </div>
+<% elsif current_user.role == "manager" %>
+  <div class="container text-right">
+    <div class="row">
+      <div id="create_user" class="col">
+        <h1><%= link_to "New Order", new_order_path %></h1>
+      </div>
+    </div>
+  </div>
+<% end %>
+</div>
 <hr>
 <div id="orders">
   <% @outgoing_orders.each do |order| %>
     <%= render order %>
-    <p>
-      <%= link_to "Show this order", order %>
-    </p>
     <hr>
   <% end %>
 </div>
-
-<%= link_to "New order", new_order_path %>

@@ -1,5 +1,11 @@
 <div id="<%= dom_id order %>">
   <p>
+    <h4>
+    <%= link_to "Order ##{order.id}", order %>
+    </h4>
+  </p>
+
+  <p>
     <strong>Expected delivery:</strong>
     <%= order.expected_delivery.strftime('%A, %B %e, %Y') %>
   </p>

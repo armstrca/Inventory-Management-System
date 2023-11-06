@@ -3,8 +3,9 @@ class SuppliersController < ApplicationController
 
   # GET /suppliers or /suppliers.json
   def index
-    @suppliers = Supplier.all
+    @suppliers = Supplier.order(:name) 
   end
+
 
   # GET /suppliers/1 or /suppliers/1.json
   def show

@@ -1,15 +1,28 @@
-
-
-<h1>Orders</h1>
-<hr>
-<div id="orders">
-  <% @orders.each do |order| %>
-    <%= render order %>
-    <p>
-      <%= link_to "Show this order", order %>
-    </p>
-    <hr>
-  <% end %>
+<p>
+  <div class="header">
+    <h1>Orders</h1>
+    <div class="container text-right">
+      <h1><%= link_to "New Order", new_order_path %></h1>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div id="incoming" class="col">
+      <h2 class="underline"><%= link_to "Incoming", "/orders/incoming" %></h2>
+      <% @orders.incoming.each do |order| %>
+        <%= render order %>
+        <hr>
+      <% end %>
+    </div>
+    <div id="outgoing" class="col">
+      <h2 class="underline"><%= link_to "Outgoing", "/orders/outgoing" %></h2>
+      <% @orders.outgoing.each do |order| %>
+        <%= render order %>
+        <p>
+          <hr>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
-
-<%= link_to "New order", new_order_path %>
+</div>

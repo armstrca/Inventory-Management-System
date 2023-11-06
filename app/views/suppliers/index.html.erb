@@ -1,15 +1,32 @@
-
-
-<h1>Suppliers</h1>
+<p>
+<div class="header">
+  <h1>Suppliers</h1>
+<% if current_user.role == "admin" %>
+  <div class="container text-right">
+    <div class="row">
+      <div id="create_user" class="col">
+        <h1><%= link_to "New Supplier", new_user_path %></h1>
+      </div>
+    </div>
+  </div>
+<% elsif current_user.role == "manager" %>
+  <div class="container text-right">
+    <div class="row">
+      <div id="create_user" class="col">
+        <h1><%= link_to "New Supplier", new_user_path %></h1>
+      </div>
+    </div>
+  </div>
+<% end %>
+</div>
 <hr>
-<div id="suppliers">
+<div id="suppliers" class="columns-2">
   <% @suppliers.each do |supplier| %>
+  <div class="supplier-render">
+    
     <%= render supplier %>
     <p>
-      <%= link_to "Show this supplier", supplier %>
-    </p>
     <hr>
+    </div>
   <% end %>
 </div>
-
-<%= link_to "New supplier", new_supplier_path %>
