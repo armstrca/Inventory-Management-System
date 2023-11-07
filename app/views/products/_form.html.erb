@@ -11,6 +11,22 @@
     </div>
   <% end %>
 
+<script>
+  $(document).ready(function() {
+    $('form').submit(function(e) {
+      if ($.trim($('#product_name').val()) === '' ||
+          !/^\d{6}$/.test($('#product_sku').val()) ||
+          !/^\d+(?:\.\d{1,2})?$/.test($('#product_price').val()) ||
+          !/^\d{1,5}$/.test($('#product_stock_quantity').val()) ||
+          $('#product_category_id').val() === '') {
+        e.preventDefault(); // Prevent form submission
+        alert('Please fill in all fields correctly.');
+      }
+    });
+  });
+</script>
+
+
   <div>
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name %>
@@ -21,25 +37,29 @@
     <%= form.text_field :description %>
   </div>
 
-  <div>
-    <%= form.label :sku, style: "display: block" %>
-    <%= form.number_field :sku %>
-  </div>
+<div>
+  <%= form.label :sku, style: "display: block" %>
+  <%= form.number_field :sku, pattern: "\\d{6}", title: "Please enter a 6-digit number." %>
+</div>
 
-  <div>
-    <%= form.label :price, style: "display: block" %>
-    <%= form.text_field :price %>
-  </div>
 
-  <div>
-    <%= form.label :stock_quantity, style: "display: block" %>
-    <%= form.number_field :stock_quantity %>
-  </div>
+<div>
+  <%= form.label :price, style: "display: block" %>
+  <%= form.text_field :price, step: "0.01", pattern: "^\\d+(\\.\\d{1,2})?$", title: "Please enter a valid price with up to 2 decimal places." %>
+</div>
 
-  <div>
-    <%= form.label :category_id, style: "display: block" %>
-    <%= form.text_field :category_id %>
-  </div>
+
+<div>
+  <%= form.label :stock_quantity, style: "display: block" %>
+  <%= form.number_field :stock_quantity, max: 9999, title: "Please enter a value below 5 digits." %>
+</div>
+
+
+<div>
+  <%= form.label :category_id, style: "display: block" %>
+  <%= form.collection_select :category_id, Category.all, :id, :name, prompt: "Select a category" %>
+</div>
+
 
   <div>
     <%= form.submit %>

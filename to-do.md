@@ -1,24 +1,31 @@
-Figure out order_items and inventory_transactions!
+#Order_items
+  Figure it out
 
-Add array of products to Order model
+#Order model
+  Add array of products to Order model
 
-Website is kinda slow now :(
+#Products
+  Fix up products#show
 
-Clean up user profile dropdown
-
-Fix up products#show
-
-Create subcategories model
-
-Association from category to subcategory
+#Subcategories model
+  Create one
 
 Inventory Transaction stuff
   Returns?
   Refunds?
+  Figure it out
 
-Block outgoing orders to suppliers in "arrears" status
+#Suppliers
+  Block outgoing orders to suppliers in "arrears" status
   Add address to suppliers model
 
-Make top search bar actually funtional
+#Categories
+  Make categories#show show a table of all products in that category
+  Association from category to subcategory  
 
-Fix topbar-left for when sidebar is collapsed
+#Layout
+  Fix center of the site so that it still works in smaller view (responsive)
+  Make top search bar actually funtional
+  Fix topbar-left for when sidebar is collapsed
+  Clean up user profile dropdown
+  Website is kinda slow now :(
