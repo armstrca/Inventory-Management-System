@@ -7,6 +7,8 @@ gem "bootstrap_sb_admin_base_v2"
 
 gem "bootstrap"
 
+gem 'jquery-datatables-rails', '~> 3.4'
+
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 
