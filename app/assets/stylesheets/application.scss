@@ -36,7 +36,9 @@ h6,
   font-family: 'Flexure', sans-serif; // Use 'Flexure' and fall back to a generic sans-serif font
 }
 
-
+body {
+  background-color: #f8f9fc; /* Use the color value of your choice */
+}
 
 /* Add this CSS rule to apply the "Philosopher" font to the table body text */
 table#dataTable tbody, thead {
@@ -48,6 +50,21 @@ table#dataTable tbody {
   font-family: 'Philosopher', sans-serif;
   font-size: 16px; /* Adjust the font size as needed */
   /* Add any other text styles here */
+}
+
+/* Apply the desired font to the DataTable pagination controls */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  font-family: 'Philosopher', sans-serif;
+  /* Add any other font-related CSS properties here */
+}
+
+.dataTables_filter,
+.dataTables_filter label,
+.dataTables_length label,
+/* Apply the desired font to DataTable "Showing X to Y of Z entries" text */
+.dataTables_info {
+  font-family: 'Philosopher', sans-serif;
+
 }
 
 
@@ -103,6 +120,7 @@ a {
 /* Adjust the search form in the topbar */
 form.navbar-search {
   position: relative;
+  font-family: 'Philosopher';
 }
 
 /* Offset the search form by 250px to the right */
@@ -143,6 +161,7 @@ form.navbar-search .form-control {
   z-index: 1000;
   left: 0;
   right: 0;
+  font-family: 'Flexure';
   /* Make topbar span the entire viewport width */
   background: white;
   /* Adjust background color as needed */
@@ -154,12 +173,13 @@ form.navbar-search .form-control {
   position: fixed;
   overflow-y: auto;
   min-width: 80px;
+  font-family: 'Flexure';
   /* Set your desired min-width */
   max-width: 250px;
   /* Set your desired max-width */
   width: 250px;
   /* Initial width */
-  transition: width 1s;
+  transition: width .5s;
   /* Add a smooth transition effect */
   z-index: 2000;
 }
