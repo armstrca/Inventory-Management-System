@@ -9556,7 +9556,7 @@ button.bg-dark:focus {
 }
 
 .text-uppercase, .dropdown .dropdown-menu .dropdown-header, .sidebar .sidebar-heading {
-  text-transform: uppercase !important;
+  text-transform: capitalize !important;
 }
 
 .text-capitalize {
@@ -10463,6 +10463,7 @@ a:focus {
 
 .sidebar .sidebar-brand .sidebar-brand-icon i {
   font-size: 10rem;
+  /* position: relative; */
 }
 
 .sidebar .sidebar-brand .sidebar-brand-text {
