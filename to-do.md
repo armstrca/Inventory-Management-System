@@ -7,17 +7,13 @@
 #Products
   Fix up products#show
 
-#Subcategories model
-  Create one
-
-Inventory Transaction stuff
+#Inventory_transaction stuff
   Returns?
   Refunds?
   Figure it out
 
 #Suppliers
   Block outgoing orders to suppliers in "arrears" status
-  Add address to suppliers model
 
 #Categories
   Make categories#show show a table of all products in that category

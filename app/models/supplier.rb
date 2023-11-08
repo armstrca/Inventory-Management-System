@@ -3,6 +3,7 @@
 # Table name: suppliers
 #
 #  id           :integer          not null, primary key
+#  address      :string
 #  contact_info :string
 #  description  :string
 #  name         :string

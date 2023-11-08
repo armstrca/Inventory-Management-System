@@ -29,9 +29,10 @@
                 <th class="sortable" data-mdb-sort="description">Description</th>
                 <th class="sortable" data-mdb-sort="sku">SKU</th>
                 <th class="sortable" data-mdb-sort="price">Price</th>
-                <th class="sortable" data-mdb-sort="quantity">Quantity</th>
+                <th class="sortable" data-mdb-sort="quantity">Units</th>
                 <th class="sortable" data-mdb-sort="category">Category</th>
-                <th class="sortable" data-mdb-sort="category id">Category ID</th>
+                <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
+                <th class="sortable" data-mdb-sort="supplier">Supplier</th>
               </tr>
             </thead>
             <tbody>
@@ -44,7 +45,8 @@
                   <td>$<%= number_with_precision(product.price, precision: 2) %></td>
                   <td><%= product.stock_quantity %></td>
                   <td><%= product.category.name %></td>
-                  <td><%= product.category.id %></td>
+                  <td><%= product.subcategory.name %></td>
+                  <td><%= product.supplier.name %></td>
                 </tr>
               <% end %>
             </tbody>

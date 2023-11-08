@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
+  resources :subcategories
   root "users#index"
   devise_for :users
   resources :users
   resources :reports
-  resources :locations
+  resources :storage_locations
   resources :roles
   resources :inventory_transactions
   resources :order_items

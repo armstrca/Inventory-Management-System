@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_02_194322) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_08_223954) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -54,25 +54,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_194322) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "locations", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.string "address"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "order_items", force: :cascade do |t|
-    t.integer "quantity_ordered_id", null: false
-    t.integer "unit_price_id", null: false
-    t.integer "shipping_cost_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["quantity_ordered_id"], name: "index_order_items_on_quantity_ordered_id"
-    t.index ["shipping_cost_id"], name: "index_order_items_on_shipping_cost_id"
-    t.index ["unit_price_id"], name: "index_order_items_on_unit_price_id"
-  end
-
   create_table "orders", force: :cascade do |t|
     t.datetime "expected_delivery"
     t.string "status"
@@ -92,7 +73,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_194322) do
     t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "subcategory_id", null: false
+    t.integer "supplier_id", null: false
     t.index ["category_id"], name: "index_products_on_category_id"
+    t.index ["subcategory_id"], name: "index_products_on_subcategory_id"
+    t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
 
   create_table "reports", force: :cascade do |t|
@@ -103,15 +88,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_194322) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "roles", force: :cascade do |t|
-    t.integer "admin_id", null: false
-    t.integer "staff_id", null: false
-    t.integer "manager_id", null: false
+  create_table "storage_locations", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["admin_id"], name: "index_roles_on_admin_id"
-    t.index ["manager_id"], name: "index_roles_on_manager_id"
-    t.index ["staff_id"], name: "index_roles_on_staff_id"
+  end
+
+  create_table "subcategories", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.integer "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_subcategories_on_category_id"
   end
 
   create_table "suppliers", force: :cascade do |t|
@@ -121,6 +112,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_194322) do
     t.string "standing"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "address"
   end
 
   create_table "users", force: :cascade do |t|
@@ -142,11 +134,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_02_194322) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "order_items", "quantity_ordereds"
-  add_foreign_key "order_items", "shipping_costs"
-  add_foreign_key "order_items", "unit_prices"
   add_foreign_key "products", "categories"
-  add_foreign_key "roles", "admins"
-  add_foreign_key "roles", "managers"
-  add_foreign_key "roles", "staffs"
+  add_foreign_key "products", "subcategories"
+  add_foreign_key "products", "suppliers"
+  add_foreign_key "subcategories", "categories"
 end
