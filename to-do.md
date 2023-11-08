@@ -13,7 +13,7 @@
   Figure it out
 
 #Suppliers
-  Block outgoing orders to suppliers in "arrears" status
+  Block outgoing orders to suppliers in "arrears" status?
 
 #Categories
   Make categories#show show a table of all products in that category

@@ -24,7 +24,7 @@
   <div>
     <%= form.label :sending_address, style: "display: block" %>
     <% if order.new_record? %>
-      <%= form.collection_select :sending_address, Location.all, :address, :address %>
+      <%= form.collection_select :sending_address, StorageLocation.all, :address, :address %>
     <% else %>
       <%= form.text_field :sending_address %>
     <% end %>
