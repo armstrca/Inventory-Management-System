@@ -48,10 +48,30 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1 or /orders/1.json
   def update
     @order = Order.find(params[:id])
+
     respond_to do |format|
       if @order.update(order_params)
-        format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
-        format.json { render :show, status: :ok, location: @order }
+        # Additional logic to associate products with the order
+        if order_params[:product].present?
+          product_ids = order_params[:product].map(&:to_i)
+          products = Product.where(id: product_ids)
+
+          if products.count == product_ids.count
+            # All products exist, associate them with the order
+            @order.products = products
+            format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
+            format.json { render :show, status: :ok, location: @order }
+          else
+            # Handle the case where some products don't exist
+            @order.products.clear
+            format.html { render :edit, status: :unprocessable_entity, notice: "Some selected products do not exist." }
+            format.json { render json: { error: "Some selected products do not exist." }, status: :unprocessable_entity }
+          end
+        else
+          @order.products.clear # Remove all products if none are selected
+          format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
+          format.json { render :show, status: :ok, location: @order }
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @order.errors, status: :unprocessable_entity }
@@ -78,6 +98,13 @@ class OrdersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def order_params
-    params.require(:order).permit(:expected_delivery, :status, :description, :receiving_address, :sending_address)
+    params.require(:order).permit(
+      :expected_delivery,
+      :status,
+      :description,
+      :receiving_address,
+      :sending_address,
+      products: [],
+    )
   end
 end

@@ -1,4 +1,5 @@
 <div id="<%= dom_id product %>">
+<p>
   <p>
     <strong>Name:</strong>
     <%= product.name %>
@@ -27,6 +28,16 @@
   <p>
     <strong>Category:</strong>
     <%= product.category.name %>
+  </p>
+
+  <p>
+    <strong>Subcategory:</strong>
+    <%= product.subcategory.name %>
+  </p>
+
+  <p>
+    <strong>Supplier:</strong>
+    <%= product.supplier.name %>
   </p>
 
 </div>

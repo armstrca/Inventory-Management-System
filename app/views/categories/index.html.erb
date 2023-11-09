@@ -1,19 +1,47 @@
-<p>
-  <div class="header">
-    <h1>Categories</h1>
-    <div class="container text-right">
-      <h1><%= link_to "New Category", new_category_path %></h1>
+<style>
+  .subcategories {
+    display: none;
+  }
+  .subcategory-item {
+    margin-left: 30px; /* Adjust the indentation as needed */
+  }
+    /* Add cursor property for the category links */
+  .category-link:hover {
+    cursor: pointer;
+  }
+
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(".category-link").click(function() {
+      var subcategoryList = $(this).next(".subcategories");
+      subcategoryList.slideToggle();
+    });
+  });
+</script>
+
+
+<div class="header">
+  <h1>Categories</h1>
+  <div class="container text-right">
+    <h1><%= link_to "New Category", new_category_path %></h1>
+  </div>
+</div>
+<hr>
+
+<div id="categories">
+  <% @categories.each do |category| %>
+    <div class="category">
+      <h5 class="category-link">
+        <%= link_to category.name, category %><i class="fas fa-chevron-down" style="float: right;"></i> 
+      </h5>
+      <div class="subcategories">
+        <% category.subcategories.each do |subcategory| %>
+          <h6 class="subcategory-item"><%= link_to subcategory.name, subcategory %></h6>
+        <% end %>
+      </div>
     </div>
-  </div>
-  <hr>
-
-  <div id="categories">
-    <% @categories.each do |category| %>
-      <p>
-        <h5><%= link_to category.name, category %></h5>
-      </p>
-
-      <hr>
-    <% end %>
-  </div>
+    <hr>
+  <% end %>
 </div>

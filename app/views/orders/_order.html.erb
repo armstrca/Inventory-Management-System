@@ -30,4 +30,12 @@
     <%= order.receiving_address %>
   </p>
 
+<p>
+  <strong>Products in order:</strong>
+  <% order.products.each do |product| %>
+    <li><%= product.name %><br></li>
+  <% end %>
+</p>
+
+
 </div>

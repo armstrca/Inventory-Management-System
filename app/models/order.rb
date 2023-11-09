@@ -12,6 +12,9 @@
 #  updated_at        :datetime         not null
 #
 class Order < ApplicationRecord
+  has_many :order_products
+  has_many :products, through: :order_products
+
   def self.incoming
     Order.where(receiving_address: StorageLocation.pluck(:address)).order(expected_delivery: :asc)
   end
@@ -19,4 +22,5 @@ class Order < ApplicationRecord
   def self.outgoing
     Order.where(sending_address: StorageLocation.pluck(:address)).order(expected_delivery: :asc)
   end
+
 end

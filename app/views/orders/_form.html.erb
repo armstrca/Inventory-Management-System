@@ -40,6 +40,13 @@
     <%= form.text_field :description %>
   </div>
 
+<div>
+  <%= form.label :products, style: "display: block" %>
+  <%= form.collection_select :products, Product.all, :id, :name, { prompt: nil }, multiple: true %>
+</div>
+
+
+
   <div>
     <%= form.submit %>
   </div>
