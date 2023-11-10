@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/models/role.rb
 # == Schema Information
 #
 # Table name: roles

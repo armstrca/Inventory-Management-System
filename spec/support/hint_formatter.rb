@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/spec/support/hint_formatter.rb
 RSpec::Support.require_rspec_core "formatters/documentation_formatter"
 
 class HintFormatter < RSpec::Core::Formatters::DocumentationFormatter

@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/test/test/channels/application_cable/connection_test.rb
 require "test_helper"
 
 class ApplicationCable::ConnectionTest < ActionCable::Connection::TestCase

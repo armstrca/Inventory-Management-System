@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/models/product.rb
 # == Schema Information
 #
 # Table name: products

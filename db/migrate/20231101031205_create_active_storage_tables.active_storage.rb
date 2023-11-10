@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/db/migrate/20231101031205_create_active_storage_tables.active_storage.rb
 # This migration comes from active_storage (originally 20170806125915)
 class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
   def change

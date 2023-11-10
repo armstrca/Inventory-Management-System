@@ -1,3 +1,4 @@
+///workspaces/Inventory-Management-System/vendor/assets/javascripts/sb-admin-2.js
 $(function() {
   // Toggle the side navigation
   $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {

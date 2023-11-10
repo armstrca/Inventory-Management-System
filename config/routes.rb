@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/config/routes.rb
 Rails.application.routes.draw do
   resources :subcategories
   root "users#index"
