@@ -22,6 +22,14 @@
   </head>
 
   <body id="page-top">
+<!-- Add this script to your HTML file -->
+<script>
+  $(document).ready(function() {
+    $("#sidebarToggle").click(function() {
+      $("body").toggleClass("fixed-sidebar");
+    });
+  });
+</script>
 
     <!-- Page Wrapper -->
     <!-- application.html.erb -->
