@@ -5,5 +5,4 @@
 
 #Layout
   Make top search bar actually funtional
-  Fix topbar-left for when sidebar is collapsed
   Website is kinda slow now :(

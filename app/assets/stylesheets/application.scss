@@ -84,11 +84,6 @@ hr {
   margin-top: -1px; /* Adjust this value to control the space between the <hr> and the content above it */
 }
 
-.underline {
-  text-decoration-line: underline;
-  text-decoration-thickness: 1.5px;
-  text-underline-offset: 2px;
-}
 .columns-2 {
   column-count: 2; /* Split into two columns */
   column-gap: 20px; /* Adjust the gap between columns as needed */
@@ -125,7 +120,7 @@ a {
 
 /* Adjust the search form in the topbar */
 form.navbar-search {
-  position: relative;
+  position: fixed;
   font-family: 'Philosopher';
 }
 
@@ -134,9 +129,9 @@ form.navbar-search::before {
   content: "";
   display: block;
   position: absolute;
-  padding-left: 2500px;
+  //* padding-left: 250px;
   /* Adjust this value as needed */
-  width: 100%;
+  width:100%;
   /* Ensure it covers the entire width */
   height: 100%;
   /* Ensure it covers the entire height */
@@ -158,13 +153,14 @@ form.navbar-search .form-control {
 /* application.css or application.scss */
 #content-wrapper {
   flex: 1;
+  padding-left: 250px;
   /* Allow content to take up available space */
 }
 
 .fixed-topbar {
   position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: 1;
   left: 0;
   right: 0;
   font-family: 'Flexure';
@@ -187,7 +183,7 @@ form.navbar-search .form-control {
   /* Initial width */
   transition: width .5s;
   /* Add a smooth transition effect */
-  z-index: 2000;
+  z-index: 1;
 }
 
 /* Adjust sidebar width when it's collapsed */
@@ -205,7 +201,20 @@ form.navbar-search .form-control {
 /* Adjust content margin to make space for fixed elements */
 #content-wrapper {
   // margin-left: 250px; /* Same as sidebar width */
-  margin-top: 70px;
+  margin-top: 80px;
   /* Same as topbar height */
   // padding: 20px; /* Add padding to content to prevent overlapping */
+}
+
+
+
+/* White Box Styles */
+.white-box {
+  position: fixed;
+  top: 0; /* Adjust to match the height of the topbar */
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: white;
+  z-index: 0; /* Ensure it's below other fixed elements */
 }
