@@ -10382,6 +10382,7 @@ a:focus {
   font-weight: 800;
   font-size: 0.65rem;
   color: #b7b9cc;
+  transition: 0.05s;
 }
 
 .sidebar .nav-item .collapse .collapse-inner .collapse-item,
@@ -10815,7 +10816,7 @@ a:focus {
   padding-right: 1.725rem;
   line-height: 51px;
   font-weight: 900;
-  content: '\f107';
+  content: '\f106';
   font-family: 'Font Awesome 5 Free';
   color: #d1d3e2;
 }
@@ -10825,7 +10826,7 @@ a:focus {
 }
 
 .card .card-header[data-toggle="collapse"].collapsed::after {
-  content: '\f105';
+  content: '\f107';
 }
 
 .chart-area {

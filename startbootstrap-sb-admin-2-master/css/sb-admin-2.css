@@ -4116,7 +4116,6 @@ input[type="button"].btn-block {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  transition: margin-left 0.5s;
 }
 
 .navbar-brand {
