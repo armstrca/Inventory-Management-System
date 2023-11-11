@@ -24,7 +24,7 @@
 <div class="row">
   <div id="admins" class="col">
     <h2>Admin</h2>
-    <% @users.admins.each do |user| %>
+    <% @users.admins.sort_by(&:first_name).each do |user| %>
       <p>
         <h5><%= link_to user.first_name, user_path(user) %></h5>
       </p>
@@ -32,7 +32,7 @@
   </div>
   <div id="managers" class="col">
     <h2>Manager</h2>
-    <% @users.managers.each do |user| %>
+    <% @users.managers.sort_by(&:first_name).each do |user| %>
       <p>
         <h5><%= link_to user.first_name, user_path(user) %></h5>
       </p>
@@ -40,7 +40,7 @@
   </div>
   <div id="staff" class="col">
     <h2>Staff</h2>
-    <% @users.staff.each do |user| %>
+    <% @users.staff.sort_by(&:first_name).each do |user| %>
       <p>
       <h5><%= link_to user.first_name, user_path(user) %></h5>
       </p>

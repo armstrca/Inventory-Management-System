@@ -46,39 +46,56 @@ class OrdersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /orders/1 or /orders/1.json
-  def update
-    @order = Order.find(params[:id])
+# PATCH/PUT /orders/1 or /orders/1.json
+def update
+  @order = Order.find(params[:id])
 
-    respond_to do |format|
-      if @order.update(order_params)
-        # Additional logic to associate products with the order
-        if order_params[:product].present?
-          product_ids = order_params[:product].map(&:to_i)
-          products = Product.where(id: product_ids)
+  # Process the order_params to remove empty strings from the products array
+  processed_order_params = order_params
+  if processed_order_params[:products].present?
+    processed_order_params[:products]&.reject!(&:blank?)
+  end
 
-          if products.count == product_ids.count
-            # All products exist, associate them with the order
-            @order.products = products
-            format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
-            format.json { render :show, status: :ok, location: @order }
-          else
-            # Handle the case where some products don't exist
-            @order.products.clear
-            format.html { render :edit, status: :unprocessable_entity, notice: "Some selected products do not exist." }
-            format.json { render json: { error: "Some selected products do not exist." }, status: :unprocessable_entity }
-          end
-        else
-          @order.products.clear # Remove all products if none are selected
+  respond_to do |format|
+    if @order.update(processed_order_params)
+      # Debugging line 1: Print the processed order_params to the console
+      puts "Processed order_params: #{processed_order_params.inspect}"
+
+      # Additional logic to associate products with the order
+      if processed_order_params[:products].present?
+        product_ids = processed_order_params[:products].reject(&:empty?).map(&:to_i)
+        products = Product.where(id: product_ids)
+
+        if products.count == product_ids.count
+          # Debugging line 2: Print the list of product_ids and their count
+          puts "Product IDs: #{product_ids.inspect}, Count: #{product_ids.count}"
+
+          # All products exist, associate them with the order
+          @order.products = products
+          @order.save
           format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
           format.json { render :show, status: :ok, location: @order }
+        else
+          # Handle the case where some products don't exist
+          format.html { render :edit, status: :unprocessable_entity, notice: "Some selected products do not exist." }
+          format.json { render json: { error: "Some selected products do not exist." }, status: :unprocessable_entity }
         end
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
+        # No products selected, do nothing
+        format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
+        format.json { render :show, status: :ok, location: @order }
       end
+    else
+      # Debugging line 3: Print the errors if the order update fails
+      puts "Order update failed. Errors: #{order.errors.full_messages}"
+
+      format.html { render :edit, status: :unprocessable_entity }
+      format.json { render json: @order.errors, status: :unprocessable_entity }
     end
   end
+end
+
+
 
   # DELETE /orders/1 or /orders/1.json
   def destroy
@@ -105,7 +122,8 @@ class OrdersController < ApplicationController
       :description,
       :receiving_address,
       :sending_address,
-      products: [],
+      product_ids: [],
     )
   end
+
 end

@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/db/schema.rb
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_09_211649) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_11_024917) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -67,7 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_09_211649) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.datetime "expected_delivery"
+    t.date "expected_delivery"
     t.string "status"
     t.string "description"
     t.datetime "created_at", null: false

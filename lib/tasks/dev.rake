@@ -13,6 +13,28 @@ unless Rails.env.production?
     desc "Fill the database tables with some sample data"
     task sample_data: :environment do
       if Rails.env.development?
+        # Array to store generated email addresses
+        generated_emails = []
+
+        20.times do
+          # Generate a unique email address
+          email = Faker::Internet.unique.email
+          while generated_emails.include?(email)
+            email = Faker::Internet.unique.email
+          end
+          generated_emails << email
+
+          User.create(
+            email: email,
+            password: "password",
+            role: %w(admin staff manager).sample,
+            bio: Faker::Lorem.paragraph,
+            first_name: Faker::Name.first_name,
+            last_name: Faker::Name.last_name,
+            # image: Faker::Avatar.image,
+          )
+        end
+
         User.create(
           first_name: "Alice",
           last_name: "Smith",
@@ -77,7 +99,7 @@ unless Rails.env.production?
           end
           10.times do
             o = Order.create(
-              expected_delivery: Faker::Time.forward(days: 30),
+              expected_delivery: Faker::Date.forward(days: 30),
               status: %w(delivered processing in_transit).sample,
               description: "#{["FedEx", "UPS", "USPS"].sample} tracking ##{rand(1000000000000)}",
               sending_address: sending_address,

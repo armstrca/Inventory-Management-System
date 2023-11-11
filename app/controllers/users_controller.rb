@@ -111,7 +111,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(:first_name, :last_name, :email, :role, :bio, :image)
   end
 
-  
+
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = current_user

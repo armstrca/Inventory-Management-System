@@ -5,7 +5,7 @@
 #
 #  id                :integer          not null, primary key
 #  description       :string
-#  expected_delivery :datetime
+#  expected_delivery :date
 #  receiving_address :string
 #  sending_address   :string
 #  status            :string
@@ -25,3 +25,4 @@ class Order < ApplicationRecord
   end
 
 end
+
