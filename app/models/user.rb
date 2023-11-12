@@ -25,7 +25,7 @@
 class User < ApplicationRecord
 
 validate :email_uniqueness_on_update, on: :update
-
+include Ransackable
 def email_uniqueness_on_update
   if email_changed? && User.exists?(email: email)
     errors.add(:email, 'has already been taken')

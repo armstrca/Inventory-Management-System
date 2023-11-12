@@ -36,4 +36,5 @@ class Product < ApplicationRecord
   belongs_to :supplier
   belongs_to :order
   has_many :order_products
+  include Ransackable
 end

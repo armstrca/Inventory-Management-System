@@ -24,4 +24,5 @@
 #
 class Role < ApplicationRecord
   belongs_to :user
+  include Ransackable
 end

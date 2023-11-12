@@ -1,6 +1,10 @@
 Pundit
 Policies
 
+#Search functionality
+  Display for "no results found"
+  Show results as a group of collapsible tables grouped by model
+
 #Inventory_transaction stuff
   Returns?
   Refunds?
@@ -24,7 +28,5 @@ Error handling for new orders, new suppliers, new categories, fix existing error
 Allow CRUD of new subcategories
 
 Allow CRUD of storage_locations
-
-
 
 Not going to do role.rb or report.rb.

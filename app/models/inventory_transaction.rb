@@ -10,4 +10,5 @@
 #  updated_at       :datetime         not null
 #
 class InventoryTransaction < ApplicationRecord
+  include Ransackable
 end

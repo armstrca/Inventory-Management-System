@@ -23,6 +23,6 @@ class Order < ApplicationRecord
   def self.outgoing
     Order.where(sending_address: StorageLocation.pluck(:address)).order(expected_delivery: :asc)
   end
-
+  include Ransackable
+  
 end
-

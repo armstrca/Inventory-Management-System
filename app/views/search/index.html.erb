@@ -1,0 +1,14 @@
+<div class="search-results">
+  <% @results.group_by(&:class).each do |model, model_results| %>
+    <div class="model-results">
+      <h2><%= model.to_s.titleize.pluralize %></h2>
+      <ul class="result-list">
+        <% model_results.each do |result| %>
+          <li class="result-item">
+            <%= render partial: 'shared/result_item', locals: { result: result } %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>
