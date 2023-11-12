@@ -6,10 +6,20 @@
   </div>
 </div>
 <style>
+  /* Add a specific width for each column */
+  #incomingTable th {
+    white-space: nowrap; /* Prevent line breaks */
+  }
+
+  #outgoingTable th {
+    white-space: nowrap; /* Prevent line breaks */
+  }
+
   table tbody tr[data-href] {
     cursor: pointer;
   }
 </style>
+
 <script>
   $(document).ready(function () {
     var incomingTable = $('#incomingTable').DataTable({
@@ -70,9 +80,9 @@
                 <tr data-href="<%= order_path(order) %>">
                   <td><%= order.id %></td>
                   <td><%= order.expected_delivery %></td>
-                  <td><%= order.status.capitalize %></td>
-                  <td><%= order.sending_address %></td>
-                  <td><%= order.receiving_address %></td>
+                  <td><%= order.status.gsub('_', ' ').titleize %></td>
+                  <td style="font-size: 12px;"><%= order.sending_address %></td>
+                  <td style="font-size: 12px;"><%= order.receiving_address %></td>
                   <td><%= order.description %></td>
                   <td><%= order.products.pluck(:id).join(', ') %></td>
                   <td><%= order.order_products.sum(:quantity_ordered) %></td>
@@ -113,9 +123,9 @@
 
                       <td><%= order.id %></td>
                       <td><%= order.expected_delivery %></td>
-                      <td><%= order.status.capitalize %></td>
-                      <td><%= order.sending_address %></td>
-                      <td><%= order.receiving_address %></td>
+                      <td><%= order.status.gsub('_', ' ').titleize %></td>
+                      <td style="font-size: 12px;"><%= order.sending_address %></td>
+                      <td style="font-size: 12px;"><%= order.receiving_address %></td>
                       <td><%= order.description %></td>
                       <td><%= order.products.pluck(:id).join(', ') %></td>
                       <td><%= order.order_products.sum(:quantity_ordered) %></td>

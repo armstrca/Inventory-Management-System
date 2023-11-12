@@ -42,9 +42,9 @@
             <tr>
               <td><%= supplier.id %></td>
               <td><%= link_to supplier.name, supplier %></td>
-              <td><%= supplier.contact_info %></td>
+              <td><%= mail_to supplier.contact_info %></td>
               <td><%= supplier.description %></td>
-              <td><%= supplier.address %></td>
+<td><%= link_to supplier.address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(supplier.address)}", target: "_blank" %></td>
             </tr>
           <% end %>
         </tbody>

@@ -1,23 +1,15 @@
 <!--/workspaces/Inventory-Management-System/app/views/users/index.html.erb-->
 <div class="header">
   <h1>Users</h1>
-<% if current_user.role == "admin" %>
-  <div class="container text-right">
-    <div class="row">
-      <div id="create_user" class="col">
-        <h1><%= link_to "New User", new_user_path %></h1>
+  <% if current_user.role == "admin" || current_user.role == "manager" %>
+    <div class="container text-right">
+      <div class="row">
+        <div id="create_user" class="col">
+          <h1><%= link_to "New User", new_user_path %></h1>
+        </div>
       </div>
     </div>
-  </div>
-<% elsif current_user.role == "manager" %>
-  <div class="container text-right">
-    <div class="row">
-      <div id="create_user" class="col">
-        <h1><%= link_to "New User", new_user_path %></h1>
-      </div>
-    </div>
-  </div>
-<% end %>
+  <% end %>
 </div>
 
 <script>
@@ -50,7 +42,7 @@
             <tr>
               <td><%= user.id %></td>
               <td><%= link_to "#{user.first_name} #{user.last_name}", user_path(user) %></td>
-              <td><%= user.email %></td>
+              <td><%= mail_to user.email %></td>
               <td><%= user.role.capitalize %></td>
             </tr>
           <% end %>

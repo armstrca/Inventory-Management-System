@@ -35,21 +35,21 @@
               <th class="sortable" data-mdb-sort="supplier">Supplier</th>
             </tr>
           </thead>
-          <tbody>
-            <% @category.products.each do |product| %>
-              <tr>
-                <td><%= product.id %></td>
-                <td><%= link_to product.name, product %></td>
-                <td><%= product.description %></td>
-                <td><%= product.sku %></td>
-                <td>$<%= number_with_precision(product.price, precision: 2) %></td>
-                <td><%= product.stock_quantity %></td>
-                <td><%= product.category.name %></td>
-                <td><%= product.subcategory.name %></td>
-                <td><%= product.supplier.name %></td>
-              </tr>
-            <% end %>
-          </tbody>
+        <tbody>
+          <% category.products.each do |product| %>
+            <tr>
+              <td><%= product.id %></td>
+              <td><%= link_to product.name, product %></td>
+              <td><%= product.description %></td>
+              <td><%= product.sku %></td>
+              <td>$<%= number_with_precision(product.price, precision: 2) %></td>
+              <td><%= product.stock_quantity %></td>
+              <td><%= link_to product.category.name, product.category %></td>
+              <td><%= link_to product.subcategory.name, product.subcategory %></td>
+              <td><%= link_to product.supplier.name, product.supplier %></td>
+            </tr>
+          <% end %>
+        </tbody>
         </table>
       </div>
     </div>

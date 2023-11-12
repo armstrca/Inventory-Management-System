@@ -3,6 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.1"
 
+gem 'pundit'
+
 gem "bootstrap_sb_admin_base_v2"
 
 gem "bootstrap"
