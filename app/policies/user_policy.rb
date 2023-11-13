@@ -1,9 +1,18 @@
+#/workspaces/Inventory-Management-System/app/policies/user_policy.rb
 class UserPolicy < ApplicationPolicy
   def show?
     user.admin? || (user.manager? && !record.admin? && !record.manager?)
   end
 
   def create?
+    user.admin? || (user.manager? && !record.admin?)
+  end
+
+  def new?
+    user.admin? || (user.manager? && !record.admin?)
+  end
+
+  def admin_new?
     user.admin? || (user.manager? && !record.admin?)
   end
 
@@ -20,6 +29,16 @@ class UserPolicy < ApplicationPolicy
   end
 
   def permitted_attributes_for_create
+    if user.admin?
+      [:email, :password, :first_name, :last_name, :role, :bio, :image]
+    elsif user.manager?
+      [:email, :password, :first_name, :last_name, :role, :bio, :image] - [:role]
+    else
+      []
+    end
+  end
+
+  def permitted_attributes_for_new
     if user.admin?
       [:email, :password, :first_name, :last_name, :role, :bio, :image]
     elsif user.manager?

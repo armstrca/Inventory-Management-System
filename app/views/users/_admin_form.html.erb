@@ -1,5 +1,5 @@
-<!--/workspaces/Inventory-Management-System/app/views/users/_form.html.erb-->
-<%= form_with(model: user, url: @form_url, method: @http_method) do |form| %>
+<!--/workspaces/Inventory-Management-System/app/views/users/_admin_form.html.erb-->
+<%= form_with(model: user, url: @admin_form_url, method: @http_method) do |form| %>
   <% if user.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>

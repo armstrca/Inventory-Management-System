@@ -21,16 +21,17 @@ files_to_display = [
   # "/workspaces/Inventory-Management-System/db/schema.rb",
   # "/workspaces/Inventory-Management-System/app/controllers/products_controller.rb",
   # "/workspaces/Inventory-Management-System/app/controllers/orders_controller.rb",
-  # "/workspaces/Inventory-Management-System/config/routes.rb",
-  "/workspaces/Inventory-Management-System/app/policies/admin_policy.rb",
+  "/workspaces/Inventory-Management-System/config/routes.rb",
   "/workspaces/Inventory-Management-System/app/policies/application_policy.rb",
-  "/workspaces/Inventory-Management-System/app/policies/manager_policy.rb",
-  "/workspaces/Inventory-Management-System/app/policies/staff_policy.rb",
   "/workspaces/Inventory-Management-System/app/policies/user_policy.rb",
   "/workspaces/Inventory-Management-System/app/models/user.rb",
   "/workspaces/Inventory-Management-System/app/controllers/users_controller.rb",
   "/workspaces/Inventory-Management-System/app/controllers/application_controller.rb",
-  "/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb",
+  "/workspaces/Inventory-Management-System/app/views/users/_form.html.erb",
+  "/workspaces/Inventory-Management-System/app/views/users/new.html.erb",
+  "/workspaces/Inventory-Management-System/app/views/shared/_flash.html.erb",
+  "/workspaces/Inventory-Management-System/app/controllers/custom_devise/registrations_controller.rb",
+  # "/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb",
 
 ]
 

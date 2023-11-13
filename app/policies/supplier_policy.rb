@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/policies/supplier_policy.rb
 class SupplierPolicy < ApplicationPolicy
   def show?
     user.admin? || (user.manager? && !record.admin? && !record.manager?)

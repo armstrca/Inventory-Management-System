@@ -1,7 +1,7 @@
-# /workspaces/Inventory-Management-System/app/controllers/application_controller.rb
+#/workspaces/Inventory-Management-System/app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
-  before_action :authenticate_user!
+  before_action :authenticate_user!, unless: :devise_controller?
   after_action :verify_authorized, except: :index, unless: :devise_controller?
 
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
@@ -13,3 +13,4 @@ class ApplicationController < ActionController::Base
     redirect_to(request.referrer || root_path)
   end
 end
+

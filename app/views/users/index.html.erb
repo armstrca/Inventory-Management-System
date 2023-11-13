@@ -6,13 +6,12 @@
     <div class="container text-right">
       <div class="row">
         <div id="create_user" class="col">
-          <h1><%= link_to "New User", new_user_path %></h1>
+          <h1><%= link_to "New User", "users/admin_new" %></h1>
         </div>
       </div>
     </div>
   <% end %>
 </div>
-
 <script>
   $(document).ready(function() {
     var table = $('#dataTable').DataTable({

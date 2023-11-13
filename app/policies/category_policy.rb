@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/policies/category_policy.rb
 class CategoryPolicy < ApplicationPolicy
   def create?
     user.admin? || user.manager?
