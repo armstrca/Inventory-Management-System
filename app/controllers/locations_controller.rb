@@ -9,6 +9,7 @@ class LocationsController < ApplicationController
 
   # GET /locations/1 or /locations/1.json
   def show
+    authorize @locations
   end
 
   # GET /locations/new

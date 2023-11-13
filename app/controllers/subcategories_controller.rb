@@ -10,7 +10,7 @@ class SubcategoriesController < ApplicationController
   # GET /subcategories/1 or /subcategories/1.json
   def show
     @subcategory = Subcategory.find(params[:id])
-
+    authorize @subcategory
   end
 
   # GET /subcategories/new

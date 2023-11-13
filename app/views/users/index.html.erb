@@ -2,6 +2,7 @@
 <div class="header">
   <h1>Users</h1>
   <% if current_user.role == "admin" || current_user.role == "manager" %>
+  <%# if policy(current_user).new? %>
     <div class="container text-right">
       <div class="row">
         <div id="create_user" class="col">

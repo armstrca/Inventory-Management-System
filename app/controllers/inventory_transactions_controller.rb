@@ -9,6 +9,7 @@ class InventoryTransactionsController < ApplicationController
 
   # GET /inventory_transactions/1 or /inventory_transactions/1.json
   def show
+    authorize @inventory_transaction
   end
 
   # GET /inventory_transactions/new
