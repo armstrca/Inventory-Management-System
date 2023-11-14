@@ -1,5 +1,6 @@
 #/workspaces/Inventory-Management-System/app/controllers/users_controller.rb
 class UsersController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :index, :show, :edit, :update, :destroy]
   before_action :set_user, only: %i[new create show edit update destroy admin_new]
   before_action :set_form_variables, only: %i[new edit]
   rescue_from ActiveRecord::RecordNotUnique, with: :email_not_unique
@@ -31,6 +32,20 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     authorize @user
   end
+
+def admin_new
+  @user = User.new
+  authorize @user
+
+  @action = "Create User" # Set the action for the button
+  if @user.new_record?
+    @form_url = users_path
+    @http_method = :post
+  else
+    @form_url = user_path(@user)
+    @http_method = :patch
+  end
+end
 
   # GET /users/new
   def new
@@ -76,6 +91,21 @@ class UsersController < ApplicationController
         format.json { render :show, status: :ok, location: @user }
       else
         format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def admin_create
+    @user = User.new(user_params)
+    authorize @user
+
+    respond_to do |format|
+      if @user.save
+        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
+        format.json { render :show, status: :created, location: @user }
+      else
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

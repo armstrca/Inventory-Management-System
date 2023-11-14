@@ -23,13 +23,39 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
-  include Roleable
+  # include User::Roleable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
   validate :email_uniqueness_on_update, on: :update
   include Ransackable
 
-  enum role: { admin: "admin", manager: "manager", staff: "staff" }
+  # enum role: { admin: "admin", manager: "manager", staff: "staff" }
+
+  ROLES = %w[admin manager staff].freeze
+  def self.admins
+    User.where(role: "admin")
+  end
+
+  def self.managers
+    User.where(role: "manager")
+  end
+
+  def self.staff
+    User.where(role: "staff")
+  end
+
+
+  def admin?
+    role == "admin"
+  end
+
+  def manager?
+    role == "manager"
+  end
+
+  def staff?
+    role == "staff"
+  end
 
   def email_uniqueness_on_update
     if email_changed? && User.exists?(email: email)
