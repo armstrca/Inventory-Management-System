@@ -1,10 +1,10 @@
 #/workspaces/Inventory-Management-System/app/controllers/custom_devise/registrations_controller.rb
 # app/controllers/custom_devise/registrations_controller.rb
 class CustomDevise::RegistrationsController < Devise::RegistrationsController
-  prepend_before_filter :require_no_authentication, only: [:cancel ]
+  prepend_before_action :require_no_authentication, only: [:cancel ]
   before_action :authenticate_user!
 
-  def admin_new
+  def new
     @user = User.new
     authorize @user
 
@@ -18,8 +18,8 @@ class CustomDevise::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def admin_create
-    @user = User.new(user_params)
+  def create
+    @user = User.new(sign_up_params)
     authorize @user
 
     respond_to do |format|

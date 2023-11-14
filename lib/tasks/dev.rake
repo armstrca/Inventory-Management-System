@@ -3,8 +3,8 @@ unless Rails.env.production?
     desc "Drops, creates, migrates, and adds sample data to database"
     task reset: [
       :environment,
-      "db:drop",
       "db:schema:cache:clear",
+      "db:drop",
       "db:create",
       "db:migrate",
       "dev:sample_data",

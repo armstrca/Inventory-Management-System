@@ -23,11 +23,23 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
   # include User::Roleable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
-  validate :email_uniqueness_on_update, on: :update
+  def email_uniqueness_on_update
+    if email_changed? && User.where(email: email).where.not(id: id).exists?
+      errors.add(:email, "has already been taken")
+    end
+  end
+
   include Ransackable
+
+  def self.create_new_user(params)
+    @user = User.create!(params)
+  end
 
   # enum role: { admin: "admin", manager: "manager", staff: "staff" }
 
@@ -55,12 +67,6 @@ class User < ApplicationRecord
 
   def staff?
     role == "staff"
-  end
-
-  def email_uniqueness_on_update
-    if email_changed? && User.exists?(email: email)
-      errors.add(:email, "has already been taken")
-    end
   end
 
   has_one_attached :image

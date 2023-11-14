@@ -1,14 +1,9 @@
 #/workspaces/Inventory-Management-System/config/routes.rb
 Rails.application.routes.draw do
-  resources :subcategories
   root "users#index"
-  devise_for :users
-  # resources :users do
-  #   collection do
-  #     get "admin_new"
-  #     post "admin_create"
-  #   end
-  # end
+  resources :subcategories
+  devise_for :users, :controllers => {:registrations => "custom_devise/registrations"}
+  resources :users
   resources :storage_locations
   resources :roles
   resources :inventory_transactions
@@ -17,11 +12,11 @@ Rails.application.routes.draw do
   resources :suppliers
   resources :categories
   resources :products
-  # post "users/check_email_availability", to: "users#check_email_availability"
   get "search", to: "search#index"
 end
 
-
+# match "/savenew", to: "users#savenew", via: :post
+# post "users/check_email_availability", to: "users#check_email_availability"
 
 # devise_scope :user do
 #   get "users/sign_up", to: "devise/registrations#new", as: :new_user_registration

@@ -33,7 +33,7 @@ files_to_display = [
   "/workspaces/Inventory-Management-System/app/views/users/admin_new.html.erb",
   "/workspaces/Inventory-Management-System/app/views/shared/_flash.html.erb",
   "/workspaces/Inventory-Management-System/app/controllers/custom_devise/registrations_controller.rb",
-  "/workspaces/Inventory-Management-System/app/models/concerns/user/roleable.rb",
+  # "/workspaces/Inventory-Management-System/app/models/concerns/user/roleable.rb",
   # "/workspaces/Inventory-Management-System/config/initializers/devise.rb",
   # "/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb",
 
