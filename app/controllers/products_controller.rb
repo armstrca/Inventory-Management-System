@@ -1,6 +1,6 @@
 #/workspaces/Inventory-Management-System/app/controllers/products_controller.rb
 class ProductsController < ApplicationController
-  # before_action :set_product, only: %i[ show edit update destroy ]
+  before_action :set_product, only: %i[ show edit update destroy ]
 
   # GET /products or /products.json
   def index
@@ -16,16 +16,19 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+    authorize @product
   end
 
   # GET /products/1/edit
   def edit
     @product = Product.find(params[:id])
+    authorize @product
   end
 
   # POST /products or /products.json
   def create
     @product = Product.new(product_params)
+    authorize @product
 
     respond_to do |format|
       if @product.save
@@ -41,7 +44,7 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1 or /products/1.json
   def update
     @product = Product.find(params[:id])
-
+    authorize @product
     respond_to do |format|
       if @product.update(product_params)
         format.html { redirect_to product_url(@product), notice: "Product was successfully updated." }
@@ -61,7 +64,7 @@ class ProductsController < ApplicationController
   # DELETE /products/1 or /products/1.json
   def destroy
     @product.destroy
-
+    authorize @product
     respond_to do |format|
       format.html { redirect_to products_url, notice: "Product was successfully destroyed." }
       format.json { head :no_content }
@@ -70,9 +73,9 @@ class ProductsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    # def set_product
-    #   @product = Product.find(params[:id])
-    # end
+    def set_product
+      @product = Product.find(params[:id])
+    end
 
     # Only allow a list of trusted parameters through.
     def product_params

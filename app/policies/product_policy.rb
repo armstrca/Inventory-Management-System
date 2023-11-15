@@ -5,9 +5,9 @@ class ProductPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? || (user.manager? && !record.admin? && !record.manager?)
+    user.admin? || user.manager? || user.staff?
   end
-  
+
   def update?
     user.admin? || (user.manager? && !record.admin?)
   end

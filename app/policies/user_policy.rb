@@ -1,7 +1,7 @@
 #/workspaces/Inventory-Management-System/app/policies/user_policy.rb
 class UserPolicy < ApplicationPolicy
   def show?
-    user.admin? || (user.manager? && !record.admin? && !record.manager?)
+    user.admin? || user.manager? || user.staff?
   end
 
   def create?
