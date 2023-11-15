@@ -41,61 +41,62 @@
     <%= form.text_field :description %>
   </div>
   <p>
-    <div>
-      <div class="card shadow mb-4">
-        <div class="card-header py-3">
-          <h6 class="m-0 font-weight-regular text-black">Full Inventory</h6>
-        </div>
-        <div class="card-body">
-          <%= form.label :products, style: "display: block" %>
-          <div class="table-responsive">
-            <table class="table datatable-bordered" id="productTable" width="100%" cellspacing="0">
-              <thead class="datatable-header">
+    
+  <div>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-regular text-black">Full Inventory</h6>
+      </div>
+      <div class="card-body">
+        <%= form.label :products, style: "display: block" %>
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="productTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <th>Select</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>SKU</th>
+                <th>Price</th>
+                <th>Units</th>
+                <th>Category</th>
+                <th>Subcategory</th>
+                <th>Supplier</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% Product.all.each do |product| %>
                 <tr>
-                  <th>Select</th>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>SKU</th>
-                  <th>Price</th>
-                  <th>Units</th>
-                  <th>Category</th>
-                  <th>Subcategory</th>
-                  <th>Supplier</th>
+                  <td><%= form.check_box :product_ids, { multiple: true }, product.id, nil %></td>
+                  <td><%= product.id %></td>
+                  <td><%= product.name %></td>
+                  <td><%= product.sku %></td>
+                  <td>$<%= number_with_precision(product.price, precision: 2) %></td>
+                  <td><%= product.stock_quantity %></td>
+                  <td><%= product.category.try(:name) || '' %></td>
+                  <td><%= product.subcategory.try(:name) || '' %></td>
+                  <td><%= product.supplier.try(:name) || '' %></td>
                 </tr>
-              </thead>
-              <tbody>
-                <% Product.all.each do |product| %>
-                  <tr>
-                    <td><%= form.check_box :product_ids, { multiple: true }, product.id, nil %></td>
-                    <td><%= product.id %></td>
-                    <td><%= product.name %></td>
-                    <td><%= product.sku %></td>
-                    <td>$<%= number_with_precision(product.price, precision: 2) %></td>
-                    <td><%= product.stock_quantity %></td>
-                    <td><%= product.category.name %></td>
-                    <td><%= product.subcategory.name %></td>
-                    <td><%= product.supplier.name %></td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
+              <% end %>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
+  </div>
 
-    <div>
-      <%= form.submit %>
-    </div>
-  <% end %>
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
 
-  <script>
-    $(document).ready(function () {
-      var table = $('#productTable').DataTable({
-        paging: true,
-        ordering: true,
-        selectable: true,
-        fixedheader: true
-      });
+<script>
+  $(document).ready(function () {
+    var table = $('#productTable').DataTable({
+      paging: true,
+      ordering: true,
+      selectable: true,
+      fixedheader: true
     });
-  </script>
+  });
+</script>

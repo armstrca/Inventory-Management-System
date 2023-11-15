@@ -44,6 +44,24 @@ unless Rails.env.production?
           bio: Faker::Lorem.paragraph,
         )
 
+        User.create(
+          first_name: "Staffy",
+          last_name: "Staffy",
+          email: "staff@staff.staff",
+          password: "password",
+          role: "staff",
+          bio: Faker::Lorem.paragraph,
+        )
+
+        User.create(
+          first_name: "Mangey",
+          last_name: "Manager",
+          email: "manager@mangey.manga",
+          password: "password",
+          role: "manager",
+          bio: Faker::Lorem.paragraph,
+        )
+
         # Seed Categories table with sample data
         10.times do
           Category.create(
@@ -150,7 +168,6 @@ unless Rails.env.production?
             category_id: Faker::Number.between(from: 1, to: 9),
             subcategory_id: Faker::Number.between(from: 1, to: 24),
             supplier_id: Faker::Number.between(from: 1, to: 9),
-            order_id: Order.all.sample.id,
           )
           if p.persisted?
             puts p.inspect

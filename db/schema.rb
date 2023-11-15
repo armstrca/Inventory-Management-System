@@ -85,10 +85,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_11_024917) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "subcategory_id", null: false
-    t.integer "supplier_id", null: false
-    t.integer "order_id", null: false
+    t.integer "supplier_id"
     t.index ["category_id"], name: "index_products_on_category_id"
-    t.index ["order_id"], name: "index_products_on_order_id"
     t.index ["subcategory_id"], name: "index_products_on_subcategory_id"
     t.index ["supplier_id"], name: "index_products_on_supplier_id"
   end
@@ -150,7 +148,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_11_024917) do
   add_foreign_key "order_products", "orders"
   add_foreign_key "order_products", "products"
   add_foreign_key "products", "categories"
-  add_foreign_key "products", "orders"
   add_foreign_key "products", "subcategories"
   add_foreign_key "products", "suppliers"
   add_foreign_key "subcategories", "categories"

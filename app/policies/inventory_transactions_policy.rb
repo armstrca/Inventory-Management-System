@@ -1,7 +1,7 @@
 #/workspaces/Inventory-Management-System/app/policies/category_policy.rb
-class CategoryPolicy < ApplicationPolicy
+class InventoryTransactionPolicy < ApplicationPolicy
   def create?
-    user.admin? || user.manager?
+    user.admin? || user.manager? || user.staff?
   end
 
   def show?
@@ -9,19 +9,19 @@ class CategoryPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? || user.manager?
+    user.admin? || user.manager? || user.staff?
   end
 
   def edit?
-    user.admin? || user.manager?
+    user.admin? || user.manager? || user.staff?
   end
 
   def new?
-    user.admin? || user.manager?
+    user.admin? || user.manager? || user.staff?
   end
 
   def destroy?
-    !(user.admin? || user.manager?) # Admins and managers can delete categories
+    !(user.admin? || user.manager?) # Admins and managers can delete inventory_transactions
   end
 
   def permitted_attributes_for_create

@@ -9,6 +9,10 @@ class ApplicationPolicy
     @record = record
   end
 
+  def user?
+    user == record
+  end
+  
   def index?
     false
   end

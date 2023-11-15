@@ -9,22 +9,26 @@ class InventoryTransactionsController < ApplicationController
 
   # GET /inventory_transactions/1 or /inventory_transactions/1.json
   def show
+    @inventory_transaction = Inventory_transaction.find(params[:id])
     authorize @inventory_transaction
   end
 
   # GET /inventory_transactions/new
   def new
     @inventory_transaction = InventoryTransaction.new
+    authorize @inventory_transaction
   end
 
   # GET /inventory_transactions/1/edit
   def edit
+    @inventory_transaction = Inventory_transaction.find(params[:id])
+    authorize @inventory_transaction
   end
 
   # POST /inventory_transactions or /inventory_transactions.json
   def create
     @inventory_transaction = InventoryTransaction.new(inventory_transaction_params)
-
+    authorize @inventory_transaction
     respond_to do |format|
       if @inventory_transaction.save
         format.html { redirect_to inventory_transaction_url(@inventory_transaction), notice: "Inventory transaction was successfully created." }
@@ -38,6 +42,8 @@ class InventoryTransactionsController < ApplicationController
 
   # PATCH/PUT /inventory_transactions/1 or /inventory_transactions/1.json
   def update
+    @inventory_transaction = Inventory_transaction.find(params[:id])
+    authorize @inventory_transaction
     respond_to do |format|
       if @inventory_transaction.update(inventory_transaction_params)
         format.html { redirect_to inventory_transaction_url(@inventory_transaction), notice: "Inventory transaction was successfully updated." }
@@ -51,8 +57,9 @@ class InventoryTransactionsController < ApplicationController
 
   # DELETE /inventory_transactions/1 or /inventory_transactions/1.json
   def destroy
+    @inventory_transaction = Inventory_transaction.find(params[:id])
     @inventory_transaction.destroy
-
+    authorize @inventory_transaction
     respond_to do |format|
       format.html { redirect_to inventory_transactions_url, notice: "Inventory transaction was successfully destroyed." }
       format.json { head :no_content }

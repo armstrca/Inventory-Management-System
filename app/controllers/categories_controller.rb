@@ -1,7 +1,7 @@
 #/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb
 class CategoriesController < ApplicationController
   before_action :set_category, only: %i[show edit update destroy]
-  before_action :set_form_variables, only: %i[new edit]
+  # before_action :set_form_variables, only: %i[new edit]
 
   # before_action :authorize_category, except: %i[index show]
 
@@ -59,8 +59,10 @@ class CategoriesController < ApplicationController
   # DELETE /categories/1 or /categories/1.json
   def destroy
     authorize @category
+    @category.products.each do |product|
+      product.update(category: nil)
+    end
     @category.destroy
-
     respond_to do |format|
       format.html { redirect_to categories_url, notice: "Category was successfully destroyed." }
       format.json { head :no_content }
@@ -76,10 +78,10 @@ class CategoriesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def category_params
-    params.require(:category).permit(:name, :description, :subcategory)
+    params.require(:category).permit(:id, :name, :description, :subcategory)
   end
 
-  # def authorize_category
-  #   authorize Category
-  # end
+  def authorize_category
+    authorize Category
+  end
 end

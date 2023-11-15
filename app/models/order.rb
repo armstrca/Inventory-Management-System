@@ -15,7 +15,8 @@
 class Order < ApplicationRecord
   has_many :order_products
   has_many :products, through: :order_products
-
+  belongs_to :supplier, optional: true
+  
   def self.incoming
     Order.where(receiving_address: StorageLocation.pluck(:address)).order(expected_delivery: :asc)
   end
@@ -24,5 +25,5 @@ class Order < ApplicationRecord
     Order.where(sending_address: StorageLocation.pluck(:address)).order(expected_delivery: :asc)
   end
   include Ransackable
-  
+
 end

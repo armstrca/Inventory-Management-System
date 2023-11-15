@@ -1,15 +1,23 @@
 #/workspaces/Inventory-Management-System/app/policies/order_product_policy.rb
 class OrderProductPolicy < ApplicationPolicy
   def create?
-    user.staff?
+    user.staff? || user.admin? || user.manager?
   end
 
   def show?
-    user.admin? || (user.manager? && !record.admin? && !record.manager?)
+    user.staff? || user.admin? || user.manager?
   end
-  
+
   def update?
-    user.staff?
+    user.staff? || user.admin? || user.manager?
+  end
+
+  def new?
+    user.staff? || user.admin? || user.manager?
+  end
+
+  def index?
+    user.staff? || user.admin? || user.manager?
   end
 
   def destroy?

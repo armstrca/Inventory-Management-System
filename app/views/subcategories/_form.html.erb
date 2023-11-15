@@ -21,10 +21,9 @@
     <%= form.label :description, style: "display: block" %>
     <%= form.text_area :description %>
   </div>
-
   <div>
     <%= form.label :category_id, style: "display: block" %>
-    <%= form.text_field :category_id %>
+    <%= form.collection_select :category_id, Category.all, :id, :name, { prompt: "Select a category" }, class: "category-select" %>
   </div>
 
   <div>

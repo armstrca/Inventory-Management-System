@@ -1,4 +1,5 @@
-class UserPolicy < ApplicationPolicy
+#/workspaces/Inventory-Management-System/app/policies/user_policy.rb
+class RegistrationsControllerPolicy < ApplicationPolicy
   def show?
     user.admin? || user.manager? || user.staff?
   end
@@ -8,19 +9,15 @@ class UserPolicy < ApplicationPolicy
   end
 
   def new?
-    user.admin? || (user.manager? && !record.admin?)
+    user.admin? || (user.manager? && !record.admin? && !record.staff?)
   end
 
   def admin_new?
     user.admin? || (user.manager? && !record.admin?)
   end
 
-  def edit?
-    user.admin? || (user.manager? && !record.admin?) || (user.manager? && record == user) || (user.staff? && record == user)
-  end
-
   def update?
-    user.admin? || (user.manager? && !record.admin?) || (user.manager? && record == user) || (user.staff? && record == user)
+    user.admin? || (user.manager? && !record.admin? && !record.manager?)
   end
 
   def destroy?
@@ -58,16 +55,6 @@ class UserPolicy < ApplicationPolicy
       [:email, :password, :first_name, :last_name, :bio, :image] - [:role]
     else
       []
-    end
-  end
-
-  def permitted_attributes_for_edit
-    if user.admin?
-      [:email, :password, :first_name, :last_name, :role, :bio, :image]
-    elsif user.manager?
-      [:email, :password, :first_name, :last_name, :bio, :image] - [:role]
-    else
-      [:email, :password, :first_name, :last_name, :bio, :image] - [:role]
     end
   end
 end

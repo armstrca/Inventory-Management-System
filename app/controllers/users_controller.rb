@@ -18,10 +18,10 @@ class UsersController < ApplicationController
     authorize @user
   end
 
-  def savenew
-    User.create_new_user(user_params)
-    redirect_to action: 'index'
-  end
+  # def savenew
+  #   User.create_new_user(user_params)
+  #   redirect_to action: 'index'
+  # end
 
   # GET /users/new
   def new

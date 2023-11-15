@@ -26,15 +26,19 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = Order.new
+    authorize @order
   end
 
   def edit
     @order = Order.find(params[:id]) # Retrieve the order by its ID
+    authorize @order
+
   end
 
   # POST /orders or /orders.json
   def create
     @order = Order.new(order_params)
+    authorize @order
 
     respond_to do |format|
       if @order.save
@@ -50,6 +54,7 @@ class OrdersController < ApplicationController
 # PATCH/PUT /orders/1 or /orders/1.json
 def update
   @order = Order.find(params[:id])
+  authorize @order
 
   # Process the order_params to remove empty strings from the products array
   processed_order_params = order_params
@@ -101,6 +106,7 @@ end
   # DELETE /orders/1 or /orders/1.json
   def destroy
     @order.destroy
+    authorize @order
 
     respond_to do |format|
       format.html { redirect_to orders_url, notice: "Order was successfully destroyed." }

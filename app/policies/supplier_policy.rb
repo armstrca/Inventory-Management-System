@@ -1,11 +1,15 @@
 #/workspaces/Inventory-Management-System/app/policies/supplier_policy.rb
 class SupplierPolicy < ApplicationPolicy
-  def show?
-    user.admin? || (user.manager? && !record.admin? && !record.manager?)
+  def create?
+    user.admin?
   end
 
-  def create?
-    user.admin? || user.manager?
+  def index?
+    user.admin? || user.staff? || user.manager?
+  end
+
+  def show?
+    user.admin? || user.staff? || user.manager?
   end
 
   def update?
@@ -13,7 +17,7 @@ class SupplierPolicy < ApplicationPolicy
   end
 
   def destroy?
-    !(user.admin? || user.manager?) # Admins and managers can delete suppliers
+    user.admin?
   end
 
   def permitted_attributes_for_create

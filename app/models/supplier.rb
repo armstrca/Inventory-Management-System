@@ -13,5 +13,7 @@
 #  updated_at   :datetime         not null
 #
 class Supplier < ApplicationRecord
+  has_many :products, dependent: :nullify
+  has_many :orders
   include Ransackable
 end

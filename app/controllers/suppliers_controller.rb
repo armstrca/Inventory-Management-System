@@ -16,16 +16,18 @@ class SuppliersController < ApplicationController
   # GET /suppliers/new
   def new
     @supplier = Supplier.new
+    authorize @supplier
   end
 
   # GET /suppliers/1/edit
   def edit
+    authorize @supplier
   end
 
   # POST /suppliers or /suppliers.json
   def create
     @supplier = Supplier.new(supplier_params)
-
+    authorize @supplier
     respond_to do |format|
       if @supplier.save
         format.html { redirect_to supplier_url(@supplier), notice: "Supplier was successfully created." }
@@ -39,6 +41,7 @@ class SuppliersController < ApplicationController
 
   # PATCH/PUT /suppliers/1 or /suppliers/1.json
   def update
+    authorize @supplier
     respond_to do |format|
       if @supplier.update(supplier_params)
         format.html { redirect_to supplier_url(@supplier), notice: "Supplier was successfully updated." }
@@ -52,8 +55,8 @@ class SuppliersController < ApplicationController
 
   # DELETE /suppliers/1 or /suppliers/1.json
   def destroy
+    authorize @supplier
     @supplier.destroy
-
     respond_to do |format|
       format.html { redirect_to suppliers_url, notice: "Supplier was successfully destroyed." }
       format.json { head :no_content }

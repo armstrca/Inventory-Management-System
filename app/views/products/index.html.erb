@@ -50,9 +50,9 @@
               <td><%= product.sku %></td>
               <td>$<%= number_with_precision(product.price, precision: 2) %></td>
               <td><%= product.stock_quantity %></td>
-              <td><%= link_to product.category.name, product.category %></td>
-              <td><%= link_to product.subcategory.name, product.subcategory %></td>
-              <td><%= link_to product.supplier.name, product.supplier %></td>
+              <td><%= product.category ? link_to(product.category.name, product.category) : '' %></td>
+              <td><%= product.subcategory ? link_to(product.subcategory.name, product.subcategory) : '' %></td>
+              <td><%= product.supplier ? link_to(product.supplier.name, product.supplier) : '' %></td>
             </tr>
           <% end %>
         </tbody>

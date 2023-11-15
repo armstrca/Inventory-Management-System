@@ -5,6 +5,7 @@ class SubcategoriesController < ApplicationController
   # GET /subcategories or /subcategories.json
   def index
     @subcategories = Subcategory.all
+    authorize @subcategory
   end
 
   # GET /subcategories/1 or /subcategories/1.json
@@ -16,17 +17,19 @@ class SubcategoriesController < ApplicationController
   # GET /subcategories/new
   def new
     @subcategory = Subcategory.new
+    authorize @subcategory
   end
 
   # GET /subcategories/1/edit
   def edit
     @subcategory = Subcategory.find(params[:id])
+    authorize @subcategory
   end
 
   # POST /subcategories or /subcategories.json
   def create
     @subcategory = Subcategory.new(subcategory_params)
-
+    authorize @subcategory
     respond_to do |format|
       if @subcategory.save
         format.html { redirect_to subcategory_url(@subcategory), notice: "Subcategory was successfully created." }
@@ -41,7 +44,7 @@ class SubcategoriesController < ApplicationController
   # PATCH/PUT /subcategories/1 or /subcategories/1.json
   def update
     @subcategory = Subcategory.find(params[:id])
-
+    authorize @subcategory
     respond_to do |format|
       if @subcategory.update(subcategory_params)
         format.html { redirect_to subcategory_url(@subcategory), notice: "Subcategory was successfully updated." }
@@ -55,6 +58,15 @@ class SubcategoriesController < ApplicationController
 
   # DELETE /subcategories/1 or /subcategories/1.json
   def destroy
+    authorize @subcategory
+    @subcategory.update(category_id: nil)
+    @subcategory.update(category: nil)
+    # Disassociate products from the subcategory
+    @subcategory.products.each do |product|
+      product.update(subcategory: nil)
+    end
+
+    # Now, destroy the subcategory
     @subcategory.destroy
 
     respond_to do |format|
@@ -64,13 +76,14 @@ class SubcategoriesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_subcategory
-      @subcategory = Subcategory.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def subcategory_params
-      params.require(:subcategory).permit(:name, :description, :category_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_subcategory
+    @subcategory = Subcategory.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def subcategory_params
+    params.require(:subcategory).permit(:name, :description, :category_id)
+  end
 end

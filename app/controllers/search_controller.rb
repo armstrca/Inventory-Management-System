@@ -29,7 +29,7 @@ class SearchController < ApplicationController
     results << Product.ransack(name_or_description_cont: @q).result
 
     # Search in 'reports' model
-    results << Report.ransack(report_type_or_data_criteria_cont: @q).result
+    # results << Report.ransack(report_type_or_data_criteria_cont: @q).result
 
     # Search in 'storage_locations' model
     results << StorageLocation.ransack(name_or_description_cont: @q).result

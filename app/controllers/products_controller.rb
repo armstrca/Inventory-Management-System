@@ -60,7 +60,6 @@ class ProductsController < ApplicationController
     redirect_to products_url
   end
 
-
   # DELETE /products/1 or /products/1.json
   def destroy
     @product.destroy
@@ -71,14 +70,24 @@ class ProductsController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product
-      @product = Product.find(params[:id])
-    end
+  def subcategories_by_category
+    @product = Product.new
+    authorize @product
+    category_id = params[:category_id]
+    subcategories = Subcategory.where(category_id: category_id)
 
-    # Only allow a list of trusted parameters through.
-    def product_params
-      params.require(:product).permit(:name, :description, :sku, :price, :stock_quantity, :category_id)
-    end
+    render json: { subcategories: subcategories }
+  end
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_product
+    @product = Product.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def product_params
+    params.require(:product).permit(:name, :description, :sku, :price, :stock_quantity, :category_id, :subcategory_id, :supplier_id)
+  end
+
 end

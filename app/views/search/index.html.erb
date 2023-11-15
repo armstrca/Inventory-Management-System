@@ -1,15 +1,69 @@
-<!--/workspaces/Inventory-Management-System/app/views/search/index.html.erb-->
-<div class="search-results">
+<% if @results.empty? %>
+  <div class="alert alert-info" role="alert">
+    No results found.
+  </div>
+<% else %>
   <% @results.group_by(&:class).each do |model, model_results| %>
-    <div class="model-results">
-      <h2><%= model.to_s.titleize.pluralize %></h2>
-      <ul class="result-list">
-        <% model_results.each do |result| %>
-          <li class="result-item">
-            <%= render partial: 'shared/result_item', locals: { result: result } %>
-          </li>
-        <% end %>
-      </ul>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#<%= model.to_s.downcase %>TableCollapse">
+        <h6 class="m-0 font-weight-regular text-black"><%= model.to_s.titleize %></h6>
+      </div>
+      <div class="card-body collapse" id="<%= model.to_s.downcase %>TableCollapse">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="<%= model.to_s.downcase %>Table" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <% columns = case model.to_s
+                            when "User"
+                              ["id", "first_name", "Email", "Bio", "Role"]
+                            when "Supplier"
+                              ["id", "Address", "Contact_Info", "Description", "Name"]
+                            when "Subcategory"
+                              ["id", "Description", "Name"]
+                            when "StorageLocation"
+                              ["id", "Address", "Description", "Name"]
+                            when "Product"
+                              ["id", "Description", "Name", "Price", "SKU", "Stock_Quantity", "Subcategory", "Category", "Supplier_id"]
+                            when "Order"
+                              ["id", "Description", "Expected_Delivery", "Receiving_Address", "Sending_Address", "Products", "Status"]
+                            when "InventoryTransaction"
+                              ["id", "Quantity", "Transaction_Type"]
+                            when "Category"
+                              ["id", "Description", "Name", "Subcategory"]
+                            else
+                              model_results.first.attributes.keys
+                          end %>
+                <% columns.each do |attribute| %>
+                  <th class="sortable" data-mdb-sort="<%= attribute %>"><%= attribute.titleize %></th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <% model_results.each do |result| %>
+                <tr data-href="<%= generate_path(result) %>">
+                  <% columns.each do |attribute| %>
+                    <% if attribute == 'id' %>
+                      <td><%= result.send(attribute.downcase) %></td>
+                    <% else %>
+                      <td><%= link_to result.send(attribute.downcase), result %></td>
+                    <% end %>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   <% end %>
-</div>
+<% end %>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var tableRows = document.querySelectorAll("table tbody tr[data-href]");
+    tableRows.forEach(function (row) {
+      row.addEventListener("click", function () {
+        window.location.href = this.dataset.href;
+      });
+    });
+  });
+</script>

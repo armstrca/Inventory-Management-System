@@ -58,9 +58,9 @@
   </div>
   <div>
     <% if current_user.role == "admin" || current_user.role == "manager" %>
-      <%= button_to "Edit #{@subcategory.name}", edit_subcategory_path(@subcategory) %>
+      <%= button_to "Edit #{@subcategory.name}", edit_subcategory_path(@subcategory), method: :get %>
       <p></p>
-      <%= button_to "All Categories", categories_path %>
+      <%= button_to "All Categories", categories_path, method: :get %>
       <p></p>
       <%= button_to "Delete #{@subcategory.name}", @subcategory, method: :delete %>
     <% elsif current_user.role == "staff" %>
