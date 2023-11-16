@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/db/schema.rb
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -73,6 +74,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_11_024917) do
     t.datetime "updated_at", null: false
     t.string "sending_address"
     t.string "receiving_address"
+    t.index ["expected_delivery"], name: "index_orders_on_expected_delivery"
+    t.index ["receiving_address"], name: "index_orders_on_receiving_address"
+    t.index ["sending_address"], name: "index_orders_on_sending_address"
   end
 
   create_table "products", force: :cascade do |t|

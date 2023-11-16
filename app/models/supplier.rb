@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/app/models/supplier.rb
+#/workspaces/Inventory-Management-System/app/models/supplier.rb
 # == Schema Information
 #
 # Table name: suppliers

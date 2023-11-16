@@ -1,4 +1,5 @@
 <!--/workspaces/Inventory-Management-System/app/views/categories/_category.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/categories/_category.html.erb-->
   <div class="header">
     <h1><%= @category.name %></h1>
     <div class="container text-right">
@@ -55,9 +56,14 @@
     </div>
   </div>
   <div>
-  <%= link_to "Edit #{@category.name}", edit_category_path(@category) %> |
-  <%= link_to "Category Index", categories_path %>
-
-  <%= button_to "Delete #{@category.name}", @category, method: :delete %>
-</div>
+    <% if current_user.role == "admin" || current_user.role == "manager" %>
+      <%= button_to "Edit #{@subcategory.name}", edit_subcategory_path(@subcategory), method: :get %>
+      <p></p>
+      <%= button_to "All Categories", categories_path, method: :get %>
+      <p></p>
+      <%= button_to "Delete #{@subcategory.name}", @subcategory, method: :delete %>
+    <% elsif current_user.role == "staff" %>
+      <%= button_to "All Categories", categories_path, method: :get %>
+    <% end %>
+  </div>
 </div>

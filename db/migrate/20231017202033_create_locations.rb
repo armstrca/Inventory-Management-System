@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/db/migrate/20231017202033_create_locations.rb
+#/workspaces/Inventory-Management-System/db/migrate/20231017202033_create_locations.rb
 class CreateLocations < ActiveRecord::Migration[7.0]
   def change
     create_table :locations do |t|

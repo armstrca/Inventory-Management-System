@@ -2,7 +2,8 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.1"
-
+gem 'erb_lint'
+gem 'kaminari'
 gem 'pundit'
 
 gem "bootstrap_sb_admin_base_v2"

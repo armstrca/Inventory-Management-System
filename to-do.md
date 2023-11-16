@@ -62,7 +62,7 @@ LESS IMPORTANT
     -----------------------------------------------------------------------
 
     ######### Suppliers
-    Think about suppliers#show layout, possible integration of hypothetical supplier_shipments table
+    Possible integration of hypothetical supplier_shipments table
 -----------------------------------------------------------------------
 
 

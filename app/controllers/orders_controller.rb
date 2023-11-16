@@ -1,21 +1,58 @@
 #/workspaces/Inventory-Management-System/app/controllers/orders_controller.rb
+#/workspaces/Inventory-Management-System/app/controllers/orders_controller.rb
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
-  caches_action :index, :show
+  caches_action :index, :show, :incoming, :outgoing
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.includes(:products, :order_products).all
+    @orders = Order.includes(:products, :order_products).page(params[:page]).per(200)
+    @outgoing_orders = Order.outgoing.includes(:products, :order_products).page(params[:page]).per(200)
+    @incoming_orders = Order.incoming.includes(:products, :order_products).page(params[:page]).per(200)
+
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: {
+          draw: params[:draw],
+          recordsTotal: Order.count,
+          recordsFiltered: Order.count,
+          data: @orders,
+        }
+      }
+    end
   end
 
   # GET /orders/incoming
   def incoming
-    @incoming_orders = Order.incoming
+    @incoming_orders = Order.incoming.includes(:products, :order_products)
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: {
+          draw: params[:draw],
+          recordsTotal: @incoming_orders.count,
+          recordsFiltered: @incoming_orders.count,
+          data: @incoming_orders,
+        }
+      }
+    end
   end
 
   # GET /orders/outgoing
   def outgoing
-    @outgoing_orders = Order.outgoing
+    @outgoing_orders = Order.outgoing.includes(:products, :order_products)
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: {
+          draw: params[:draw],
+          recordsTotal: @outgoing_orders.count,
+          recordsFiltered: @outgoing_orders.count,
+          data: @outgoing_orders,
+        }
+      }
+    end
   end
 
   # GET /orders/1 or /orders/1.json
@@ -33,7 +70,6 @@ class OrdersController < ApplicationController
   def edit
     @order = Order.find(params[:id]) # Retrieve the order by its ID
     authorize @order
-
   end
 
   # POST /orders or /orders.json
@@ -52,63 +88,63 @@ class OrdersController < ApplicationController
     end
   end
 
-# PATCH/PUT /orders/1 or /orders/1.json
-def update
-  @order = Order.find(params[:id])
-  authorize @order
+  # PATCH/PUT /orders/1 or /orders/1.json
+  def update
+    @order = Order.find(params[:id])
+    authorize @order
 
-  # Process the order_params to remove empty strings from the products array
-  processed_order_params = order_params
-  if processed_order_params[:products].present?
-    processed_order_params[:products]&.reject!(&:blank?)
-  end
+    # Process the order_params to remove empty strings from the products array
+    processed_order_params = order_params
+    if processed_order_params[:products].present?
+      processed_order_params[:products]&.reject!(&:blank?)
+    end
 
-  respond_to do |format|
-    if @order.update(processed_order_params)
-      # Debugging line 1: Print the processed order_params to the console
-      puts "Processed order_params: #{processed_order_params.inspect}"
+    respond_to do |format|
+      if @order.update(processed_order_params)
+        # Debugging line 1: Print the processed order_params to the console
+        puts "Processed order_params: #{processed_order_params.inspect}"
 
-      # Additional logic to associate products with the order
-      if processed_order_params[:products].present?
-        product_ids = processed_order_params[:products].reject(&:empty?).map(&:to_i)
-        products = Product.where(id: product_ids)
+        # Additional logic to associate products with the order
+        if processed_order_params[:products].present?
+          product_ids = processed_order_params[:products].reject(&:empty?).map(&:to_i)
+          products = Product.where(id: product_ids)
 
-        if products.count == product_ids.count
-          # Debugging line 2: Print the list of product_ids and their count
-          puts "Product IDs: #{product_ids.inspect}, Count: #{product_ids.count}"
+          if products.count == product_ids.count
+            # Debugging line 2: Print the list of product_ids and their count
+            puts "Product IDs: #{product_ids.inspect}, Count: #{product_ids.count}"
 
-          # All products exist, associate them with the order
-          @order.products = products
-          @order.save
+            # All products exist, associate them with the order
+            @order.products = products
+            @order.save
+            format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
+            format.json { render :show, status: :ok, location: @order }
+          else
+            # Handle the case where some products don't exist
+            format.html { render :edit, status: :unprocessable_entity, notice: "Some selected products do not exist." }
+            format.json { render json: { error: "Some selected products do not exist." }, status: :unprocessable_entity }
+          end
+        else
+          # No products selected, do nothing
           format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
           format.json { render :show, status: :ok, location: @order }
-        else
-          # Handle the case where some products don't exist
-          format.html { render :edit, status: :unprocessable_entity, notice: "Some selected products do not exist." }
-          format.json { render json: { error: "Some selected products do not exist." }, status: :unprocessable_entity }
         end
       else
-        # No products selected, do nothing
-        format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
-        format.json { render :show, status: :ok, location: @order }
-      end
-    else
-      # Debugging line 3: Print the errors if the order update fails
-      puts "Order update failed. Errors: #{order.errors.full_messages}"
+        # Debugging line 3: Print the errors if the order update fails
+        puts "Order update failed. Errors: #{order.errors.full_messages}"
 
-      format.html { render :edit, status: :unprocessable_entity }
-      format.json { render json: @order.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @order.errors, status: :unprocessable_entity }
+      end
     end
   end
-end
-
-
 
   # DELETE /orders/1 or /orders/1.json
   def destroy
     @order.destroy
     authorize @order
-
+    @order.order_products.each do |product|
+      product.update(category: nil)
+    end
     respond_to do |format|
       format.html { redirect_to orders_url, notice: "Order was successfully destroyed." }
       format.json { head :no_content }
@@ -133,5 +169,4 @@ end
       product_ids: [],
     )
   end
-
 end

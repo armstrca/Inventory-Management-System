@@ -1,8 +1,9 @@
 <!--/workspaces/Inventory-Management-System/app/views/subcategories/_subcategory.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/subcategories/_subcategory.html.erb-->
 <p>
   <div class="header">
-    <h1><%= link_to @subcategory.category.name, @subcategory.category %></h1>
-    <h2> <%= @subcategory.name %></h2>
+    <h1 style="white-space: nowrap;"><%= link_to @subcategory.category.name, @subcategory.category %> > </h1>
+    <h3 style="white-space: nowrap; padding-left: 10px; margin-bottom: 1.5px;"> <%= @subcategory.name %></h2>
     <div class="container text-right">
       <h1><%= link_to "New Product", new_product_path %></h1>
     </div>
@@ -64,7 +65,7 @@
       <p></p>
       <%= button_to "Delete #{@subcategory.name}", @subcategory, method: :delete %>
     <% elsif current_user.role == "staff" %>
-      <%= button_to "All Categories", categories_path %>
+      <%= button_to "All Categories", categories_path, method: :get %>
     <% end %>
   </div>
 </div>

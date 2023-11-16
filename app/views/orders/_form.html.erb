@@ -1,4 +1,5 @@
 <!--/workspaces/Inventory-Management-System/app/views/orders/_form.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/orders/_form.html.erb-->
 <%= form_with(model: order) do |form| %>
   <% if order.errors.any? %>
     <div style="color: red">
@@ -41,30 +42,39 @@
     <%= form.text_field :description %>
   </div>
   <p>
-    
-  <div>
-    <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-regular text-black">Full Inventory</h6>
-      </div>
-      <div class="card-body">
-        <%= form.label :products, style: "display: block" %>
-        <div class="table-responsive">
-          <table class="table datatable-bordered" id="productTable" width="100%" cellspacing="0">
-            <thead class="datatable-header">
-              <tr>
-                <th>Select</th>
-                <th>ID</th>
-                <th>Name</th>
-                <th>SKU</th>
-                <th>Price</th>
-                <th>Units</th>
-                <th>Category</th>
-                <th>Subcategory</th>
-                <th>Supplier</th>
-              </tr>
-            </thead>
-            <tbody>
+  <script>
+  $(document).ready(function() {
+    var table = $('#dataTable').DataTable({
+      paging: true,
+      ordering: true,
+      selectable: true,
+      fixedheader: true
+    });
+  });
+</script>
+<div class="row">
+  <div id="incoming" class="col">
+<div class="card shadow mb-4">
+      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#incomingTableCollapse">
+    <h6 class="m-0 font-weight-regular text-black">Full Inventory</h6>
+  </div>
+      <div class="card-body collapse" id="incomingTableCollapse">
+    <div class="table-responsive">
+      <table class="table datatable-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead class="datatable-header">
+          <tr>
+            <th class="sortable" data-mdb-sort="name">ID</th>
+            <th class="sortable" data-mdb-sort="name">Name</th>
+            <th class="sortable" data-mdb-sort="description">Description</th>
+            <th class="sortable" data-mdb-sort="sku">SKU</th>
+            <th class="sortable" data-mdb-sort="price">Price</th>
+            <th class="sortable" data-mdb-sort="quantity">Units</th>
+            <th class="sortable" data-mdb-sort="category">Category</th>
+            <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
+            <th class="sortable" data-mdb-sort="supplier">Supplier</th>
+          </tr>
+        </thead>
+        <tbody>
               <% Product.all.each do |product| %>
                 <tr>
                   <td><%= form.check_box :product_ids, { multiple: true }, product.id, nil %></td>
@@ -94,7 +104,7 @@
   $(document).ready(function () {
     var table = $('#productTable').DataTable({
       paging: true,
-      ordering: true,
+      ordering: true,z
       selectable: true,
       fixedheader: true
     });

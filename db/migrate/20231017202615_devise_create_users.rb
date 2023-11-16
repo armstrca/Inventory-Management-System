@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/db/migrate/20231017202615_devise_create_users.rb
+#/workspaces/Inventory-Management-System/db/migrate/20231017202615_devise_create_users.rb
 # frozen_string_literal: true
 
 class DeviseCreateUsers < ActiveRecord::Migration[7.0]

@@ -1,4 +1,5 @@
 ///workspaces/Inventory-Management-System/app/assets/javascripts/application.js
+///workspaces/Inventory-Management-System/app/assets/javascripts/application.js
 // ...
 //= require rails-ujs
 //= require_tree .

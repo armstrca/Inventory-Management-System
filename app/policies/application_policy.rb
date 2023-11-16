@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/app/policies/application_policy.rb
+#/workspaces/Inventory-Management-System/app/policies/application_policy.rb
 # frozen_string_literal: true
 
 class ApplicationPolicy

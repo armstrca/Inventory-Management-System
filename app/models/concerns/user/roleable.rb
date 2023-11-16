@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/app/models/concerns/user/roleable.rb
+#/workspaces/Inventory-Management-System/app/models/concerns/user/roleable.rb
 module User::Roleable
   extend ActiveSupport::Concern
 

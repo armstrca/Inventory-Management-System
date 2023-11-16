@@ -1,9 +1,18 @@
 #/workspaces/Inventory-Management-System/app/controllers/search_controller.rb
+#/workspaces/Inventory-Management-System/app/controllers/search_controller.rb
 # app/controllers/search_controller.rb
 class SearchController < ApplicationController
   def index
     @q = params[:q]
     @results = perform_search
+    @products = Product.all
+    @categories = Category.all
+    @inventory_transactions = InventoryTransaction.all
+    @order_products = OrderProduct.all
+    @orders = Order.all
+    @storage_locations = StorageLocation.all
+    @suppliers = Supplier.all
+    @users = User.all
   end
 
   private

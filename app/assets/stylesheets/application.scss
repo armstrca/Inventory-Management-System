@@ -58,6 +58,19 @@ table#dataTable tbody {
   /* Add any other text styles here */
 }
 
+/* Apply the "Philosopher" font to the table body text */
+table#incomingTable tbody,
+table#outgoingTable tbody {
+  font-family: 'Philosopher', sans-serif;
+}
+
+/* Optionally, you can adjust the font size and other text styles as needed */
+table#incomingTable tbody,
+table#outgoingTable tbody {
+  font-size: 16px; /* Adjust the font size as needed */
+  /* Add any other text styles here */
+}
+
 /* Apply the desired font to the DataTable pagination controls */
 .dataTables_wrapper .dataTables_paginate .paginate_button {
   font-family: 'Philosopher', sans-serif;

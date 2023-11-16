@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/app/policies/subcategory_policy.rb
+#/workspaces/Inventory-Management-System/app/policies/subcategory_policy.rb
 class SubcategoryPolicy < ApplicationPolicy
   def create?
     user.admin?

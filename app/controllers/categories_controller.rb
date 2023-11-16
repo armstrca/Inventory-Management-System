@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb
+#/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb
 class CategoriesController < ApplicationController
   before_action :set_category, only: %i[show edit update destroy]
   # before_action :set_form_variables, only: %i[new edit]

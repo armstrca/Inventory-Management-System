@@ -22,19 +22,33 @@
 
 <script>
   $(document).ready(function () {
-    var incomingTable = $('#incomingTable').DataTable({
-      paging: true,
-      ordering: true,
-      selectable: true,
-      fixedheader: true
-    });
+  var incomingTable = $('#incomingTable').DataTable({
+  paging: true,
+  ordering: true,
+  selectable: true,
+  fixedheader: true
+  });
 
-    var outgoingTable = $('#outgoingTable').DataTable({
-      paging: true,
-      ordering: true,
-      selectable: true,
-      fixedheader: true
-    });
+  var outgoingTable = $('#outgoingTable').DataTable({
+  paging: true,
+  ordering: true,
+  selectable: true,
+  fixedheader: true
+  });
+
+  // DataTable initialization for productTable (server-side processing)
+  var table = $('#productTable').DataTable({
+  processing: true,
+  serverSide: true,
+  ajax: {
+    url: '/orders',
+    type: 'GET'
+  },
+  paging: true,
+  ordering: true,
+  selectable: true,
+  fixedheader: true
+  });
 
     // Add the following script for collapsible tables
     $('.collapse-header').on('click', function () {
@@ -54,7 +68,7 @@
 </script>
 
 <div class="row">
-  <div id="incoming" class="col">
+  <div id="incoming" class="col" >
     <div class="card shadow mb-4">
       <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#incomingTableCollapse">
         <h6 class="m-0 font-weight-regular text-black">Incoming</h6>
@@ -65,7 +79,7 @@
             <thead class="datatable-header">
               <tr>
                 <th class="sortable" data-mdb-sort="id">ID</th>
-                <th class="sortable" data-mdb-sort="expected_delivery">Expected Delivery</th>
+                <th class="sortable" data-mdb-sort="expected_delivery">Delivery EDA</th>
                 <th class="sortable" data-mdb-sort="status">Status</th>
                 <th class="sortable" data-mdb-sort="sending_address">Sending Address</th>
                 <th class="sortable" data-mdb-sort="receiving_address">Receiving Address</th>
@@ -76,7 +90,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @orders.incoming.each do |order| %>
+              <% @incoming_orders.each do |order| %>
                 <tr data-href="<%= order_path(order) %>">
                   <td><%= order.id %></td>
                   <td><%= order.expected_delivery %></td>
@@ -118,7 +132,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% @orders.outgoing.each do |order| %>
+                  <% @outgoing_orders.each do |order| %>
                     <tr data-href="<%= order_path(order) %>">
 
                       <td><%= order.id %></td>

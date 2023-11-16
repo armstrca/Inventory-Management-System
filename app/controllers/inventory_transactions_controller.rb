@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/app/controllers/inventory_transactions_controller.rb
+#/workspaces/Inventory-Management-System/app/controllers/inventory_transactions_controller.rb
 class InventoryTransactionsController < ApplicationController
   before_action :set_inventory_transaction, only: %i[ show edit update destroy ]
 

@@ -1,4 +1,5 @@
 ///workspaces/Inventory-Management-System/startbootstrap-sb-admin-2-master/js/sb-admin-2.js
+///workspaces/Inventory-Management-System/startbootstrap-sb-admin-2-master/js/sb-admin-2.js
 (function($) {
   "use strict"; // Start of use strict
 

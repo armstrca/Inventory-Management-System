@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/app/controllers/custom_devise/registrations_controller.rb
+#/workspaces/Inventory-Management-System/app/controllers/custom_devise/registrations_controller.rb
 # app/controllers/custom_devise/registrations_controller.rb
 class CustomDevise::RegistrationsController < Devise::RegistrationsController
   prepend_before_action :require_no_authentication, only: [:cancel ]

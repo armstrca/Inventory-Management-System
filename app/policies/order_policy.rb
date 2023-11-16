@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/app/policies/order_policy.rb
+#/workspaces/Inventory-Management-System/app/policies/order_policy.rb
 class OrderPolicy < ApplicationPolicy
   def create?
     user.staff? || user.admin? || user.manager?
@@ -18,7 +19,7 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def destroy?
-    !(user.staff? && !record.admin?) # Staff cannot delete orders
+    user.admin? || user.manager?
   end
 
   def permitted_attributes_for_create

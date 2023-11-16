@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/app/models/product.rb
+#/workspaces/Inventory-Management-System/app/models/product.rb
 # == Schema Information
 #
 # Table name: products
@@ -34,4 +35,13 @@ class Product < ApplicationRecord
   has_many :orders, through: :order_products
   has_many :order_products
   include Ransackable
+
+  def category_name
+    category&.name
+  end
+
+  def subcategory_name
+    subcategory&.name
+  end
 end
+

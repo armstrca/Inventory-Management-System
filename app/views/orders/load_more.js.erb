@@ -1,0 +1,4 @@
+// app/views/orders/load_more.js.erb
+
+// Append the new orders to the existing list
+$('#orders-container').append('<%= j render partial: "order", locals: { orders: @orders } %>');

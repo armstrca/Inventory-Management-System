@@ -3,7 +3,7 @@
     No results found.
   </div>
 <% else %>
-  <% @results.group_by(&:class).each do |model, model_results| %>
+  <% @results.group_by(&:class).reject { |model, _| ["Product", "User", "Supplier"].include?(model.to_s) }.each do |model, model_results| %>
     <div class="card shadow mb-4">
       <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#<%= model.to_s.downcase %>TableCollapse">
         <h6 class="m-0 font-weight-regular text-black"><%= model.to_s.titleize %></h6>
@@ -14,25 +14,17 @@
             <thead class="datatable-header">
               <tr>
                 <% columns = case model.to_s
-                            when "User"
-                              ["id", "first_name", "Email", "Bio", "Role"]
-                            when "Supplier"
-                              ["id", "Address", "Contact_Info", "Description", "Name"]
-                            when "Subcategory"
-                              ["id", "Description", "Name"]
-                            when "StorageLocation"
-                              ["id", "Address", "Description", "Name"]
-                            when "Product"
-                              ["id", "Description", "Name", "Price", "SKU", "Stock_Quantity", "Subcategory", "Category", "Supplier_id"]
-                            when "Order"
-                              ["id", "Description", "Expected_Delivery", "Receiving_Address", "Sending_Address", "Products", "Status"]
-                            when "InventoryTransaction"
-                              ["id", "Quantity", "Transaction_Type"]
-                            when "Category"
-                              ["id", "Description", "Name", "Subcategory"]
-                            else
-                              model_results.first.attributes.keys
-                          end %>
+                     when "Subcategory"
+                       ["id", "Description", "Name"]
+                     when "StorageLocation"
+                       ["id", "Address", "Description", "Name"]
+                     when "InventoryTransaction"
+                       ["id", "Quantity", "Transaction_Type"]
+                     when "Category"
+                       ["id", "Name", "Subcategory", "Description"]
+                     else
+                       model_results.first.attributes.keys
+                     end %>
                 <% columns.each do |attribute| %>
                   <th class="sortable" data-mdb-sort="<%= attribute %>"><%= attribute.titleize %></th>
                 <% end %>
@@ -42,7 +34,7 @@
               <% model_results.each do |result| %>
                 <tr data-href="<%= generate_path(result) %>">
                   <% columns.each do |attribute| %>
-                    <% if attribute == 'id' %>
+                    <% if attribute == "id" %>
                       <td><%= result.send(attribute.downcase) %></td>
                     <% else %>
                       <td><%= link_to result.send(attribute.downcase), result %></td>
@@ -56,13 +48,122 @@
       </div>
     </div>
   <% end %>
+</div>
 <% end %>
+<!--</div>-->
+<%# case @results.class.to_s %>
+<%# when "user" %>
+<!--    <div class="card shadow mb-4">
+      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#userTableCollapse">
+        <h6 class="m-0 font-weight-regular text-black">User</h6>
+      </div>
+      <div class="card-body collapse" id="userTableCollapse">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="userTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <th class="sortable" data-mdb-sort="id">ID</th>
+                <th class="sortable" data-mdb-sort="name">Name</th>
+                <th class="sortable" data-mdb-sort="email">Email</th>
+                <th class="sortable" data-mdb-sort="role">Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%# @results.each do |user| %>-->
+<!--                <tr>
+                  <td><%#= user.id %></td>
+                  <td><%#= link_to "#{user.first_name} #{user.last_name}", user_path(user) %></td>
+                  <td><%#= mail_to user.email %></td>
+                  <td><%#= user.role.capitalize %></td>
+                </tr>
+              <%# end %>-->
+<!--            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <%# when "product" %>-->
+<!--    <div class="card shadow mb-4">
+      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#productTableCollapse">
+        <h6 class="m-0 font-weight-regular text-black">Products</h6>
+      </div>
+      <div class="card-body collapse" id="productTableCollapse">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="productTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <th class="sortable" data-mdb-sort="id">ID</th>
+                <th class="sortable" data-mdb-sort="name">Name</th>
+                <th class="sortable" data-mdb-sort="description">Description</th>
+                <th class="sortable" data-mdb-sort="sku">SKU</th>
+                <th class="sortable" data-mdb-sort="price">Price</th>
+                <th class="sortable" data-mdb-sort="quantity">Units</th>
+                <th class="sortable" data-mdb-sort="category">Category</th>
+                <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
+                <th class="sortable" data-mdb-sort="supplier">Supplier</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%# @results.each do |product| %>-->
+<!--                <tr>
+                  <td><%#= product.id %></td>
+                  <td><%#= link_to product.name, product %></td>
+                  <td><%#= product.description %></td>
+                  <td><%#= product.sku %></td>
+                  <td>$<%#= number_with_precision(product.price, precision: 2) %></td>
+                  <td><%#= product.stock_quantity %></td>
+                  <td><%#= product.category ? link_to(product.category.name, product.category) : "" %></td>
+                  <td><%#= product.subcategory ? link_to(product.subcategory.name, product.subcategory) : "" %></td>
+                  <td><%#= product.supplier ? link_to(product.supplier.name, product.supplier) : "" %></td>
+                </tr>
+              <%# end %>-->
+<!--            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <%# when "supplier" %>-->
+<!--    <div class="card shadow mb-4">
+      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#supplierTableCollapse">
+        <h6 class="m-0 font-weight-regular text-black">Supplier</h6>
+      </div>
+      <div class="card-body collapse" id="supplierTableCollapse">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="supplierTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <th class="sortable" data-mdb-sort="id">ID</th>
+                <th class="sortable" data-mdb-sort="name">Name</th>
+                <th class="sortable" data-mdb-sort="contact">Contact</th>
+                <th class="sortable" data-mdb-sort="description">Description</th>
+                <th class="sortable" data-mdb-sort="address">Address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%# @results.each do |supplier| %>-->
+<!--                <tr>
+                  <td><%#= supplier.id %></td>
+                  <td><%#= link_to supplier.name, supplier %></td>
+                  <td><%#= mail_to supplier.contact_info %></td>
+                  <td><%#= supplier.description %></td>
+                  <td><%#= link_to supplier.address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(supplier.address)}", target: "_blank" %></td>
+                </tr>
+              <%# end %>-->
+<!--            </tbody>
+          </table>
+        </div>-->
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    var tableRows = document.querySelectorAll("table tbody tr[data-href]");
-    tableRows.forEach(function (row) {
-      row.addEventListener("click", function () {
-        window.location.href = this.dataset.href;
+    var dataTable = document.querySelectorAll(".datatable-bordered tbody");
+
+    dataTable.forEach(function (table) {
+      table.addEventListener("click", function (event) {
+        var targetRow = event.target.closest("tr[data-href]");
+
+        if (targetRow) {
+          window.location.href = targetRow.dataset.href;
+        }
       });
     });
   });

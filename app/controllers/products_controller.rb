@@ -1,4 +1,5 @@
 #/workspaces/Inventory-Management-System/app/controllers/products_controller.rb
+#/workspaces/Inventory-Management-System/app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
   caches_action :index, :show
