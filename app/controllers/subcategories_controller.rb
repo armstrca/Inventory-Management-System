@@ -4,7 +4,7 @@ class SubcategoriesController < ApplicationController
 
   # GET /subcategories or /subcategories.json
   def index
-    @subcategories = Subcategory.all
+    @subcategories = Subcategory.all.includes(:category)
     authorize @subcategory
   end
 
@@ -12,6 +12,7 @@ class SubcategoriesController < ApplicationController
   def show
     @subcategory = Subcategory.find(params[:id])
     authorize @subcategory
+    # @products = @category.products.includes(:subcategory)
   end
 
   # GET /subcategories/new

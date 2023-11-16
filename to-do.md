@@ -3,13 +3,6 @@
 IMPORTANT
 -----------------------------------------------------------------------
 
-    ######### Pundit
------------------------------------------------------------------------
-
-  Policies
-
------------------------------------------------------------------------
-
 -----------------------------------------------------------------------
     ######### Inventory_transaction stuff
 -----------------------------------------------------------------------
@@ -55,13 +48,13 @@ LESS IMPORTANT
     -----------------------------------------------------------------------
 
     ######### Categories
-      Fix title header for Categories#show
+      Fix title header for Categories#show so they display on one line, maybe switch all such headers to h2 or smaller
     -----------------------------------------------------------------------
 
     -----------------------------------------------------------------------
 
     ######### Orders
-      Orders#show table font/display, linkiness
+      Orders#show table font/display, linkiness and orders#index
       Orders#show buttons
       Require at least one product for each order
     -----------------------------------------------------------------------
@@ -71,3 +64,7 @@ LESS IMPORTANT
     ######### Suppliers
     Think about suppliers#show layout, possible integration of hypothetical supplier_shipments table
 -----------------------------------------------------------------------
+
+
+Orders#index is just so dang slow what the heck
+  okay look into making the datatable one of those ones that only loads one a new page within the table

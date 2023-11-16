@@ -1,15 +1,16 @@
 #/workspaces/Inventory-Management-System/app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
+  caches_action :index, :show
 
   # GET /products or /products.json
   def index
-    @products = Product.all
+    @products = Product.includes(:category, :subcategory, :supplier).all
   end
 
   # GET /products/1 or /products/1.json
   def show
-    @product = Product.find(params[:id])
+    @product = Product.find(params[:id]).includes(:category, :subcategory, :supplier).all
     authorize @product
   end
 

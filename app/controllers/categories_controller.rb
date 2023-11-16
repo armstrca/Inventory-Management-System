@@ -7,11 +7,15 @@ class CategoriesController < ApplicationController
 
   # GET /categories or /categories.json
   def index
-    @categories = Category.all
+    @categories = Category.all.includes(:subcategories)
   end
 
   # GET /categories/1 or /categories/1.json
   def show
+    @category = Category.find(params[:id])
+    # @category = @category.includes(:subcategories, :categories)
+    @products = @category.products
+    @subcategory = @products.includes(:subcategory) # Include subcategory here
     authorize @category
   end
 

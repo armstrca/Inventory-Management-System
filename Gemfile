@@ -13,7 +13,7 @@ gem "bullet", group: 'development'
 
 gem "ransack"
 
-
+gem 'actionpack-action_caching'
 
 gem "jquery-datatables-rails", "~> 3.4"
 

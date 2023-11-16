@@ -10,7 +10,7 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? || (user.manager? && !record.admin? && !record.manager?)
+    user.staff? || user.admin? || user.manager?
   end
 
   def update?

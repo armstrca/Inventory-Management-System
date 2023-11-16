@@ -1,6 +1,6 @@
 #/workspaces/Inventory-Management-System/config/routes.rb
 Rails.application.routes.draw do
-  root "users#index"
+  root "products#index"
   devise_for :users, :controllers => { :registrations => "custom_devise/registrations" }
   resources :users
   resources :storage_locations
