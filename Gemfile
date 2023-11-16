@@ -9,7 +9,11 @@ gem "bootstrap_sb_admin_base_v2"
 
 gem "bootstrap"
 
+gem "bullet", group: 'development'
+
 gem "ransack"
+
+
 
 gem "jquery-datatables-rails", "~> 3.4"
 
@@ -61,7 +65,12 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "sassc-rails"
 
 gem "jquery-rails"
+gem 'rack-mini-profiler'
+# For memory profiling
+gem 'memory_profiler'
 
+# For call-stack profiling flamegraphs
+gem 'stackprof'
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]

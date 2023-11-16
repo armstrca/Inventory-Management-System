@@ -10,48 +10,39 @@ IMPORTANT
 
 -----------------------------------------------------------------------
 
-    ######### Search functionality
 -----------------------------------------------------------------------
-
-  Display for "no results found"
-  Show results as a group of collapsible tables grouped by model
-
------------------------------------------------------------------------
-
     ######### Inventory_transaction stuff
 -----------------------------------------------------------------------
 
   Returns?
   Refunds?
   Figure it out
-  Join table with products
+  Join table with products/orders
   Error handling
+  An inventory transaction would include incoming orders from suppliers, outgoing orders to customers, return/refund orders from customers
+  
+  Orders should calculate the total cost of the products in the order
 
 -----------------------------------------------------------------------
-
     ######### Storage_location stuff
 -----------------------------------------------------------------------
 
   Join table with products?
+  Products#show should show where each batch of products is stored & how many are in each location
+  Allow CRUD of storage_location
 
 -----------------------------------------------------------------------
-
-    ######### Layout
------------------------------------------------------------------------
-
-  Make top search bar actually funtional
-  Website is kinda slow now, particularly orders#index :(
 
 -----------------------------------------------------------------------
 
     ######### Miscellaneous
 -----------------------------------------------------------------------
 
-    Need controllers for this stuff:
+    Need controllers/routes for this stuff:
     Login/404/Register/Forgot password stuff
     Error handling for new orders, new suppliers, new categories, fix existing error handling for new products, inventory_transactions
     New join table...supplier_shipments?
-    Allow CRUD of storage_location
+
 
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
@@ -59,9 +50,6 @@ IMPORTANT
 LESS IMPORTANT
 -----------------------------------------------------------------------
 
-    ######### Subcategories
-      Fix title header for Subcategories#show
-      Allow CRUD
     -----------------------------------------------------------------------
 
     -----------------------------------------------------------------------
