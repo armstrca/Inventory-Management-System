@@ -3,59 +3,10 @@
     No results found.
   </div>
 <% else %>
-  <% @results.group_by(&:class).reject { |model, _| ["Product", "User", "Supplier"].include?(model.to_s) }.each do |model, model_results| %>
+  <% if @users.any? %>
     <div class="card shadow mb-4">
-      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#<%= model.to_s.downcase %>TableCollapse">
-        <h6 class="m-0 font-weight-regular text-black"><%= model.to_s.titleize %></h6>
-      </div>
-      <div class="card-body collapse" id="<%= model.to_s.downcase %>TableCollapse">
-        <div class="table-responsive">
-          <table class="table datatable-bordered" id="<%= model.to_s.downcase %>Table" width="100%" cellspacing="0">
-            <thead class="datatable-header">
-              <tr>
-                <% columns = case model.to_s
-                     when "Subcategory"
-                       ["id", "Description", "Name"]
-                     when "StorageLocation"
-                       ["id", "Address", "Description", "Name"]
-                     when "InventoryTransaction"
-                       ["id", "Quantity", "Transaction_Type"]
-                     when "Category"
-                       ["id", "Name", "Subcategory", "Description"]
-                     else
-                       model_results.first.attributes.keys
-                     end %>
-                <% columns.each do |attribute| %>
-                  <th class="sortable" data-mdb-sort="<%= attribute %>"><%= attribute.titleize %></th>
-                <% end %>
-              </tr>
-            </thead>
-            <tbody>
-              <% model_results.each do |result| %>
-                <tr data-href="<%= generate_path(result) %>">
-                  <% columns.each do |attribute| %>
-                    <% if attribute == "id" %>
-                      <td><%= result.send(attribute.downcase) %></td>
-                    <% else %>
-                      <td><%= link_to result.send(attribute.downcase), result %></td>
-                    <% end %>
-                  <% end %>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  <% end %>
-</div>
-<% end %>
-<!--</div>-->
-<%# case @results.class.to_s %>
-<%# when "user" %>
-<!--    <div class="card shadow mb-4">
       <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#userTableCollapse">
-        <h6 class="m-0 font-weight-regular text-black">User</h6>
+        <h6 class="m-0 font-weight-regular text-black">Users</h6>
       </div>
       <div class="card-body collapse" id="userTableCollapse">
         <div class="table-responsive">
@@ -69,21 +20,191 @@
               </tr>
             </thead>
             <tbody>
-              <%# @results.each do |user| %>-->
-<!--                <tr>
-                  <td><%#= user.id %></td>
-                  <td><%#= link_to "#{user.first_name} #{user.last_name}", user_path(user) %></td>
-                  <td><%#= mail_to user.email %></td>
-                  <td><%#= user.role.capitalize %></td>
+              <% @users.each do |user| %>
+                <tr>
+                  <td><%= user.id %></td>
+                  <td><%= link_to "#{user.first_name} #{user.last_name}", user_path(user) %></td>
+                  <td><%= mail_to user.email %></td>
+                  <td><%= user.role.capitalize %></td>
                 </tr>
-              <%# end %>-->
-<!--            </tbody>
+              <% end %>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
-    <%# when "product" %>-->
-<!--    <div class="card shadow mb-4">
+  <% end %>
+  <% if @categories.any? %>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#categoryTableCollapse">
+        <h6 class="m-0 font-weight-regular text-black">Categories</h6>
+      </div>
+      <div class="card-body collapse" id="categoryTableCollapse">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="userTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <th class="sortable" data-mdb-sort="id">ID</th>
+                <th class="sortable" data-mdb-sort="name">Name</th>
+                <th class="sortable" data-mdb-sort="email">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @categories.each do |category| %>
+                <tr>
+                  <td><%= category.id %></td>
+                  <td><%= link_to "#{category.name}", category_path(category) %></td>
+                  <td><%= category.description %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+    <% if @subcategories.any? %>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#subcategoryTableCollapse">
+        <h6 class="m-0 font-weight-regular text-black">Subcategories</h6>
+      </div>
+      <div class="card-body collapse" id="subcategoryTableCollapse">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="userTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <th class="sortable" data-mdb-sort="id">ID</th>
+                <th class="sortable" data-mdb-sort="name">Name</th>
+                <th class="sortable" data-mdb-sort="email">Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @subcategories.each do |subcategory| %>
+                <tr>
+                  <td><%= subcategory.id %></td>
+                  <td><%= link_to "#{subcategory.name}", subcategory_path(subcategory) %></td>
+                  <td><%= link_to subcategory.category.name, subcategory.category %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+      <% if @inventory_transactions.any? %>
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#inventory_transactionTableCollapse">
+        <h6 class="m-0 font-weight-regular text-black">Inventory Transactions</h6>
+      </div>
+      <div class="card-body collapse" id="inventory_transactionTableCollapse">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="userTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <th class="sortable" data-mdb-sort="id">ID</th>
+                <th class="sortable" data-mdb-sort="email">Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @inventory_transactions.each do |inventory_transaction| %>
+                <tr>
+                  <td><%= link_to "#{inventory_transaction.id}", inventory_transaction_path(inventory_transaction) %></td>
+                  <td><%= link_to inventory_transaction.transaction_type.gsub("_", " ").titleize, inventory_transaction_path(inventory_transaction) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+
+<% if @orders.any? %>
+<style>
+  /* Add a specific width for each column */
+  #ordersTable th {
+    white-space: nowrap; /* Prevent line breaks */
+  }
+
+  table tbody tr[data-href] {
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  $(document).ready(function () {
+  var orders_table = $('#ordersTable').DataTable({
+  paging: true,
+  ordering: true,
+  selectable: true,
+  fixedheader: true
+  });
+
+    // Add the following script for collapsible tables
+    $('.collapse-header').on('click', function () {
+      var tableId = $(this).data('table-id');
+      $('#' + tableId).toggleClass('show');
+    });
+
+    $('.collapse-header').hover(
+      function () {
+        $(this).css('cursor', 'pointer');
+      },
+      function () {
+        $(this).css('cursor', 'auto');
+      }
+    );
+  });
+</script>
+<div class="row">
+  <div id="orders_table" class="col" >
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#ordersTableCollapse">
+        <h6 class="m-0 font-weight-regular text-black">Orders</h6>
+      </div>
+      <div class="card-body collapse" id="ordersTableCollapse">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="ordersTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <th class="sortable" data-mdb-sort="id">ID</th>
+                <th class="sortable" data-mdb-sort="expected_delivery">Delivery EDA</th>
+                <th class="sortable" data-mdb-sort="status">Status</th>
+                <th class="sortable" data-mdb-sort="sending_address">Sending Address</th>
+                <th class="sortable" data-mdb-sort="receiving_address">Receiving Address</th>
+                <th class="sortable" data-mdb-sort="description">Tracking</th>
+                <th class="sortable" data-mdb-sort="product_name">Product IDs</th>
+                <th class="sortable" data-mdb-sort="quantity_ordered">Units</th>
+                <th class="sortable" data-mdb-sort="shipping_cost">Shipping</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @orders.each do |order| %>
+                <tr data-href="<%= order_path(order) %>">
+                  <td><%= order.id %></td>
+                  <td><%= order.expected_delivery %></td>
+                  <td><%= order.status.gsub('_', ' ').titleize %></td>
+                  <td style="font-size: 12px;"><%= order.sending_address %></td>
+                  <td style="font-size: 12px;"><%= order.receiving_address %></td>
+                  <td><%= order.description %></td>
+                  <td><%= order.products.pluck(:id).join(', ') %></td>
+                  <td><%= order.order_products.sum(:quantity_ordered) %></td>
+                  <td>$<%= number_with_precision(order.order_products.sum(:shipping_cost), precision: 2) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+              <% end %>
+
+  <% if @products.any? %>
+    <div class="card shadow mb-4">
       <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#productTableCollapse">
         <h6 class="m-0 font-weight-regular text-black">Products</h6>
       </div>
@@ -104,28 +225,30 @@
               </tr>
             </thead>
             <tbody>
-              <%# @results.each do |product| %>-->
-<!--                <tr>
-                  <td><%#= product.id %></td>
-                  <td><%#= link_to product.name, product %></td>
-                  <td><%#= product.description %></td>
-                  <td><%#= product.sku %></td>
-                  <td>$<%#= number_with_precision(product.price, precision: 2) %></td>
-                  <td><%#= product.stock_quantity %></td>
-                  <td><%#= product.category ? link_to(product.category.name, product.category) : "" %></td>
-                  <td><%#= product.subcategory ? link_to(product.subcategory.name, product.subcategory) : "" %></td>
-                  <td><%#= product.supplier ? link_to(product.supplier.name, product.supplier) : "" %></td>
+              <% @products.each do |product| %>
+                <tr>
+                  <td><%= product.id %></td>
+                  <td><%= link_to product.name, product %></td>
+                  <td><%= product.description %></td>
+                  <td><%= product.sku %></td>
+                  <td>$<%= number_with_precision(product.price, precision: 2) %></td>
+                  <td><%= product.stock_quantity %></td>
+                  <td><%= product.category ? link_to(product.category.name, product.category) : "" %></td>
+                  <td><%= product.subcategory ? link_to(product.subcategory.name, product.subcategory) : "" %></td>
+                  <td><%= product.supplier ? link_to(product.supplier.name, product.supplier) : "" %></td>
                 </tr>
-              <%# end %>-->
-<!--            </tbody>
+              <% end %>
+            </tbody>
           </table>
         </div>
       </div>
     </div>
-    <%# when "supplier" %>-->
-<!--    <div class="card shadow mb-4">
+  <% end %>
+
+  <% if @suppliers.any? %>
+    <div class="card shadow mb-4">
       <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#supplierTableCollapse">
-        <h6 class="m-0 font-weight-regular text-black">Supplier</h6>
+        <h6 class="m-0 font-weight-regular text-black">Suppliers</h6>
       </div>
       <div class="card-body collapse" id="supplierTableCollapse">
         <div class="table-responsive">
@@ -140,31 +263,35 @@
               </tr>
             </thead>
             <tbody>
-              <%# @results.each do |supplier| %>-->
-<!--                <tr>
-                  <td><%#= supplier.id %></td>
-                  <td><%#= link_to supplier.name, supplier %></td>
-                  <td><%#= mail_to supplier.contact_info %></td>
-                  <td><%#= supplier.description %></td>
-                  <td><%#= link_to supplier.address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(supplier.address)}", target: "_blank" %></td>
+              <% @suppliers.each do |supplier| %>
+                <tr>
+                  <td><%= supplier.id %></td>
+                  <td><%= link_to supplier.name, supplier %></td>
+                  <td><%= mail_to supplier.contact_info %></td>
+                  <td><%= supplier.description %></td>
+                  <td><%= link_to supplier.address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(supplier.address)}", target: "_blank" %></td>
                 </tr>
-              <%# end %>-->
-<!--            </tbody>
+              <% end %>
+            </tbody>
           </table>
-        </div>-->
+        </div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var dataTable = document.querySelectorAll(".datatable-bordered tbody");
+      </div>
+    </div>
+  <% end %>
+<% end %>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var dataTable = document.querySelectorAll(".datatable-bordered tbody");
 
-    dataTable.forEach(function (table) {
-      table.addEventListener("click", function (event) {
-        var targetRow = event.target.closest("tr[data-href]");
+      dataTable.forEach(function (table) {
+        table.addEventListener("click", function (event) {
+          var targetRow = event.target.closest("tr[data-href]");
 
-        if (targetRow) {
-          window.location.href = targetRow.dataset.href;
-        }
+          if (targetRow) {
+            window.location.href = targetRow.dataset.href;
+          }
+        });
       });
     });
-  });
-</script>
+  </script>

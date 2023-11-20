@@ -1,22 +1,20 @@
 #/workspaces/Inventory-Management-System/app/controllers/orders_controller.rb
-#/workspaces/Inventory-Management-System/app/controllers/orders_controller.rb
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
   caches_action :index, :show, :incoming, :outgoing
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.includes(:products, :order_products).page(params[:page]).per(200)
-    @outgoing_orders = Order.outgoing.includes(:products, :order_products).page(params[:page]).per(200)
-    @incoming_orders = Order.incoming.includes(:products, :order_products).page(params[:page]).per(200)
-
+    @orders = Order.includes(:products, :order_products)
+    @incoming_orders = Order.incoming.includes(:products, :order_products)
+    @outgoing_orders = Order.outgoing.includes(:products, :order_products)
     respond_to do |format|
       format.html
       format.json {
         render json: {
           draw: params[:draw],
           recordsTotal: Order.count,
-          recordsFiltered: Order.count,
+          recordsFiltered: @orders.total_count,  # Use total_count for the filtered count
           data: @orders,
         }
       }

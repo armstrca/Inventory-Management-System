@@ -16,7 +16,7 @@ unless Rails.env.production?
         # Array to store generated email addresses
         generated_emails = []
 
-        20.times do
+        200.times do
           # Generate a unique email address
           email = Faker::Internet.unique.email
           while generated_emails.include?(email)
@@ -34,7 +34,7 @@ unless Rails.env.production?
             # image: Faker::Avatar.image,
           )
         end
-
+        puts "200 users created"
         User.create(
           first_name: "Alice",
           last_name: "Smith",
@@ -63,39 +63,39 @@ unless Rails.env.production?
         )
 
         # Seed Categories table with sample data
-        10.times do
+        200.times do
           Category.create(
             name: Faker::Commerce.department,
             description: Faker::Lorem.sentence,
             subcategory: Faker::Commerce.department,
           )
         end
-
-        25.times do
+        puts "200 categories created"
+        400.times do
           Subcategory.create(
             name: Faker::Commerce.department,
             description: Faker::Lorem.sentence,
             category: Category.all.sample,
           )
         end
-
+        puts "400 subcategories created"
         # Seed InventoryTransactions table with sample data
-        20.times do
+        2000.times do
           InventoryTransaction.create(
             transaction_type: %w(incoming_return outgoing_return incoming_sale outgoing_sale).sample,
             quantity: Faker::Number.between(from: 1, to: 100),
           )
         end
-
+        puts "2000 inventory_transactions created"
         # Seed Locations table with sample data
-        10.times do
+        100.times do
           StorageLocation.create(
             name: Faker::Address.community,
             description: Faker::Lorem.sentence,
             address: Faker::Address.full_address,
           )
         end
-
+        puts "100 storage_locations created"
         # Create an array with 10 instances of addresses from Location.address.sample
         location_addresses = StorageLocation.pluck(:address).sample(10)
 
@@ -106,7 +106,7 @@ unless Rails.env.production?
         addresses = location_addresses + faker_addresses
 
         # Seed Orders table with sample data
-        15.times do
+        1500.times do
           sending_address = addresses.sample
           receiving_address = addresses.sample
 
@@ -115,19 +115,18 @@ unless Rails.env.production?
             sending_address = addresses.sample
             receiving_address = addresses.sample
           end
-          10.times do
-            o = Order.create(
-              expected_delivery: Faker::Date.forward(days: 30),
-              status: %w(delivered processing in_transit).sample,
-              description: "#{["FedEx", "UPS", "USPS"].sample} tracking ##{rand(1000000000000)}",
-              sending_address: sending_address,
-              receiving_address: receiving_address,
-            )
+          o = Order.create(
+            expected_delivery: Faker::Date.forward(days: 30),
+            status: %w(delivered processing in_transit).sample,
+            description: "#{["FedEx", "UPS", "USPS"].sample} tracking ##{rand(1000000000000)}",
+            sending_address: sending_address,
+            receiving_address: receiving_address,
+          )
 
-            puts o
-          end
+          puts o
         end
 
+        puts "1500 orders created"
         # Seed Reports table with sample data (probably not gonna use this but just in case)
         10.times do
           Report.create(
@@ -148,7 +147,7 @@ unless Rails.env.production?
 
         # Seed Suppliers table with sample data
 
-        10.times do
+        100.times do
           s = Supplier.create(
             name: Faker::Company.name,
             address: Faker::Address.full_address,
@@ -157,8 +156,8 @@ unless Rails.env.production?
             standing: %w(good arrears).sample,
           )
         end
-
-        50.times do
+        puts "100 suppliers created"
+        1000.times do
           p = Product.create(
             name: Faker::Commerce.product_name,
             description: Faker::Lorem.sentence,
@@ -175,22 +174,11 @@ unless Rails.env.production?
             puts p.errors.full_messages
           end
         end
-
+        puts "1000 products created"
         # Seed Users table with sample data
-        20.times do
-          User.create(
-            email: Faker::Internet.email,
-            password: "password",
-            role: %w(admin staff manager).sample,
-            bio: Faker::Lorem.paragraph,
-            first_name: Faker::Name.first_name,
-            last_name: Faker::Name.last_name,
-            # image: Faker::Avatar.image,
-          )
-        end
 
         # Seed OrderProducts table with sample data
-        90.times do
+        2000.times do
           op = OrderProduct.create(
             quantity_ordered: Faker::Number.between(from: 1, to: 20),
             shipping_cost: Faker::Number.between(from: 1, to: 30),
@@ -203,6 +191,7 @@ unless Rails.env.production?
             puts op.errors.full_messages
           end
         end
+        puts "2000 order_products created"
 
         puts "Sample data has been seeded into the database."
       end

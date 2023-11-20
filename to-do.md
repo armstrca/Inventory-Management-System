@@ -3,8 +3,7 @@
 IMPORTANT
 -----------------------------------------------------------------------
 
------------------------------------------------------------------------
-    ######### Inventory_transaction stuff
+----Inventory_transaction stuff
 -----------------------------------------------------------------------
 
   Returns?
@@ -16,8 +15,7 @@ IMPORTANT
   
   Orders should calculate the total cost of the products in the order
 
------------------------------------------------------------------------
-    ######### Storage_location stuff
+----Storage_location stuff
 -----------------------------------------------------------------------
 
   Join table with products?
@@ -26,9 +24,15 @@ IMPORTANT
 
 -----------------------------------------------------------------------
 
+
+uuuuh this app only works for one business at a time. So all the models would have to be updated with a company_id association or something if more than one company ever used it
+
+
+
+
 -----------------------------------------------------------------------
 
-    ######### Miscellaneous
+    Miscellaneous
 -----------------------------------------------------------------------
 
     Need controllers/routes for this stuff:
@@ -47,13 +51,13 @@ LESS IMPORTANT
 
     -----------------------------------------------------------------------
 
-    ######### Categories
+    Categories
       Fix title header for Categories#show so they display on one line, maybe switch all such headers to h2 or smaller
     -----------------------------------------------------------------------
 
     -----------------------------------------------------------------------
 
-    ######### Orders
+    Orders
       Orders#show table font/display, linkiness and orders#index
       Orders#show buttons
       Require at least one product for each order
@@ -61,7 +65,7 @@ LESS IMPORTANT
 
     -----------------------------------------------------------------------
 
-    ######### Suppliers
+    Suppliers
     Possible integration of hypothetical supplier_shipments table
 -----------------------------------------------------------------------
 

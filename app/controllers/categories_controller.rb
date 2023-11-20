@@ -14,11 +14,10 @@ class CategoriesController < ApplicationController
   # GET /categories/1 or /categories/1.json
   def show
     @category = Category.find(params[:id])
-    # @category = @category.includes(:subcategories, :categories)
-    @products = @category.products
-    @subcategory = @products.includes(:subcategory) # Include subcategory here
+    @products = @category.products.includes(:category, :subcategory, :supplier)
     authorize @category
   end
+
 
   # GET /categories/new
   def new
