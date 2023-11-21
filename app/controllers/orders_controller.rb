@@ -1,13 +1,14 @@
 #/workspaces/Inventory-Management-System/app/controllers/orders_controller.rb
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :set_order, only: %i[ show edit update destroy]
   caches_action :index, :show, :incoming, :outgoing
+  respond_to :html, :datatables
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.includes(:products, :order_products)
-    @incoming_orders = Order.incoming.includes(:products, :order_products)
-    @outgoing_orders = Order.outgoing.includes(:products, :order_products)
+    @orders = Order.includes(:products, :order_products).page(params[:page]).per(10)
+    @incoming_orders = Order.incoming.includes(:products, :order_products).page(params[:page]).per(10)
+    @outgoing_orders = Order.outgoing.page(params[:page]).per(params[:per_page])
     respond_to do |format|
       format.html
       format.json {
@@ -21,9 +22,11 @@ class OrdersController < ApplicationController
     end
   end
 
+
   # GET /orders/incoming
   def incoming
-    @incoming_orders = Order.incoming.includes(:products, :order_products)
+    @incoming_orders = Order.incoming.includes(:products, :order_products).page(params[:page]).per(10)
+    authorize @incoming_orders
     respond_to do |format|
       format.html
       format.json {
@@ -39,23 +42,22 @@ class OrdersController < ApplicationController
 
   # GET /orders/outgoing
   def outgoing
-    @outgoing_orders = Order.outgoing.includes(:products, :order_products)
+    @outgoing_orders = Order.outgoing.page(params[:page]).per(10)
+    authorize @outgoing_orders
     respond_to do |format|
       format.html
       format.json {
-        render json: {
-          draw: params[:draw],
-          recordsTotal: @outgoing_orders.count,
-          recordsFiltered: @outgoing_orders.count,
-          data: @outgoing_orders,
-        }
+        render json: OrderDataTable(params)
       }
+      format.js
     end
   end
 
   # GET /orders/1 or /orders/1.json
   def show
     @order = Order.find(params[:id])
+    @incoming_orders = Order.incoming.includes(:products, :order_products)
+    @outgoing_orders = Order.outgoing.includes(:products, :order_products)
     authorize @order
   end
 

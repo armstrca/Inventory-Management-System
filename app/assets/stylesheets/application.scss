@@ -14,7 +14,7 @@
  *= require_self
  */
 
- .header h1.no-margin {
+.header h1.no-margin {
   margin: 0;
 }
 
@@ -25,10 +25,108 @@
 @import 'https://fonts.cdnfonts.com/css/flexure';
 @import "font-awesome";
 @import 'https://fonts.cdnfonts.com/css/philosopher';
+// @import 'kaminari.css';
 
 
+/* kaminari.css */
+
+/* Kaminari pagination styles */
+/* Kaminari pagination styles to match DataTables on-board pagination */
+
+/* Apply DataTables pagination styles to Kaminari pagination */
+.kaminari-pagination-container {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.kaminari_paginate {
+  display: inline-block;
+}
+
+.kaminari_paginate .paginate_button {
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+.kaminari_paginate .current {
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+}
+
+.kaminari_paginate .previous,
+.kaminari_paginate .next {
+  background-color: #f8f9fc;
+}
+
+/* Add any other styles as needed */
+
+/* Override Kaminari's default styles if necessary */
+.kaminari-pagination-container .pagination {
+  margin: 0;
+  /* Override default margin */
+  white-space: nowrap;
+  justify-content: flex-end;
+}
+
+.kaminari-pagination-container .pagination li {
+  display: inline-block;
+  margin: 0 2px;
+}
+
+.kaminari-pagination-container .pagination li a {
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+div.kaminari_wrapper div.kaminari_paginate {
+  margin: 0;
+  white-space: nowrap;
+  text-align: right;
+}
+
+div.kaminari_wrapper div.kaminari_paginate ul.pagination {
+  margin: 2px 0;
+  white-space: nowrap;
+  justify-content: flex-end;
+}
+
+@media screen and (max-width: 767px) {
+
+  div.kaminari_wrapper div.kaminari_length,
+  div.kaminari_wrapper div.kaminari_filter,
+  div.kaminari_wrapper div.kaminari_info,
+  div.kaminari_wrapper div.kaminari_paginate {
+    text-align: center;
+  }
+
+  div.kaminari_wrapper div.kaminari_paginate ul.pagination {
+    justify-content: center !important;
+  }
+}
+
+.kaminari-pagination-container .pagination .active a {
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+}
+
+.kaminari-pagination-container .pagination .disabled a {
+  background-color: #f8f9fc;
+}
 
 
+/* Additional kaminari styling */
+#outgoingTable th {
+  white-space: nowrap;
+}
+
+table tbody tr[data-href] {
+  cursor: pointer;
+}
 
 
 // Apply 'Flexure' font to headings and titles
@@ -43,18 +141,21 @@ h6,
 }
 
 body {
-  background-color: #f8f9fc; /* Use the color value of your choice */
+  background-color: #f8f9fc;
+  /* Use the color value of your choice */
 }
 
 /* Add this CSS rule to apply the "Philosopher" font to the table body text */
-table#dataTable tbody, thead {
+table#dataTable tbody,
+thead {
   font-family: 'Philosopher', sans-serif;
 }
 
 /* Optionally, you can adjust the font size and other text styles as needed */
 table#dataTable tbody {
   font-family: 'Philosopher', sans-serif;
-  font-size: 16px; /* Adjust the font size as needed */
+  font-size: 16px;
+  /* Adjust the font size as needed */
   /* Add any other text styles here */
 }
 
@@ -67,7 +168,8 @@ table#outgoingTable tbody {
 /* Optionally, you can adjust the font size and other text styles as needed */
 table#incomingTable tbody,
 table#outgoingTable tbody {
-  font-size: 16px; /* Adjust the font size as needed */
+  font-size: 16px;
+  /* Adjust the font size as needed */
   /* Add any other text styles here */
 }
 
@@ -86,6 +188,10 @@ table#outgoingTable tbody {
 
 }
 
+.dataTables_wrapper .dataTables_filter {
+  float: right;
+  text-align: right;
+}
 
 // Apply 'Philosopher' font to body text (paragraphs)
 p,
@@ -94,16 +200,20 @@ p,
 }
 
 hr {
-  margin-top: -1px; /* Adjust this value to control the space between the <hr> and the content above it */
+  margin-top: -1px;
+  /* Adjust this value to control the space between the <hr> and the content above it */
 }
 
 .columns-2 {
-  column-count: 2; /* Split into two columns */
-  column-gap: 20px; /* Adjust the gap between columns as needed */
+  column-count: 2;
+  /* Split into two columns */
+  column-gap: 20px;
+  /* Adjust the gap between columns as needed */
 }
 
 .supplier-render {
-  break-inside: avoid; /* Prevent column breaks within supplier renders */
+  break-inside: avoid;
+  /* Prevent column breaks within supplier renders */
 }
 
 .header {
@@ -144,7 +254,7 @@ form.navbar-search::before {
   position: absolute;
   //* padding-left: 250px;
   /* Adjust this value as needed */
-  width:100%;
+  width: 100%;
   /* Ensure it covers the entire width */
   height: 100%;
   /* Ensure it covers the entire height */
@@ -224,10 +334,12 @@ form.navbar-search .form-control {
 /* White Box Styles */
 .white-box {
   position: fixed;
-  top: 0; /* Adjust to match the height of the topbar */
+  top: 0;
+  /* Adjust to match the height of the topbar */
   left: 0;
   right: 0;
   height: 70px;
   background-color: white;
-  z-index: 0; /* Ensure it's below other fixed elements */
+  z-index: 0;
+  /* Ensure it's below other fixed elements */
 }

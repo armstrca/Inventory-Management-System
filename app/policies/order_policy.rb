@@ -5,8 +5,15 @@ class OrderPolicy < ApplicationPolicy
     user.staff? || user.admin? || user.manager?
   end
 
-
   def edit?
+    user.staff? || user.admin? || user.manager?
+  end
+
+  def incoming?
+    user.staff? || user.admin? || user.manager?
+  end
+
+  def outgoing?
     user.staff? || user.admin? || user.manager?
   end
 

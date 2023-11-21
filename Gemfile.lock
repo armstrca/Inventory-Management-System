@@ -70,6 +70,9 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
+    ajax-datatables-rails (1.4.0)
+      rails (>= 5.2)
+      zeitwerk
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
@@ -310,6 +313,7 @@ GEM
       activesupport (= 7.0.8)
       bundler (>= 1.15.0)
       railties (= 7.0.8)
+    rails-datatables (0.0.2)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -496,6 +500,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionpack-action_caching
+  ajax-datatables-rails
   annotate
   appdev_support
   awesome_print
@@ -529,11 +534,13 @@ DEPENDENCIES
   pundit
   rack-mini-profiler
   rails (~> 7.0.5)
+  rails-datatables
   rails-erd
   rails_db
   rails_live_reload
   ransack
   redis (~> 4.0)
+  responders
   rspec-html-matchers
   rspec-rails (~> 6.0.0)
   rufo

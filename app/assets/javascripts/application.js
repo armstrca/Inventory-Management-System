@@ -2,11 +2,14 @@
 ///workspaces/Inventory-Management-System/app/assets/javascripts/application.js
 // ...
 //= require rails-ujs
-//= require_tree .
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
 //= require sb-admin-2
+//= require dataTables/jquery.dataTables
+//= require rails_datatables.js
+//= require_tree .
+
 document.addEventListener("DOMContentLoaded", function() {
   // Function to update the left position of the fixed-topbar
   function updateTopbarPosition() {

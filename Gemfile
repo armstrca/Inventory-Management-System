@@ -14,9 +14,7 @@ gem "bullet", group: 'development'
 
 gem "ransack"
 
-gem 'actionpack-action_caching'
 
-gem "jquery-datatables-rails", "~> 3.4"
 
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -69,7 +67,11 @@ gem "jquery-rails"
 gem 'rack-mini-profiler'
 # For memory profiling
 gem 'memory_profiler'
-
+gem 'ajax-datatables-rails'
+gem 'rails-datatables'
+gem 'actionpack-action_caching'
+gem 'responders'
+gem "jquery-datatables-rails", "~> 3.4"
 # For call-stack profiling flamegraphs
 gem 'stackprof'
 group :development, :test do

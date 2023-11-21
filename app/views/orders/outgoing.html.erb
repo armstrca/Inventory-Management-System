@@ -1,47 +1,199 @@
-<!-- /workspaces/Inventory-Management-System/app/views/orders/outgoing.html.erb -->
-
-<h1>outgoing Orders</h1>
-
-<div class="table-responsive">
-  <table class="table datatable-bordered" id="outgoingTable" width="100%" cellspacing="0">
-    <thead class="datatable-header">
-      <tr>
-        <th class="sortable" data-mdb-sort="id">ID</th>
-        <th class="sortable" data-mdb-sort="expected_delivery">Delivery EDA</th>
-        <th class="sortable" data-mdb-sort="status">Status</th>
-        <th class="sortable" data-mdb-sort="sending_address">Sending Address</th>
-        <th class="sortable" data-mdb-sort="receiving_address">Receiving Address</th>
-        <th class="sortable" data-mdb-sort="description">Tracking</th>
-        <th class="sortable" data-mdb-sort="product_name">Product IDs</th>
-        <th class="sortable" data-mdb-sort="quantity_ordered">Units</th>
-        <th class="sortable" data-mdb-sort="shipping_cost">Shipping</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% orders.outgoing.each do |order| %>
-        <tr data-href="<%= order_path(order) %>">
-          <td><%= order.id %></td>
-          <td><%= order.expected_delivery %></td>
-          <td><%= order.status.gsub('_', ' ').titleize %></td>
-          <td style="font-size: 12px;"><%= order.sending_address %></td>
-          <td style="font-size: 12px;"><%= order.receiving_address %></td>
-          <td><%= order.description %></td>
-          <td><%= order.products.pluck(:id).join(', ') %></td>
-          <td><%= order.order_products.sum(:quantity_ordered) %></td>
-          <td>$<%= number_with_precision(order.order_products.sum(:shipping_cost), precision: 2) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<!--/workspaces/Inventory-Management-System/app/views/orders/outgoing.html.erb-->
+<div class="header">
+  <h1>Orders</h1>
+  <div class="container text-right">
+    <h1><%= link_to "New Order", new_order_path %></h1>
+  </div>
 </div>
+<style>
+  #outgoingTable th {
+    white-space: nowrap;
+  }
+
+  table tbody tr[data-href] {
+    cursor: pointer;
+  }
+</style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var tableRows = document.querySelectorAll("#outgoingTable tbody tr[data-href]");
-    tableRows.forEach(function (row) {
-      row.addEventListener("click", function () {
-        window.location.href = this.dataset.href;
-      });
+  $(document).ready(function () {
+  var kaminariPaginationContainer = $('#kaminari-pagination-container');
+
+
+  kaminariPaginationContainer.on('click', 'a', function (e) {
+    e.preventDefault();
+
+
+    var page = $(this).attr('href').split('page=')[1];
+
+
+    outgoingTable.ajax.url('/orders/outgoing?page=' + page).load();
+  });
+
+
+  $(document).ready(function () {
+    kaminariPaginationContainer.html('<%= paginate @outgoing_orders %>');
+
+
+    outgoingTable.ajax.url('/orders/outgoing?page=<%= @outgoing_orders.current_page %>').load();
+  });
+
+  var outgoingTable = $('#outgoingTable').DataTable({
+  paging: true,
+  ordering: true,
+  selectable: true,
+  fixedheader: true
+  });
+
+  // DataTable initialization for productTable (server-side processing)
+  var table = $('#productTable').DataTable({
+  processing: true,
+  serverSide: true,
+  ajax: {
+    url: '/orders',
+    type: 'GET'
+  },
+  paging: true,
+  ordering: true,
+  selectable: true,
+  fixedheader: true
+  });
+
+
+      // Add the following script for collapsible tables
+    $('.collapse-header').on('click', function () {
+      var tableId = $(this).data('table-id');
+      $('#' + tableId).toggleClass('show');
     });
+
+    $('.collapse-header').hover(
+      function () {
+        $(this).css('cursor', 'pointer');
+      },
+      function () {
+        $(this).css('cursor', 'auto');
+      }
+    );
   });
 </script>
+
+<div class="row">
+  <div id="outgoing" class="col">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 header" data-toggle="" data-target="#outgoingTable">
+        <h6 class="m-0 font-weight-regular text-black">Outgoing</h6>
+      </div>
+      <div class="card-body " id="outgoingTable">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="outgoingTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <div class="table-responsive">
+                <div class="kaminari_length no-wrap" id="outgoingTable_length">
+                  <label>Show
+                    <select name="outgoingTable_length" aria-controls="outgoingTable" class="form-select form-select-sm">
+                      <option value="10">10</option>
+                      <option value="25">25</option>
+                      <option value="50">50</option>
+                      <option value="100">100</option>
+                    </select>
+                    entries
+                  </label>
+                </div>
+                <tr>
+                  <th class="sortable" data-mdb-sort="id">ID</th>
+                  <th class="sortable" data-mdb-sort="expected_delivery">Delivery EDA</th>
+                  <th class="sortable" data-mdb-sort="status">Status</th>
+                  <th class="sortable" data-mdb-sort="sending_address">Sending Address</th>
+                  <th class="sortable" data-mdb-sort="receiving_address">Receiving Address</th>
+                  <th class="sortable" data-mdb-sort="description">Tracking</th>
+                  <th class="sortable" data-mdb-sort="product_name">Product IDs</th>
+                  <th class="sortable" data-mdb-sort="quantity_ordered">Units</th>
+                  <th class="sortable" data-mdb-sort="shipping_cost">Shipping</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @outgoing_orders.each do |order| %>
+                  <tr data-href="<%= order_path(order) %>">
+                    <td><%= order.id %></td>
+                    <td><%= order.expected_delivery %></td>
+                    <td><%= order.status.gsub('_', ' ').titleize %></td>
+                    <td style="font-size: 12px;"><%= order.sending_address %></td>
+                    <td style="font-size: 12px;"><%= order.receiving_address %></td>
+                    <td><%= order.description %></td>
+                    <td><%= order.products.pluck(:id).join(', ') %></td>
+                    <td><%= order.order_products.sum(:quantity_ordered) %></td>
+                    <td>$<%= number_with_precision(order.order_products.sum(:shipping_cost), precision: 2) %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <div class="dataTables_info" id="outgoingTable_info" role="status" aria-live="polite">
+              Showing <%= @outgoing_orders.offset_value + 1 %> to <%= @outgoing_orders.offset_value + @outgoing_orders.length %> of <%= @outgoing_orders.total_count %> entries
+            </div>
+            <div class="kaminari_paginate paging_simple_numbers" id="outgoingTable_paginate"><a class="paginate_button previous disabled" aria-controls="outgoingTable" aria-disabled="true" role="link" data-dt-idx="previous" tabindex="-1" id="outgoingTable_previous">Previous</a><span><a class="paginate_button current" aria-controls="outgoingTable" role="link" aria-current="page" data-dt-idx="0" tabindex="0">1</a><a class="paginate_button " aria-controls="outgoingTable" role="link" data-dt-idx="1" tabindex="0">2</a><a class="paginate_button " aria-controls="outgoingTable" role="link" data-dt-idx="2" tabindex="0">3</a></span><a class="paginate_button next" aria-controls="outgoingTable" role="link" data-dt-idx="next" tabindex="0" id="outgoingTable_next">Next</a></div>
+            <div class="kaminari-paginate paging_simple_numbers" id="outgoingTable_paginate">
+              <%= paginate @outgoing_orders, class: 'kaminari_paginate' %>
+<div class="kaminari_paginate paging_simple_numbers text-right" id="outgoingTable_paginate">
+  <h5>
+    <%= paginate @outgoing_orders, class: 'pagination kaminari_paginate justify-content-end mb-0' %>
+  </h5>
+</div>
+
+
+
+              <%#= Kaminari::Helpers::Paginator.new(
+      @outgoing_orders,
+      {
+        theme: 'kaminari_paginate',
+        current_page: @outgoing_orders.current_page,
+        total_pages: @outgoing_orders.total_pages,
+        left: 1,
+        right: 1,
+        outer_window: 2,
+        inner_window: 1,
+        params: { controller: 'orders', action: 'outgoing' } # Add your controller and action
+      },
+      {
+        class: 'pagination',
+        'aria-label' => 'Pagination',
+        'role' => 'navigation'
+      }
+    ).to_s
+%>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var tableRows = document.querySelectorAll("table tbody tr[data-href]");
+        tableRows.forEach(function (row) {
+          row.addEventListener("click", function () {
+            window.location.href = this.dataset.href;
+          });
+        });
+      });
+    </script>
+
+    <!--<table id="orders-datatable" data-source="<%#= orders_path(format: :json) %>">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Delivery EDA</th>
+      <th>Status</th>
+      <th>Sending Address</th>
+      <th>Receiving Address</th>
+      <th>Tracking</th>
+      <th>Product IDs</th>
+      <th>Units</th>
+      <th>Shipping</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>-->
