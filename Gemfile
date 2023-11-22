@@ -2,38 +2,31 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.1"
-gem 'erb_lint'
-gem 'kaminari'
-gem 'pundit'
+
+gem "pagy"
+
+gem "pundit"
 
 gem "bootstrap_sb_admin_base_v2"
 
 gem "bootstrap"
 
-gem "bullet", group: 'development'
+gem "bullet", group: "development"
 
 gem "ransack"
 
-
-
-# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 
-# Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
-# Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
 
 gem "font-awesome-sass", "~> 6.4.2"
 
-# Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
@@ -64,16 +57,16 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "sassc-rails"
 
 gem "jquery-rails"
-gem 'rack-mini-profiler'
+gem "rack-mini-profiler"
 # For memory profiling
-gem 'memory_profiler'
-gem 'ajax-datatables-rails'
-gem 'rails-datatables'
-gem 'actionpack-action_caching'
-gem 'responders'
+gem "memory_profiler"
+gem "ajax-datatables-rails"
+gem "rails-datatables"
+gem "actionpack-action_caching"
+gem "responders"
 gem "jquery-datatables-rails", "~> 3.4"
 # For call-stack profiling flamegraphs
-gem 'stackprof'
+gem "stackprof"
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]

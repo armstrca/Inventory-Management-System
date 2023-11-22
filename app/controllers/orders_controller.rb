@@ -1,56 +1,27 @@
 #/workspaces/Inventory-Management-System/app/controllers/orders_controller.rb
 class OrdersController < ApplicationController
-  before_action :set_order, only: %i[ show edit update destroy]
+  before_action :set_order, only: %i[ show edit update destroy ]
   caches_action :index, :show, :incoming, :outgoing
   respond_to :html, :datatables
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.includes(:products, :order_products).page(params[:page]).per(10)
-    @incoming_orders = Order.incoming.includes(:products, :order_products).page(params[:page]).per(10)
-    @outgoing_orders = Order.outgoing.page(params[:page]).per(params[:per_page])
-    respond_to do |format|
-      format.html
-      format.json {
-        render json: {
-          draw: params[:draw],
-          recordsTotal: Order.count,
-          recordsFiltered: @orders.total_count,  # Use total_count for the filtered count
-          data: @orders,
-        }
-      }
-    end
+    @pagy, @orders = pagy(Order.includes(:products, :order_products))
+    @pagy, @incoming_orders = pagy(Order.incoming.includes(:products, :order_products))
+    @pagy, @outgoing_orders = pagy(Order.outgoing.includes(:products, :order_products))
+    authorize @orders
   end
-
 
   # GET /orders/incoming
   def incoming
-    @incoming_orders = Order.incoming.includes(:products, :order_products).page(params[:page]).per(10)
+    @pagy, @incoming_orders = pagy(Order.incoming.includes(:products, :order_products))
     authorize @incoming_orders
-    respond_to do |format|
-      format.html
-      format.json {
-        render json: {
-          draw: params[:draw],
-          recordsTotal: @incoming_orders.count,
-          recordsFiltered: @incoming_orders.count,
-          data: @incoming_orders,
-        }
-      }
-    end
   end
 
   # GET /orders/outgoing
   def outgoing
-    @outgoing_orders = Order.outgoing.page(params[:page]).per(10)
+    @pagy, @outgoing_orders = pagy(Order.outgoing.includes(:products, :order_products))
     authorize @outgoing_orders
-    respond_to do |format|
-      format.html
-      format.json {
-        render json: OrderDataTable(params)
-      }
-      format.js
-    end
   end
 
   # GET /orders/1 or /orders/1.json
@@ -156,6 +127,10 @@ class OrdersController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_order
     @order = Order.find(params[:id])
+  end
+
+  def outgoing_params
+    params.require(:order).permit(:attribute1, :attribute2, :attribute3)
   end
 
   # Only allow a list of trusted parameters through.

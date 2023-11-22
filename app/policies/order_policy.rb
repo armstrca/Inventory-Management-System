@@ -9,6 +9,10 @@ class OrderPolicy < ApplicationPolicy
     user.staff? || user.admin? || user.manager?
   end
 
+  def index?
+    user.staff? || user.admin? || user.manager?
+  end
+
   def incoming?
     user.staff? || user.admin? || user.manager?
   end

@@ -1,54 +1,34 @@
-<!--/workspaces/Inventory-Management-System/app/views/orders/index.html.erb-->
+<!-- /workspaces/Inventory-Management-System/app/views/orders/incoming.html.erb -->
 <div class="header">
   <h1>Orders</h1>
   <div class="container text-right">
     <h1><%= link_to "New Order", new_order_path %></h1>
   </div>
 </div>
-<style>
-  /* Add a specific width for each column */
-  #incomingTable th {
-    white-space: nowrap; /* Prevent line breaks */
-  }
-
-  #outgoingTable th {
-    white-space: nowrap; /* Prevent line breaks */
-  }
-
-  table tbody tr[data-href] {
-    cursor: pointer;
-  }
-</style>
 
 <script>
   $(document).ready(function () {
-  var incomingTable = $('#incomingTable').DataTable({
-  paging: true,
-  ordering: true,
-  selectable: true,
-  fixedheader: true
-  });
+    var incomingTable = $('#incomingTable').DataTable({
 
-  var outgoingTable = $('#outgoingTable').DataTable({
-  paging: true,
-  ordering: true,
-  selectable: true,
-  fixedheader: true
-  });
+    });
 
-  // DataTable initialization for productTable (server-side processing)
-  var table = $('#productTable').DataTable({
-  processing: true,
-  serverSide: true,
-  ajax: {
-    url: '/orders',
-    type: 'GET'
-  },
-  paging: true,
-  ordering: true,
-  selectable: true,
-  fixedheader: true
-  });
+    var outgoingTable = $('#outgoingTable').DataTable({
+
+    });
+
+    // DataTable initialization for productTable (server-side processing)
+    var productTable = $('#productTable').DataTable({
+      processing: true,
+      ajax: {
+        url: '/orders/incoming.json',
+        type: 'GET'
+      },
+      serverSide: true,
+      paging: true,
+      ordering: true,
+      selectable: true,
+      fixedheader: true
+    });
 
     // Add the following script for collapsible tables
     $('.collapse-header').on('click', function () {
@@ -68,7 +48,7 @@
 </script>
 
 <div class="row">
-  <div id="incoming" class="col" >
+  <div id="incoming" class="col">
     <div class="card shadow mb-4">
       <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#incomingTableCollapse">
         <h6 class="m-0 font-weight-regular text-black">Incoming</h6>
@@ -76,6 +56,7 @@
       <div class="card-body collapse" id="incomingTableCollapse">
         <div class="table-responsive">
           <table class="table datatable-bordered" id="incomingTable" width="100%" cellspacing="0">
+
             <thead class="datatable-header">
               <tr>
                 <th class="sortable" data-mdb-sort="id">ID</th>
@@ -91,6 +72,7 @@
             </thead>
             <tbody>
               <% @incoming_orders.each do |order| %>
+
                 <tr data-href="<%= order_path(order) %>">
                   <td><%= order.id %></td>
                   <td><%= order.expected_delivery %></td>
@@ -105,8 +87,9 @@
               <% end %>
             </tbody>
           </table>
-        </div>
+        </table>
       </div>
+      
     </div>
   </div>
 </div>

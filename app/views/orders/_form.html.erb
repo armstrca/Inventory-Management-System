@@ -42,71 +42,73 @@
     <%= form.text_field :description %>
   </div>
   <p>
-  <script>
-  $(document).ready(function() {
-    var table = $('#dataTable').DataTable({
-      paging: true,
-      ordering: true,
-      selectable: true,
-      fixedheader: true
-    });
-  });
-</script>
-<div class="row">
-  <div id="incoming" class="col">
-<div class="card shadow mb-4">
-      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#incomingTableCollapse">
-    <h6 class="m-0 font-weight-regular text-black">Full Inventory</h6>
-  </div>
-      <div class="card-body collapse" id="incomingTableCollapse">
-    <div class="table-responsive">
-      <table class="table datatable-bordered" id="dataTable" width="100%" cellspacing="0">
-        <thead class="datatable-header">
-          <tr>
-            <th class="sortable" data-mdb-sort="name">ID</th>
-            <th class="sortable" data-mdb-sort="name">Name</th>
-            <th class="sortable" data-mdb-sort="description">Description</th>
-            <th class="sortable" data-mdb-sort="sku">SKU</th>
-            <th class="sortable" data-mdb-sort="price">Price</th>
-            <th class="sortable" data-mdb-sort="quantity">Units</th>
-            <th class="sortable" data-mdb-sort="category">Category</th>
-            <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
-            <th class="sortable" data-mdb-sort="supplier">Supplier</th>
-          </tr>
-        </thead>
-        <tbody>
-              <% Product.all.each do |product| %>
-                <tr>
-                  <td><%= form.check_box :product_ids, { multiple: true }, product.id, nil %></td>
-                  <td><%= product.id %></td>
-                  <td><%= product.name %></td>
-                  <td><%= product.sku %></td>
-                  <td>$<%= number_with_precision(product.price, precision: 2) %></td>
-                  <td><%= product.stock_quantity %></td>
-                  <td><%= product.category.try(:name) || '' %></td>
-                  <td><%= product.subcategory.try(:name) || '' %></td>
-                  <td><%= product.supplier.try(:name) || '' %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+    <script>
+      $(document).ready(function() {
+        var table = $('#dataTable').DataTable({
+          paging: true,
+          ordering: true,
+          selectable: true,
+          fixedheader: true
+        });
+      });
+    </script>
+    <div class="row">
+      <div id="incoming" class="col">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#incomingTableCollapse">
+            <h6 class="m-0 font-weight-regular text-black">Full Inventory</h6>
+          </div>
+          <div class="card-body collapse" id="incomingTableCollapse">
+            <div class="table-responsive">
+              <table class="table datatable-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead class="datatable-header">
+                  <tr>
+                    <th class="sortable" data-mdb-sort="name">ID</th>
+                    <th class="sortable" data-mdb-sort="name">Name</th>
+                    <th class="sortable" data-mdb-sort="description">Description</th>
+                    <th class="sortable" data-mdb-sort="sku">SKU</th>
+                    <th class="sortable" data-mdb-sort="price">Price</th>
+                    <th class="sortable" data-mdb-sort="quantity">Units</th>
+                    <th class="sortable" data-mdb-sort="category">Category</th>
+                    <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
+                    <th class="sortable" data-mdb-sort="supplier">Supplier</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% Product.all.each do |product| %>
+                    <tr>
+                      <td><%= form.check_box :product_ids, { multiple: true }, product.id, nil %></td>
+                      <td><%= product.id %></td>
+                      <td><%= product.name %></td>
+                      <td><%= product.sku %></td>
+                      <td>$<%= number_with_precision(product.price, precision: 2) %></td>
+                      <td><%= product.stock_quantity %></td>
+                      <td><%= product.category.try(:name) || '' %></td>
+                      <td><%= product.subcategory.try(:name) || '' %></td>
+                      <td><%= product.supplier.try(:name) || '' %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+      <div>
+        <%= form.submit %>
+      </div>
+    <% end %>
 
-<script>
-  $(document).ready(function () {
-    var table = $('#productTable').DataTable({
-      paging: true,
-      ordering: true,z
-      selectable: true,
-      fixedheader: true
-    });
-  });
-</script>
+    <script>
+      $(document).ready(function () {
+        var table = $('#productTable').DataTable({
+          paging: true,
+          ordering: true,
+          processing: true,
+          serverSide: true,
+          selectable: true,
+          fixedheader: true
+        });
+      });
+    </script>

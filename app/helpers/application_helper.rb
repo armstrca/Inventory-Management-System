@@ -1,6 +1,10 @@
 #/workspaces/Inventory-Management-System/app/helpers/application_helper.rb
 # app/helpers/application_helper.rb
 module ApplicationHelper
+include Pagy::Frontend
+
+
+
   def generate_path(result)
     case result
     when Category

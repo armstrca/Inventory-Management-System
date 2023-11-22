@@ -3,7 +3,7 @@
 jQuery(document).ready(function() {
   $('#orders-datatable').dataTable({
     "processing": true,
-    "serverSide": false,
+    "serverSide": true,
     "ajax": {
       "url": $('#orders-datatable').data('source')
     },

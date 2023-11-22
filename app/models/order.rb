@@ -32,5 +32,4 @@ class Order < ApplicationRecord
     Order.where(sending_address: StorageLocation.select(:address)).order(expected_delivery: :asc)
   end
   include Ransackable
-
 end
