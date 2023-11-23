@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/policies/order_policy.rb
-#/workspaces/Inventory-Management-System/app/policies/order_policy.rb
 class OrderPolicy < ApplicationPolicy
   def create?
     user.staff? || user.admin? || user.manager?
@@ -14,11 +13,11 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def incoming?
-    user.staff? || user.admin? || user.manager?
+   true
   end
 
   def outgoing?
-    user.staff? || user.admin? || user.manager?
+   true
   end
 
   def show?

@@ -517,6 +517,7 @@ DEPENDENCIES
   rufo
   sassc-rails
   selenium-webdriver
+  simple_form
   specs_to_readme
   sprockets-rails
   sqlite3 (~> 1.4)

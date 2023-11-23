@@ -8,6 +8,7 @@
 //= require sb-admin-2
 //= require dataTables/jquery.dataTables
 //= require rails_datatables.js
+//= require pagy
 //= require_tree .
 
 document.addEventListener("DOMContentLoaded", function() {

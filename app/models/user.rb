@@ -29,11 +29,17 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   # include User::Roleable
-
+  before_validation :email_uniqueness_on_update
   def email_uniqueness_on_update
     if email_changed? && User.where(email: email).where.not(id: id).exists?
       errors.add(:email, "has already been taken")
     end
+  end
+
+  def update_without_password(params, *options)
+    params.delete(:password)
+    params.delete(:password_confirmation)
+    update(params, *options)
   end
 
   include Ransackable
@@ -76,7 +82,15 @@ class User < ApplicationRecord
     if image.attached?
       Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
     else
-      "/img/default_user_image.jpg" # Provide a default image URL or handle this case as needed
+      # Provide a default image URL or handle this case as needed
+      ActionController::Base.helpers.asset_path("default_user_image.jpg")
+    end
+  end
+
+
+  def delete_image=(value)
+    if value == '1' && image.attached?
+      image.purge
     end
   end
 

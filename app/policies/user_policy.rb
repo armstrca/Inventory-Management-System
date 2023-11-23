@@ -5,15 +5,20 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    user.admin? || (user.manager? && !record.admin?)
+    user.present? && (user.admin? || (user.manager? && !record.admin?))
   end
 
   def new?
-    user.admin? || (user.manager? && !record.admin?)
+    user.present? && (user.admin? || (user.manager? && !record.admin?))
   end
+
 
   def admin_new?
     user.admin? || (user.manager? && !record.admin?)
+  end
+
+  def forgot_password?
+    true
   end
 
   def edit?

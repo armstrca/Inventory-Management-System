@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/policies/application_policy.rb
-#/workspaces/Inventory-Management-System/app/policies/application_policy.rb
 # frozen_string_literal: true
 
 class ApplicationPolicy
@@ -13,8 +12,24 @@ class ApplicationPolicy
   def user?
     user == record
   end
-  
+
   def index?
+    false
+  end
+
+  def password?
+    true
+  end
+
+  def forgot_password?
+    true unless user.present?
+  end
+
+  def incoming?
+    false
+  end
+
+  def outgoing?
     false
   end
 

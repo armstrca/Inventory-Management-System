@@ -1,4 +1,4 @@
-<!-- /workspaces/Inventory-Management-System/app/views/orders/incoming.html.erb -->
+<!--/workspaces/Inventory-Management-System/app/views/orders/incoming.html.erb-->
 <div class="header">
   <h1>Orders</h1>
   <div class="container text-right">
@@ -6,30 +6,66 @@
   </div>
 </div>
 
+<style>
+  #outgoTable th {
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+
+  .card {
+    max-width: 1500px; /* Adjust the max-width as needed */
+    margin-left: -100px;
+    margin-right: -100px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    max-width: 1900px; /* Adjust the max-width as needed */
+    margin-left: -100px;
+    margin-right: -140px;
+  }
+
+  h1 {
+    margin: 0; /* Remove margin to make text touch the edges */
+  }
+
+  table tbody tr[data-href] {
+    cursor: pointer;
+  }
+
+  .pagy-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Philosopher';
+    padding-top: 7px;
+  }
+
+  .pagy-info {
+    flex-grow: 1;
+  }
+</style>
+
+
 <script>
-  $(document).ready(function () {
-    var incomingTable = $('#incomingTable').DataTable({
-
-    });
-
-    var outgoingTable = $('#outgoingTable').DataTable({
-
-    });
-
-    // DataTable initialization for productTable (server-side processing)
-    var productTable = $('#productTable').DataTable({
-      processing: true,
-      ajax: {
-        url: '/orders/incoming.json',
-        type: 'GET'
-      },
-      serverSide: true,
-      paging: true,
-      ordering: true,
-      selectable: true,
-      fixedheader: true
-    });
-
+$(document).ready(function () {
+  var incomingTable = $('#incomingTable').DataTable({
+    paging: false,
+    searching: true,
+    ordering: true,
+    fixedheader: false,
+    language: {
+      info: "",
+      search: "_INPUT_",
+      searchPlaceholder: "Search...",
+    },
+  });
+  function changeItems(value, pagyId) {
+    var table = $('#incomingTable').DataTable();
+    table.page.len(value).draw();
+  }
+});
     // Add the following script for collapsible tables
     $('.collapse-header').on('click', function () {
       var tableId = $(this).data('table-id');
@@ -50,13 +86,15 @@
 <div class="row">
   <div id="incoming" class="col">
     <div class="card shadow mb-4">
-      <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#incomingTableCollapse">
-        <h6 class="m-0 font-weight-regular text-black">Incoming</h6>
+      <div class="card-header py-3 -header" data-toggle="" data-target="#incomingTable">
+        <div class="d-flex justify-content-between align-items-center">
+          <h6 class="m-0 font-weight-regular text-black">Incoming</h6>
+          <%== pagy_items_selector_js(@pagy, item_name: 'Orders'.pluralize(@pagy.count)) %>
+        </div>
       </div>
-      <div class="card-body collapse" id="incomingTableCollapse">
+      <div class="card-body " id="incomingTableCollapse">
         <div class="table-responsive">
           <table class="table datatable-bordered" id="incomingTable" width="100%" cellspacing="0">
-
             <thead class="datatable-header">
               <tr>
                 <th class="sortable" data-mdb-sort="id">ID</th>
@@ -72,7 +110,6 @@
             </thead>
             <tbody>
               <% @incoming_orders.each do |order| %>
-
                 <tr data-href="<%= order_path(order) %>">
                   <td><%= order.id %></td>
                   <td><%= order.expected_delivery %></td>
@@ -87,13 +124,18 @@
               <% end %>
             </tbody>
           </table>
-        </table>
+          <div class="pagy-container" style="display: flex; justify-content: space-between; font-family: 'Philosopher';">
+            <div class="pagy-info" id="incomingable_info" role="status" aria-live="polite" style="padding-top: 7px;">
+              <%== pagy_info(@pagy) %>
+            </div>
+            <div class="pagy-nav">
+              <%== render partial: 'pagy/bootstrap_nav', locals: {pagy: @pagy} %>
+            </div>
+          </div>
+        </div>
       </div>
-      
     </div>
   </div>
-</div>
-</div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {

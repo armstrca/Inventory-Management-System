@@ -1,22 +1,128 @@
-<!--/workspaces/Inventory-Management-System/app/views/devise/sessions/new.html.erb-->
-<!--/workspaces/Inventory-Management-System/app/views/devise/sessions/new.html.erb-->
-<h2>Log in</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: false,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-    <%= f.input :password,
-                required: false,
-                input_html: { autocomplete: "current-password" } %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-  </div>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>INVY - Login</title>
+    <style>
+      body {
+        font-family: 'Philosopher', sans-serif;
+      }
 
-  <div class="form-actions">
-    <%= f.button :submit, "Log in" %>
-  </div>
-<% end %>
+      .form-group label {
+        margin-right: 10px;
+      }
 
-<%= render "devise/shared/links" %>
+      .email-label {
+        padding-right: 27px;
+        padding-bottom: 10px; /* Adjust the padding as needed */
+      }
+
+      .btn-user {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: small; /* Adjust the font size as needed */
+        text-transform: uppercase; /* Convert text to uppercase */
+        font-family: 'Flexure', sans-serif;
+        position: relative;
+        display: inline-block; /* Ensures inline behavior */
+      }
+
+      .hover-link {
+        position: absolute;
+        bottom: 6rem; /* Adjust the distance from the text as needed */
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 3s ease;
+        font-size: small;
+        z-index: 999;
+      }
+
+      .card {
+        box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.4); /* Adjust values as needed */
+      }
+
+      .welcome-text {
+        position: relative;
+        display: inline-block; /* Ensures inline behavior */
+      }
+
+      .welcome-text .hover-link {
+        position: absolute;
+        bottom: -0.001rem; /* Adjust the distance from the text as needed */
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 3s ease;
+        font-size: small;
+      }
+
+      .btn-user:hover .hover-link,
+      .welcome-text:hover .hover-link {
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gradient-white">
+    <div class="container">
+      <!-- Outer Row -->
+      <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+          <div class="card o-hidden border-0 box-shadow my-5">
+            <div class="card-body p-0">
+              <!-- Nested Row within Card Body -->
+              <div class="row">
+                <div class="col-lg-6 d-none d-lg-block"
+                style="background-image: url('<%= asset_path('PXL_20230623_222617841.PORTRAIT.jpg') %>'); background-size: cover; background-position: center top; margin-top: -200px;">
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="p-5">
+                    <div class="text-center">
+                      <h1 class="h1 text-gray-900 mb-4 welcome-text"
+                      style="padding-bottom: 30px; padding-top:20px; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5)">
+                        W E L C O M E
+                        <span class="hover-link">
+                          <a href="https://www.zombo.com/" style="text-decoration: none; color: inherit;">to Zombocom</a>
+                        </span>
+                      </h1>
+                    </div>
+                    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "user" }) do |f| %>
+                      <div class="form-group">
+                        <%= f.input :email, label: 'Email', required: false, class: "form-control form-control-user",
+      placeholder: "Enter Email Address...", label_html: { class: 'email-label' } %>
+                      </div>
+                      <div class="form-group">
+                        <%= f.input :password, required: false, class: "form-control form-control-user",
+                                   placeholder: "Password" %>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="custom-control custom-checkbox small" style="padding-top: 20px;">
+                          <input type="checkbox" class="custom-control-input" id="customCheck">
+                          <label class="custom-control-label" for="customCheck">Remember Me</label>
+                        </div>
+                      </div>
+                      <%= f.button :submit, "L O G I N", class: "btn btn-primary btn-user btn-block", style: "font-size: 18px; text-transform: uppercase; font-family: 'Flexure', sans-serif;" %>
+                    <% end %>
+
+                    <div class="text-center">
+                      <%= link_to "Forgot Password?", '/forgot_password', class: "small" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

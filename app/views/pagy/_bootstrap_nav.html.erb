@@ -5,7 +5,7 @@
   The link variable is set to a proc that returns the link tag.
   Usage: link.call( page_number [, text [, extra_attributes_string ]])
 -%>
-<% link = pagy_link_proc(pagy, link_extra: 'class="page-link" style="color: black;"') -%>
+<% link = pagy_link_proc(pagy, link_extra: 'class="page-link"') -%>
 <%#                            -%><nav class="pagy-bootstrap-nav" role="navigation">
 <%#                            -%>  <ul class="pagination" style="font-family: 'Philosopher'; color: black;">
 <% if pagy.prev                -%>    <li class="page-item prev" style="color: black;"><%== link.call(pagy.prev, pagy_t('pagy.nav.prev'), 'aria-label="previous"') %></li>
@@ -22,4 +22,3 @@
 <% end                         -%>
 <%#                            -%>  </ul>
 <%#                            -%></nav>
-

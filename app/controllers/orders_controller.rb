@@ -1,34 +1,34 @@
 #/workspaces/Inventory-Management-System/app/controllers/orders_controller.rb
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
-  caches_action :index, :show, :incoming, :outgoing
+
   respond_to :html, :datatables
 
   # GET /orders or /orders.json
   def index
-    @pagy, @orders = pagy(Order.includes(:products, :order_products))
-    @pagy, @incoming_orders = pagy(Order.incoming.includes(:products, :order_products))
-    @pagy, @outgoing_orders = pagy(Order.outgoing.includes(:products, :order_products))
+    @pagy, @orders = pagy(Order.all)
+    # @pagy, @incoming_orders = pagy(Order.incoming)
+    # @pagy, @outgoing_orders = pagy(Order.outgoing)
     authorize @orders
   end
 
   # GET /orders/incoming
   def incoming
-    @pagy, @incoming_orders = pagy(Order.incoming.includes(:products, :order_products))
+    @pagy, @incoming_orders = pagy(Order.incoming)
     authorize @incoming_orders
   end
 
   # GET /orders/outgoing
   def outgoing
-    @pagy, @outgoing_orders = pagy(Order.outgoing.includes(:products, :order_products))
+    @pagy, @outgoing_orders = pagy(Order.outgoing)
     authorize @outgoing_orders
   end
 
   # GET /orders/1 or /orders/1.json
   def show
     @order = Order.find(params[:id])
-    @incoming_orders = Order.incoming.includes(:products, :order_products)
-    @outgoing_orders = Order.outgoing.includes(:products, :order_products)
+    @incoming_orders = Order.incoming
+    @outgoing_orders = Order.outgoing
     authorize @order
   end
 

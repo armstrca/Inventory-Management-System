@@ -2,11 +2,10 @@
 #/workspaces/Inventory-Management-System/app/controllers/users_controller.rb
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  before_action :set_form_variables, only: %i[new edit]
+  before_action :set_form_variables, only: %i[edit]
+  before_action :authenticate_user!, except: [:forgot_password]
 
   rescue_from ActiveRecord::RecordNotUnique, with: :email_not_unique
-
-  # devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
   # GET /users or /users.json
   def index
@@ -19,15 +18,9 @@ class UsersController < ApplicationController
     authorize @user
   end
 
-  # def savenew
-  #   User.create_new_user(user_params)
-  #   redirect_to action: 'index'
-  # end
-
   # GET /users/new
   def new
     @user = User.new
-
     @action = "Create User" # Set the action for the button
     if @user.new_record?
       @form_url = users_path
@@ -38,18 +31,9 @@ class UsersController < ApplicationController
     end
   end
 
-  # def check_email_availability
-  #   email = params[:email]
-  #   user = User.find_by(email: email)
-
-  #   if user
-  #     render json: { available: false }
-  #     # format.html { render :edit, status: :unprocessable_entity }
-  #     # format.json { render json: @user.errors, status: :unprocessable_entity }
-  #   else
-  #     render json: { available: true }
-  #   end
-  # end
+  def forgot_password
+    authorize User
+  end
 
   # GET /users/1/edit
   def edit
@@ -60,10 +44,18 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    authorize @user # Add authorization check
+    authorize @user
+
+    puts "delete_image value: #{user_params[:delete_image]}"
 
     respond_to do |format|
-      if @user.update(user_params)
+      if user_params[:password].blank?
+        result = @user.update_without_password(user_params_without_password)
+      else
+        result = @user.update(user_params)
+      end
+
+      if result
         format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -103,19 +95,17 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password,
-                                 :password_confirmation)
+    params.require(:user).permit(:id, :email, :password, :password_confirmation, :delete_image, :first_name, :last_name, :role, :bio, :image, :delete_image)
   end
-
 
   def user_params_without_password
     # Allow updating all user attributes except password-related ones
-    params.require(:user).permit(:first_name, :last_name, :email, :role, :bio, :image)
+    params.require(:user).permit(:id, :email, :password, :password_confirmation, :delete_image, :first_name, :last_name, :role, :bio, :image, :delete_image)
   end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_user
-    @user = current_user
+    @user = User.find(params[:id])
   end
 
   def authorize_user
@@ -128,6 +118,7 @@ class UsersController < ApplicationController
     @http_method = action_name == "new" ? :post : :patch
   end
 
+
   def email_not_unique
     respond_to do |format|
       format.html do
@@ -136,11 +127,6 @@ class UsersController < ApplicationController
       end
       format.json { render json: { error: "Email address is already taken. Please choose a different one." }, status: :unprocessable_entity }
     end
-  end
-
-  # Only allow a list of trusted parameters through.
-  def user_params
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :role, :bio, :image)
   end
 
   def valid_email?(email)

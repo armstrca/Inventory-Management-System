@@ -6,6 +6,7 @@ ruby "3.2.1"
 gem "pagy"
 
 gem "pundit"
+gem 'simple_form'
 
 gem "bootstrap_sb_admin_base_v2"
 
@@ -20,7 +21,6 @@ gem "importmap-rails"
 gem "turbo-rails"
 
 gem "stimulus-rails"
-
 gem "jbuilder"
 
 gem "redis", "~> 4.0"

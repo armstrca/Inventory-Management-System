@@ -1,4 +1,4 @@
-unless Rails.env.production?
+# unless Rails.env.production?
   namespace :dev do
     desc "Drops, creates, migrates, and adds sample data to database"
     task reset: [
@@ -12,7 +12,7 @@ unless Rails.env.production?
 
     desc "Fill the database tables with some sample data"
     task sample_data: :environment do
-      if Rails.env.development?
+      # if Rails.env.development?
         # Array to store generated email addresses
         generated_emails = []
 
@@ -80,7 +80,7 @@ unless Rails.env.production?
         end
         puts "400 subcategories created"
         # Seed InventoryTransactions table with sample data
-        2000.times do
+        200.times do
           InventoryTransaction.create(
             transaction_type: %w(incoming_return outgoing_return incoming_sale outgoing_sale).sample,
             quantity: Faker::Number.between(from: 1, to: 100),
@@ -123,7 +123,7 @@ unless Rails.env.production?
             receiving_address: receiving_address,
           )
 
-          puts o
+          # puts o
         end
 
         puts "1500 orders created"
@@ -157,7 +157,7 @@ unless Rails.env.production?
           )
         end
         puts "100 suppliers created"
-        1000.times do
+        6000.times do
           p = Product.create(
             name: Faker::Commerce.product_name,
             description: Faker::Lorem.sentence,
@@ -168,11 +168,11 @@ unless Rails.env.production?
             subcategory_id: Faker::Number.between(from: 1, to: 24),
             supplier_id: Faker::Number.between(from: 1, to: 9),
           )
-          if p.persisted?
-            puts p.inspect
-          else
-            puts p.errors.full_messages
-          end
+          # if p.persisted?
+          #   puts p.inspect
+          # else
+          #   puts p.errors.full_messages
+          # end
         end
         puts "1000 products created"
         # Seed Users table with sample data
@@ -185,16 +185,16 @@ unless Rails.env.production?
             order_id: Order.all.sample.id,
             product_id: Product.all.sample.id,
           )
-          if op.persisted?
-            puts op.inspect
-          else
-            puts op.errors.full_messages
-          end
+          # if op.persisted?
+          #   puts op.inspect
+          # else
+          #   puts op.errors.full_messages
+          # end
         end
         puts "2000 order_products created"
 
         puts "Sample data has been seeded into the database."
       end
     end
-  end
-end
+  # end
+# end
