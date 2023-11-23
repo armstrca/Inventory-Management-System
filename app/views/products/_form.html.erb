@@ -1,3 +1,5 @@
+<!--/workspaces/Inventory-Management-System/app/views/products/_form.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/products/_form.html.erb-->
 <%= form_with(model: product) do |form| %>
   <% if product.errors.any? %>
     <div style="color: red">
@@ -11,6 +13,21 @@
     </div>
   <% end %>
 
+  <script>
+    $(document).ready(function() {
+      $('form').submit(function(e) {
+        if ($.trim($('#product_name').val()) === '' ||
+            !/^\d{6}$/.test($('#product_sku').val()) ||
+            !/^\d+(?:\.\d{1,2})?$/.test($('#product_price').val()) ||
+            !/^\d{1,5}$/.test($('#product_stock_quantity').val()) ||
+            $('#product_category_id').val() === '') {
+          e.preventDefault(); // Prevent form submission
+          alert('Please fill in all fields correctly.');
+        }
+      });
+    });
+  </script>
+  
   <div>
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name %>
@@ -23,25 +40,69 @@
 
   <div>
     <%= form.label :sku, style: "display: block" %>
-    <%= form.number_field :sku %>
+    <%= form.number_field :sku, pattern: "\\d{6}", title: "Please enter a 6-digit number." %>
   </div>
 
   <div>
     <%= form.label :price, style: "display: block" %>
-    <%= form.text_field :price %>
+    <%= form.number_field :price, step: "0.01", pattern: "^\\d+(\\.\\d{1,2})?$", title: "Please enter a valid price with up to 2 decimal places." %>
   </div>
 
   <div>
     <%= form.label :stock_quantity, style: "display: block" %>
-    <%= form.number_field :stock_quantity %>
+    <%= form.number_field :stock_quantity, max: 9999, title: "Please enter a value below 5 digits." %>
   </div>
 
   <div>
-    <%= form.label :category_id_id, style: "display: block" %>
-    <%= form.text_field :category_id_id %>
+    <%= form.label :category_id, style: "display: block" %>
+    <%= form.collection_select :category_id, Category.all, :id, :name, { prompt: "Select a category" }, class: "category-select" %>
+  </div>
+
+  <div>
+    <%= form.label :subcategory_id, style: "display: block" %>
+    <%= form.collection_select :subcategory_id, [], :id, :name, { prompt: "Select a subcategory" }, class: "subcategory-select" %>
+  </div>
+
+  <div>
+    <%= form.label :supplier_id, style: "display: block" %>
+    <%= form.collection_select :supplier_id, Supplier.all, :id, :name, prompt: "Select a supplier" %>
   </div>
 
   <div>
     <%= form.submit %>
   </div>
 <% end %>
+<script>
+  $(document).ready(function() {
+    // Function to update subcategory dropdown based on selected category
+    function updateSubcategories() {
+      var selectedCategoryId = $('.category-select').val();
+
+      // Enable subcategory dropdown and set minimum width
+      var subcategorySelect = $('.subcategory-select');
+      subcategorySelect.prop('disabled', false);
+      subcategorySelect.css('min-width', '150px');
+
+      // Fetch subcategories for the selected category using AJAX
+      $.ajax({
+        url: '/subcategories_by_category',
+        method: 'GET',
+        data: { category_id: selectedCategoryId },
+        success: function(data) {
+          // Update subcategory dropdown options
+          var subcategories = data.subcategories;
+          subcategorySelect.empty();
+
+          $.each(subcategories, function(index, subcategory) {
+            subcategorySelect.append('<option value="' + subcategory.id + '">' + subcategory.name + '</option>');
+          });
+        }
+      });
+    }
+
+    // Event listener for changes in the category dropdown
+    $('.category-select').change(function() {
+      updateSubcategories();
+    });
+  });
+</script>

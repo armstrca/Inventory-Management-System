@@ -1,10 +1,26 @@
+<!--/workspaces/Inventory-Management-System/app/views/suppliers/edit.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/suppliers/edit.html.erb-->
 <h1>Editing supplier</h1>
 
 <%= render "form", supplier: @supplier %>
 
 <br>
 
-<div>
-  <%= link_to "Show this supplier", @supplier %> |
-  <%= link_to "Back to suppliers", suppliers_path %>
+<% if current_user.role == "admin" || current_user.role == "manager" %>
+  <div>
+
+      <%= button_to "All Suppliers", suppliers_path, method: :get %>
+      <p>
+        <%= button_to "Delete Supplier ##{@supplier.id}", @supplier, method: :delete %>
+      </div>
+    <% elsif current_user.role == "staff" %>
+      <div>
+      <p>
+          <%= button_to "All Suppliers", suppliers_path, method: :get %>
+          <p>
+          </div>
+        <% end  %>
+      </div>
+    </div>
+  </div>
 </div>

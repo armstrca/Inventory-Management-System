@@ -1,3 +1,5 @@
+<!--/workspaces/Inventory-Management-System/app/views/products/_product.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/products/_product.html.erb-->
 <div id="<%= dom_id product %>">
   <p>
     <strong>Name:</strong>
@@ -16,7 +18,7 @@
 
   <p>
     <strong>Price:</strong>
-    <%= product.price %>
+    $<%= product.price %>
   </p>
 
   <p>
@@ -26,7 +28,17 @@
 
   <p>
     <strong>Category:</strong>
-    <%= product.category_id_id %>
+    <%= product.category.name %>
+  </p>
+
+  <p>
+    <strong>Subcategory:</strong>
+    <%= product.subcategory.name %>
+  </p>
+
+  <p>
+    <strong>Supplier:</strong>
+    <%= product.supplier.name %>
   </p>
 
 </div>

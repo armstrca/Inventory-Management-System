@@ -1,10 +1,26 @@
+<!--/workspaces/Inventory-Management-System/app/views/orders/edit.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/orders/edit.html.erb-->
 <h1>Editing order</h1>
 
 <%= render "form", order: @order %>
 
 <br>
 
-<div>
-  <%= link_to "Show this order", @order %> |
-  <%= link_to "Back to orders", orders_path %>
+<% if current_user.role == "admin" || current_user.role == "manager" %>
+  <div>
+
+      <%= button_to "All Orders", orders_path, method: :get %>
+      <p>
+        <%= button_to "Delete Order ##{@order.id}", @order, method: :delete %>
+      </div>
+    <% elsif current_user.role == "staff" %>
+      <div>
+      <p>
+          <%= button_to "All Orders", orders_path, method: :get %>
+          <p>
+          </div>
+        <% end  %>
+      </div>
+    </div>
+  </div>
 </div>

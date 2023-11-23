@@ -1,10 +1,24 @@
-<p style="color: green"><%= notice %></p>
+<!--/workspaces/Inventory-Management-System/app/views/users/show.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/users/show.html.erb-->
 
-<%= render @user %>
+
+<%= render 'users', user: @user %>
 
 <div>
-  <%= link_to "Edit this user", edit_user_path(@user) %> |
-  <%= link_to "Back to users", users_path %>
-
-  <%= button_to "Destroy this user", @user, method: :delete %>
+  <% if current_user.role == "admin" %>
+    <%= button_to "Edit User", edit_user_path, method: :get %> 
+    <p></p>
+    <%= button_to "All Users", users_path, method: :get %>
+    <p></p>
+    <%= button_to "Delete User", user_path, method: :delete %>
+  <% elsif current_user.role == "manager" %>
+    <%= button_to "Edit User", edit_user_path, method: :get %> 
+    <p></p>
+    <%= button_to "All Users", users_path, method: :get %>
+    <p></p>
+    <%= button_to "Delete User", user_path, method: :delete %>
+  <% elsif current_user.role == "staff" %>
+    <%= button_to "All Users", users_path, method: :get %>
+  <% end %>
 </div>
+<p>

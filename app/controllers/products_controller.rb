@@ -1,27 +1,35 @@
+#/workspaces/Inventory-Management-System/app/controllers/products_controller.rb
+#/workspaces/Inventory-Management-System/app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
 
   # GET /products or /products.json
   def index
-    @products = Product.all
+    @products = Product.includes(:category, :subcategory, :supplier).all
   end
 
   # GET /products/1 or /products/1.json
   def show
+    @product = Product.find(params[:id]).includes(:category, :subcategory, :supplier).all
+    authorize @product
   end
 
   # GET /products/new
   def new
     @product = Product.new
+    authorize @product
   end
 
   # GET /products/1/edit
   def edit
+    @product = Product.find(params[:id])
+    authorize @product
   end
 
   # POST /products or /products.json
   def create
     @product = Product.new(product_params)
+    authorize @product
 
     respond_to do |format|
       if @product.save
@@ -36,6 +44,8 @@ class ProductsController < ApplicationController
 
   # PATCH/PUT /products/1 or /products/1.json
   def update
+    @product = Product.find(params[:id])
+    authorize @product
     respond_to do |format|
       if @product.update(product_params)
         format.html { redirect_to product_url(@product), notice: "Product was successfully updated." }
@@ -45,26 +55,40 @@ class ProductsController < ApplicationController
         format.json { render json: @product.errors, status: :unprocessable_entity }
       end
     end
+  rescue ActiveRecord::RecordNotFound
+    # Handle the case where the product with the given ID is not found
+    flash[:alert] = "Product not found"
+    redirect_to products_url
   end
 
   # DELETE /products/1 or /products/1.json
   def destroy
     @product.destroy
-
+    authorize @product
     respond_to do |format|
       format.html { redirect_to products_url, notice: "Product was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product
-      @product = Product.find(params[:id])
-    end
+  def subcategories_by_category
+    @product = Product.new
+    authorize @product
+    category_id = params[:category_id]
+    subcategories = Subcategory.where(category_id: category_id)
 
-    # Only allow a list of trusted parameters through.
-    def product_params
-      params.require(:product).permit(:name, :description, :sku, :price, :stock_quantity, :category_id_id)
-    end
+    render json: { subcategories: subcategories }
+  end
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_product
+    @product = Product.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def product_params
+    params.require(:product).permit(:name, :description, :sku, :price, :stock_quantity, :category_id, :subcategory_id, :supplier_id)
+  end
+
 end

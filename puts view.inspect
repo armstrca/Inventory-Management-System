@@ -1,0 +1,74 @@
+=> [32m#<ActionView::Base:0x00007f3528882138[0m
+ @_assigns[32m=[0m{},
+ @_config[32m=[0m{},
+ @_controller[32m=[0m[32m#<UsersController:0x0000000000bae0>[0m,
+ @_default_form_builder[32m=[0m[1;36mnil[0m,
+ @_request[32m=[0m[1;36mnil[0m,
+ @current_template[32m=[0m[1;36mnil[0m,
+ @lookup_context[32m=[0m
+  [32m#<ActionView::PathSet:0x00007f35294366a0[0m
+   @paths[32m=[0m
+    [[32m#<ActionView::FileSystemResolver:0x00007f3529436650[0m
+      @path[32m=[0m[31m[1;31m"[0m[31m/workspaces/Inventory-Management-System/app/views[1;31m"[0m[31m[0m,
+      @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f3529436470[0m[32m>[0m,
+      @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529436600 entries=0 default_proc=nil>[0m[32m>[0m,
+     [32m#<ActionView::FileSystemResolver:0x00007f35294368d0[0m
+      @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/rails_db-2.4.2/app/views[1;31m"[0m[31m[0m,
+      @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f35294367e0[0m[32m>[0m,
+      @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f35294368a8 entries=0 default_proc=nil>[0m[32m>[0m,
+     [32m#<ActionView::FileSystemResolver:0x00007f3529437140[0m
+      @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/kaminari-core-1.2.2/app/views[1;31m"[0m[31m[0m,
+      @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f3529436b00[0m[32m>[0m,
+      @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529436f10 entries=0 default_proc=nil>[0m[32m>[0m,
+     [32m#<ActionView::FileSystemResolver:0x00007f3529437ca8[0m
+      @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/devise-4.9.2/app/views[1;31m"[0m[31m[0m,
+      @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f3529437a28[0m[32m>[0m,
+      @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529437bb8 entries=0 default_proc=nil>[0m[32m>[0m,
+     [32m#<ActionView::FileSystemResolver:0x00007f3529438018[0m
+      @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/turbo-rails-1.4.0/app/views[1;31m"[0m[31m[0m,
+      @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f3529437e10[0m[32m>[0m,
+      @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529437ff0 entries=0 default_proc=nil>[0m[32m>[0m,
+     [32m#<ActionView::FileSystemResolver:0x00007f3529438360[0m
+      @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/actiontext-7.0.8/app/views[1;31m"[0m[31m[0m,
+      @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f3529438248[0m[32m>[0m,
+      @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529438310 entries=0 default_proc=nil>[0m[32m>[0m,
+     [32m#<ActionView::FileSystemResolver:0x00007f3529438590[0m
+      @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/actionmailbox-7.0.8/app/views[1;31m"[0m[31m[0m,
+      @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f35294384f0[0m[32m>[0m,
+      @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529438568 entries=0 default_proc=nil>[0m[32m>[0m][32m>[0m,
+ @output_buffer[32m=[0m[1;36mnil[0m,
+ @view_flow[32m=[0m[32m#<ActionView::OutputFlow:0x00007f352903bd98[0m @content[32m=[0m{}[32m>[0m,
+ @view_renderer[32m=[0m
+  [32m#<ActionView::Renderer:0x00007f352903df58[0m
+   @lookup_context[32m=[0m
+    [32m#<ActionView::PathSet:0x00007f35294366a0[0m
+     @paths[32m=[0m
+      [[32m#<ActionView::FileSystemResolver:0x00007f3529436650[0m
+        @path[32m=[0m[31m[1;31m"[0m[31m/workspaces/Inventory-Management-System/app/views[1;31m"[0m[31m[0m,
+        @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f3529436470[0m[32m>[0m,
+        @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529436600 entries=0 default_proc=nil>[0m[32m>[0m,
+       [32m#<ActionView::FileSystemResolver:0x00007f35294368d0[0m
+        @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/rails_db-2.4.2/app/views[1;31m"[0m[31m[0m,
+        @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f35294367e0[0m[32m>[0m,
+        @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f35294368a8 entries=0 default_proc=nil>[0m[32m>[0m,
+       [32m#<ActionView::FileSystemResolver:0x00007f3529437140[0m
+        @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/kaminari-core-1.2.2/app/views[1;31m"[0m[31m[0m,
+        @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f3529436b00[0m[32m>[0m,
+        @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529436f10 entries=0 default_proc=nil>[0m[32m>[0m,
+       [32m#<ActionView::FileSystemResolver:0x00007f3529437ca8[0m
+        @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/devise-4.9.2/app/views[1;31m"[0m[31m[0m,
+        @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f3529437a28[0m[32m>[0m,
+        @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529437bb8 entries=0 default_proc=nil>[0m[32m>[0m,
+       [32m#<ActionView::FileSystemResolver:0x00007f3529438018[0m
+        @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/turbo-rails-1.4.0/app/views[1;31m"[0m[31m[0m,
+        @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f3529437e10[0m[32m>[0m,
+        @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529437ff0 entries=0 default_proc=nil>[0m[32m>[0m,
+       [32m#<ActionView::FileSystemResolver:0x00007f3529438360[0m
+        @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/actiontext-7.0.8/app/views[1;31m"[0m[31m[0m,
+        @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f3529438248[0m[32m>[0m,
+        @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529438310 entries=0 default_proc=nil>[0m[32m>[0m,
+       [32m#<ActionView::FileSystemResolver:0x00007f3529438590[0m
+        @path[32m=[0m[31m[1;31m"[0m[31m/home/student/.rvm/ruby-3.2.1/gems/actionmailbox-7.0.8/app/views[1;31m"[0m[31m[0m,
+        @path_parser[32m=[0m[32m#<ActionView::Resolver::PathParser:0x00007f35294384f0[0m[32m>[0m,
+        @unbound_templates[32m=[0m[32m#<Concurrent::Map:0x00007f3529438568 entries=0 default_proc=nil>[0m[32m>[0m][32m>[0m[32m>[0m,
+ @virtual_path[32m=[0m[1;36mnil[0m[32m>[0m

@@ -1,10 +1,13 @@
-<h1>Editing user</h1>
+<!--/workspaces/Inventory-Management-System/app/views/users/edit.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/users/edit.html.erb-->
+<h1>Edit profile</h1>
 
 <%= render "form", user: @user %>
 
 <br>
 
 <div>
-  <%= link_to "Show this user", @user %> |
-  <%= link_to "Back to users", users_path %>
+  <%= button_to "Show #{@user.first_name}", @user %>
+  <p>
+  <%= button_to "Back to users", users_path %>
 </div>

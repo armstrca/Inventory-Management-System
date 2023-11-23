@@ -1,14 +1,56 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Suppliers</h1>
-
-<div id="suppliers">
-  <% @suppliers.each do |supplier| %>
-    <%= render supplier %>
-    <p>
-      <%= link_to "Show this supplier", supplier %>
-    </p>
+<!--/workspaces/Inventory-Management-System/app/views/suppliers/index.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/suppliers/index.html.erb-->
+<div class="header">
+  <h1>Suppliers</h1>
+  <% if current_user.role == "admin" || current_user.role == "manager" %>
+    <div class="container text-right">
+      <div class="row">
+        <div id="create_user" class="col">
+          <h1><%= link_to "New Supplier", new_supplier_path %></h1>
+        </div>
+      </div>
+    </div>
   <% end %>
 </div>
-
-<%= link_to "New supplier", new_supplier_path %>
+<script>
+  $(document).ready(function() {
+    var table = $('#dataTable').DataTable({
+      paging: true,
+      ordering: true,
+      selectable: true,
+      fixedheader: true
+    });
+  });
+</script>
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-regular text-black">Supplier List</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table datatable-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead class="datatable-header">
+          <tr>
+            <th class="sortable" data-mdb-sort="name">ID</th>
+            <th class="sortable" data-mdb-sort="name">Name</th>
+            <th class="sortable" data-mdb-sort="contact">Contact</th>
+            <th class="sortable" data-mdb-sort="description">Description</th>
+            <th class="sortable" data-mdb-sort="address">Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @suppliers.each do |supplier| %>
+            <tr>
+              <td><%= supplier.id %></td>
+              <td><%= link_to supplier.name, supplier %></td>
+              <td><%= mail_to supplier.contact_info %></td>
+              <td><%= supplier.description %></td>
+<td><%= link_to supplier.address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(supplier.address)}", target: "_blank" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>

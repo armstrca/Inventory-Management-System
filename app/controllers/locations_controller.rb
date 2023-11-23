@@ -1,28 +1,33 @@
+#/workspaces/Inventory-Management-System/app/controllers/locations_controller.rb
 class LocationsController < ApplicationController
   before_action :set_location, only: %i[ show edit update destroy ]
 
   # GET /locations or /locations.json
   def index
     @locations = Location.all
+    authorize @location
   end
 
   # GET /locations/1 or /locations/1.json
   def show
+    authorize @location
   end
 
   # GET /locations/new
   def new
     @location = Location.new
+    authorize @location
   end
 
   # GET /locations/1/edit
   def edit
+    authorize @location
   end
 
   # POST /locations or /locations.json
   def create
     @location = Location.new(location_params)
-
+    authorize @location
     respond_to do |format|
       if @location.save
         format.html { redirect_to location_url(@location), notice: "Location was successfully created." }
@@ -36,6 +41,7 @@ class LocationsController < ApplicationController
 
   # PATCH/PUT /locations/1 or /locations/1.json
   def update
+    authorize @location
     respond_to do |format|
       if @location.update(location_params)
         format.html { redirect_to location_url(@location), notice: "Location was successfully updated." }
@@ -50,7 +56,7 @@ class LocationsController < ApplicationController
   # DELETE /locations/1 or /locations/1.json
   def destroy
     @location.destroy
-
+    authorize @location
     respond_to do |format|
       format.html { redirect_to locations_url, notice: "Location was successfully destroyed." }
       format.json { head :no_content }

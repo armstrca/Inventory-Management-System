@@ -1,3 +1,5 @@
+#/workspaces/Inventory-Management-System/app/models/inventory_transaction.rb
+#/workspaces/Inventory-Management-System/app/models/inventory_transaction.rb
 # == Schema Information
 #
 # Table name: inventory_transactions
@@ -9,4 +11,5 @@
 #  updated_at       :datetime         not null
 #
 class InventoryTransaction < ApplicationRecord
+  include Ransackable
 end

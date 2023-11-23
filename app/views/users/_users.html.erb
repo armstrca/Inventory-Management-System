@@ -1,0 +1,32 @@
+<!--/workspaces/Inventory-Management-System/app/views/users/_users.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/users/_users.html.erb-->
+<div id="<%= dom_id user %>">
+
+  <p>
+    <strong>Name:</strong>
+    <%= user.first_name + " " + user.last_name %>
+  </p>
+
+  <p>
+    <strong>Email:</strong>
+    <%= user.email %>
+  </p>
+
+  <p>
+    <strong>Image:</strong>
+  </p>
+  <p>
+    <%= image_tag user.image_url, style: "max-width: 500px;" %>
+  </p>
+
+  <p>
+    <strong>Role:</strong>
+    <%= user.role.capitalize %>
+  </p>
+
+  <p>
+    <strong>Bio:</strong>
+    <%= user.bio %>
+  </p>
+
+</div>

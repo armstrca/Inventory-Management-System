@@ -1,0 +1,149 @@
+<!--/workspaces/Inventory-Management-System/app/views/orders/incoming.html.erb-->
+<div class="header">
+  <h1>Orders</h1>
+  <div class="container text-right">
+    <h1><%= link_to "New Order", new_order_path %></h1>
+  </div>
+</div>
+
+<style>
+  #outgoTable th {
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+
+  .card {
+    max-width: 1500px; /* Adjust the max-width as needed */
+    margin-left: -100px;
+    margin-right: -100px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    max-width: 1900px; /* Adjust the max-width as needed */
+    margin-left: -100px;
+    margin-right: -140px;
+  }
+
+  h1 {
+    margin: 0; /* Remove margin to make text touch the edges */
+  }
+
+  table tbody tr[data-href] {
+    cursor: pointer;
+  }
+
+  .pagy-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Philosopher';
+    padding-top: 7px;
+  }
+
+  .pagy-info {
+    flex-grow: 1;
+  }
+</style>
+
+<script>
+  $(document).ready(function () {
+    var outgoingTable = $('#outgoingTable').DataTable({
+      processing: false,
+      serverSide: false,
+      paging: false,
+      ordering: true,
+      selectable: false,
+      fixedheader: false,
+      language: {
+        info: "", // Remove the information about the number of entries
+        search: "_INPUT_", // Customize the search input placeholder
+        searchPlaceholder: "Search...", // Set a placeholder for the search input
+      },
+  function changeItems(value, pagyId) {
+    var table = $('#outgoingTable').DataTable();
+    table.page.len(value).draw();
+  }
+    });
+    // Add the following script for collapsible tables
+    $('.collapse-header').on('click', function () {
+      var tableId = $(this).data('table-id');
+      $('#' + tableId).toggleClass('show');
+    });
+
+    $('.collapse-header').hover(
+      function () {
+        $(this).css('cursor', 'pointer');
+      },
+      function () {
+        $(this).css('cursor', 'auto');
+      }
+    );
+  });
+</script>
+
+<div class="row">
+  <div id="outgoing" class="col">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 -header" data-toggle="" data-target="#outgoingTable">
+        <div class="d-flex justify-content-between align-items-center">
+          <h6 class="m-0 font-weight-regular text-black">Outgoing</h6>
+          <%== pagy_items_selector_js(@pagy, item_name: 'Orders'.pluralize(@pagy.count)) %>
+        </div>
+      </div>
+      <div class="card-body " id="outgoingTableCollapse">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="outgoingTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <th class="sortable" data-mdb-sort="id">ID</th>
+                <th class="sortable" data-mdb-sort="expected_delivery">Delivery EDA</th>
+                <th class="sortable" data-mdb-sort="status">Status</th>
+                <th class="sortable" data-mdb-sort="sending_address">Sending Address</th>
+                <th class="sortable" data-mdb-sort="receiving_address">Receiving Address</th>
+                <th class="sortable" data-mdb-sort="description">Tracking</th>
+                <th class="sortable" data-mdb-sort="product_name">Product IDs</th>
+                <th class="sortable" data-mdb-sort="quantity_ordered">Units</th>
+                <th class="sortable" data-mdb-sort="shipping_cost">Shipping</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @outgoing_orders.each do |order| %>
+                <tr data-href="<%= order_path(order) %>">
+                  <td><%= order.id %></td>
+                  <td><%= order.expected_delivery %></td>
+                  <td><%= order.status.gsub('_', ' ').titleize %></td>
+                  <td style="font-size: 12px;"><%= order.sending_address %></td>
+                  <td style="font-size: 12px;"><%= order.receiving_address %></td>
+                  <td><%= order.description %></td>
+                  <td><%= order.products.pluck(:id).join(', ') %></td>
+                  <td><%= order.order_products.sum(:quantity_ordered) %></td>
+                  <td>$<%= number_with_precision(order.order_products.sum(:shipping_cost), precision: 2) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="pagy-container" style="display: flex; justify-content: space-between; font-family: 'Philosopher';">
+            <div class="pagy-info" id="outgoingTable_info" role="status" aria-live="polite" style="padding-top: 7px;">
+              <%== pagy_info(@pagy) %>
+            </div>
+            <div class="pagy-nav">
+              <%== render partial: 'pagy/bootstrap_nav', locals: {pagy: @pagy} %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var tableRows = document.querySelectorAll("table tbody tr[data-href]");
+      tableRows.forEach(function (row) {
+        row.addEventListener("click", function () {
+          window.location.href = this.dataset.href;
+        });
+      });
+    });
+  </script>

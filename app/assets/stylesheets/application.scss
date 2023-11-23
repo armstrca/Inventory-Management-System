@@ -1,0 +1,244 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS (and SCSS, if configured) file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+.header h1.no-margin {
+  margin: 0;
+}
+
+@import "bootstrap";
+@import "css/sb-admin-2.css";
+// @import "scss/sb-admin-2.css";
+@import "fontawesome-free/css/all.css";
+@import url('https://fonts.cdnfonts.com/css/flexure');
+@import "font-awesome";
+@import url('https://fonts.cdnfonts.com/css/philosopher');
+
+
+
+// Apply 'Flexure' font to headings and titles
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.title-class {
+  font-family: 'Flexure', sans-serif; // Use 'Flexure' and fall back to a generic sans-serif font
+}
+
+body {
+  background-color: #f8f9fc;
+  /* Use the color value of your choice */
+}
+
+/* Add this CSS rule to apply the "Philosopher" font to the table body text */
+table#dataTable tbody,
+thead {
+  font-family: 'Philosopher', sans-serif;
+}
+
+/* Optionally, you can adjust the font size and other text styles as needed */
+table#dataTable tbody {
+  font-family: 'Philosopher', sans-serif;
+  font-size: 16px;
+  /* Adjust the font size as needed */
+  /* Add any other text styles here */
+}
+
+/* Apply the "Philosopher" font to the table body text */
+table#incomingTable tbody,
+table#outgoingTable tbody {
+  font-family: 'Philosopher', sans-serif;
+}
+
+/* Optionally, you can adjust the font size and other text styles as needed */
+table#incomingTable tbody,
+table#outgoingTable tbody {
+  font-size: 16px;
+  /* Adjust the font size as needed */
+  /* Add any other text styles here */
+}
+
+/* Apply the desired font to the DataTable pagination controls */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  font-family: 'Philosopher', sans-serif;
+  /* Add any other font-related CSS properties here */
+}
+
+.dataTables_filter,
+.dataTables_filter label,
+.dataTables_length label,
+/* Apply the desired font to DataTable "Showing X to Y of Z entries" text */
+.dataTables_info {
+  font-family: 'Philosopher', sans-serif;
+
+}
+
+.dataTables_wrapper .dataTables_filter {
+  float: right;
+  text-align: right;
+}
+
+// Apply 'Philosopher' font to body text (paragraphs)
+p,
+.body-text {
+  font-family: 'Philosopher', sans-serif; // Use 'Philosopher' and fall back to a generic sans-serif font
+}
+
+hr {
+  margin-top: -1px;
+  /* Adjust this value to control the space between the <hr> and the content above it */
+}
+
+.columns-2 {
+  column-count: 2;
+  /* Split into two columns */
+  column-gap: 20px;
+  /* Adjust the gap between columns as needed */
+}
+
+.supplier-render {
+  break-inside: avoid;
+  /* Prevent column breaks within supplier renders */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// .header h1 {
+//   margin: 0;
+//   /* Remove default margin for h1 elements */
+// }
+
+
+a {
+  text-decoration: none;
+}
+
+#email-availability {
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+#email-availability.unavailable {
+  color: red;
+}
+
+/* Adjust the search form in the topbar */
+form.navbar-search {
+  position: fixed;
+  font-family: 'Philosopher';
+}
+
+/* Offset the search form by 250px to the right */
+form.navbar-search::before {
+  content: "";
+  display: block;
+  position: absolute;
+  //* padding-left: 250px;
+  /* Adjust this value as needed */
+  width: 100%;
+  /* Ensure it covers the entire width */
+  height: 100%;
+  /* Ensure it covers the entire height */
+}
+
+/* Adjust the search input and button within the form */
+form.navbar-search .input-group {
+  position: relative;
+  z-index: 1;
+  /* Ensure the input and button are on top */
+}
+
+/* Add some margin to the input to adjust its position */
+form.navbar-search .form-control {
+  margin-left: 15px;
+  /* Adjust this value as needed */
+}
+
+/* application.css or application.scss */
+#content-wrapper {
+  flex: 1;
+  padding-left: 250px;
+  /* Allow content to take up available space */
+}
+
+.fixed-topbar {
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  font-family: 'Flexure';
+  /* Make topbar span the entire viewport width */
+  background: white;
+  /* Adjust background color as needed */
+  /* Add other styles as needed */
+}
+
+/* Update sidebar width based on your design */
+.sidebar {
+  position: fixed;
+  overflow-y: auto;
+  min-width: 80px;
+  font-family: 'Flexure';
+  /* Set your desired min-width */
+  max-width: 250px;
+  /* Set your desired max-width */
+  width: 250px;
+  /* Initial width */
+  transition: width .5s;
+  /* Add a smooth transition effect */
+  z-index: 1;
+}
+
+/* Adjust sidebar width when it's collapsed */
+.sidebar.collapsed {
+  min-width: 80px;
+  /* Set your desired min-width when collapsed */
+  max-width: 80px;
+  /* Set your desired max-width when collapsed */
+  width: 80px;
+  /* Set your desired width when collapsed */
+}
+
+
+
+/* Adjust content margin to make space for fixed elements */
+#content-wrapper {
+  // margin-left: 250px; /* Same as sidebar width */
+  margin-top: 80px;
+  /* Same as topbar height */
+  // padding: 20px; /* Add padding to content to prevent overlapping */
+}
+
+
+
+/* White Box Styles */
+.white-box {
+  position: fixed;
+  top: 0;
+  /* Adjust to match the height of the topbar */
+  left: 0;
+  right: 0;
+  height: 70px;
+  background-color: white;
+  z-index: 0;
+  /* Ensure it's below other fixed elements */
+}

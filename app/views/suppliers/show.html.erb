@@ -1,10 +1,24 @@
-<p style="color: green"><%= notice %></p>
+<!--/workspaces/Inventory-Management-System/app/views/suppliers/show.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/suppliers/show.html.erb-->
+
 
 <%= render @supplier %>
 
-<div>
-  <%= link_to "Edit this supplier", edit_supplier_path(@supplier) %> |
-  <%= link_to "Back to suppliers", suppliers_path %>
+<% if current_user.role == "admin" || current_user.role == "manager" %>
+  <div>
 
-  <%= button_to "Destroy this supplier", @supplier, method: :delete %>
+      <%= button_to "All Suppliers", suppliers_path, method: :get %>
+      <p>
+        <%= button_to "Delete Supplier ##{@supplier.id}", @supplier, method: :delete %>
+      </div>
+    <% elsif current_user.role == "staff" %>
+      <div>
+      <p>
+          <%= button_to "All Suppliers", suppliers_path, method: :get %>
+          <p>
+          </div>
+        <% end  %>
+      </div>
+    </div>
+  </div>
 </div>

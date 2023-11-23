@@ -1,4 +1,6 @@
-<%= form_with(model: user) do |form| %>
+<!-- /workspaces/Inventory-Management-System/app/views/users/_form.html.erb -->
+
+<%= form_with(model: user, url: @form_url, method: @http_method) do |form| %>
   <% if user.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -11,22 +13,70 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :image, style: "display: block" %>
-    <%= form.text_field :image %>
+  <div class="row">
+    <div class="col-md-6">
+      <div>
+        <%= form.label :first_name, style: "display: block" %>
+        <%= form.text_field :first_name, required: !@user.persisted? %>
+      </div>
+
+      <div>
+        <%= form.label :last_name, style: "display: block" %>
+        <%= form.text_field :last_name, required: !@user.persisted? %>
+      </div>
+
+      <div>
+        <%= form.label :email, style: "display: block" %>
+        <%= form.text_field :email, required: !@user.persisted?, id: "user_email" %>
+        <span id="email-availability"></span>
+      </div>
+
+      <div>
+        <%= form.label :password, style: "display: block" %>
+        <%= form.password_field :password, required: !@user.persisted? %>
+      </div>
+
+      <div>
+        <%= form.label :password_confirmation, style: "display: block" %>
+        <%= form.password_field :password_confirmation, required: !@user.persisted? %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div>
+        <%= image_tag user.image_url, style: "max-width: 350px;" %>
+      </div>
+
+      <div>
+        <%= form.label :image, style: "display: block" %>
+        <%= form.file_field :image, accept: 'image/*' %>
+      </div>
+
+      <div>
+        <%= form.label :delete_image, style: "display: block" %>
+        <%= form.check_box :delete_image %>
+        <%= form.label :delete_image, "Delete current photo" %>
+      </div>
+
+      <div>
+        <% if @current_user.role != 'staff' %>
+          <%= form.label :role, style: "display: block" %>
+          <%= form.collection_select :role, User::ROLES, :to_s, :humanize, include_blank: !@user.persisted? %>
+        <% end %>
+      </div>
+
+      <div>
+        <%= form.label :bio, style: "display: block" %>
+        <%= form.text_field :bio, required: !@user.persisted? %>
+      </div>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :role, style: "display: block" %>
-    <%= form.text_field :role %>
-  </div>
-
-  <div>
-    <%= form.label :bio, style: "display: block" %>
-    <%= form.text_field :bio %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="row">
+    <div class="col-md-12">
+      <div>
+        <%= form.submit @action, id: 'create-update-button' %>
+      </div>
+    </div>
   </div>
 <% end %>

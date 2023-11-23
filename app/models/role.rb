@@ -1,3 +1,5 @@
+#/workspaces/Inventory-Management-System/app/models/role.rb
+#/workspaces/Inventory-Management-System/app/models/role.rb
 # == Schema Information
 #
 # Table name: roles
@@ -22,7 +24,6 @@
 #  staff_id    (staff_id => staffs.id)
 #
 class Role < ApplicationRecord
-  belongs_to :admin
-  belongs_to :staff
-  belongs_to :manager
+  belongs_to :user
+  include Ransackable
 end

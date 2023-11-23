@@ -1,13 +1,16 @@
-<p style="color: green"><%= notice %></p>
+<!--/workspaces/Inventory-Management-System/app/views/inventory_transactions/index.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/inventory_transactions/index.html.erb-->
+
 
 <h1>Inventory transactions</h1>
-
+<hr>
 <div id="inventory_transactions">
   <% @inventory_transactions.each do |inventory_transaction| %>
     <%= render inventory_transaction %>
     <p>
       <%= link_to "Show this inventory transaction", inventory_transaction %>
     </p>
+    <hr>
   <% end %>
 </div>
 

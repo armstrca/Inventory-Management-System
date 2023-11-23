@@ -1,3 +1,5 @@
+#/workspaces/Inventory-Management-System/app/models/report.rb
+#/workspaces/Inventory-Management-System/app/models/report.rb
 # == Schema Information
 #
 # Table name: reports
@@ -10,4 +12,5 @@
 #  updated_at    :datetime         not null
 #
 class Report < ApplicationRecord
+  include Ransackable
 end

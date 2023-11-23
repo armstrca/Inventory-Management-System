@@ -1,12 +1,14 @@
+<!--/workspaces/Inventory-Management-System/app/views/suppliers/_supplier.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/suppliers/_supplier.html.erb-->
 <div id="<%= dom_id supplier %>">
-  <p>
-    <strong>Name:</strong>
-    <%= supplier.name %>
+
+    <h4><%= link_to supplier.name, supplier %></h4>
+
   </p>
 
   <p>
     <strong>Contact info:</strong>
-    <%= supplier.contact_info %>
+    <%= mail_to supplier.contact_info %>
   </p>
 
   <p>
@@ -15,8 +17,8 @@
   </p>
 
   <p>
-    <strong>Standing:</strong>
-    <%= supplier.standing %>
+    <strong>Address:</strong>
+    <%= link_to supplier.address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(supplier.address)}", target: "_blank"  %>
   </p>
 
 </div>

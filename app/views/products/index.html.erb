@@ -1,14 +1,65 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Products</h1>
-
-<div id="products">
-  <% @products.each do |product| %>
-    <%= render product %>
-    <p>
-      <%= link_to "Show this product", product %>
-    </p>
+<!--/workspaces/Inventory-Management-System/app/views/products/index.html.erb-->
+<!--/workspaces/Inventory-Management-System/app/views/products/index.html.erb-->
+<div class="header">
+  <h1>Products</h1>
+  <% if current_user.role == "admin" || current_user.role == "manager" %>
+    <div class="container text-right">
+      <div class="row">
+        <div id="create_product" class="col">
+          <h1><%= link_to "New Product", new_product_path %></h1>
+        </div>
+      </div>
+    </div>
   <% end %>
 </div>
-
-<%= link_to "New product", new_product_path %>
+<script>
+  $(document).ready(function() {
+    var table = $('#dataTable').DataTable({
+      paging: true,
+      ordering: true,
+      selectable: true,
+      fixedheader: true
+    });
+  });
+</script>
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-regular text-black">Full Inventory</h6>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table datatable-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead class="datatable-header">
+          <tr>
+            <th class="sortable" data-mdb-sort="name">ID</th>
+            <th class="sortable" data-mdb-sort="name">Name</th>
+            <th class="sortable" data-mdb-sort="description">Description</th>
+            <th class="sortable" data-mdb-sort="sku">SKU</th>
+            <th class="sortable" data-mdb-sort="price">Price</th>
+            <th class="sortable" data-mdb-sort="quantity">Units</th>
+            <th class="sortable" data-mdb-sort="category">Category</th>
+            <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
+            <th class="sortable" data-mdb-sort="supplier">Supplier</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @products.each do |product| %>
+            <tr>
+              <td><%= product.id %></td>
+              <td><%= link_to product.name, product %></td>
+              <td><%= product.description %></td>
+              <td><%= product.sku %></td>
+              <td>$<%= number_with_precision(product.price, precision: 2) %></td>
+              <td><%= product.stock_quantity %></td>
+              <td><%= product.category ? link_to(product.category.name, product.category) : '' %></td>
+              <td><%= product.subcategory ? link_to(product.subcategory.name, product.subcategory) : '' %></td>
+              <td><%= product.supplier ? link_to(product.supplier.name, product.supplier) : '' %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+</div>

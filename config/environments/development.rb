@@ -1,3 +1,5 @@
+#/workspaces/Inventory-Management-System/config/environments/development.rb
+#/workspaces/Inventory-Management-System/config/environments/development.rb
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
@@ -26,6 +28,13 @@ Rails.application.configure do
 
   # Enable server timing
   config.server_timing = true
+
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.bullet_logger = true
+    Bullet.raise = false # Raise an error if N+1 query occurs
+  end
+
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.

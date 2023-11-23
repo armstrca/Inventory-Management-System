@@ -1,14 +1,75 @@
-<p style="color: green"><%= notice %></p>
+<!--/workspaces/Inventory-Management-System/app/views/categories/index.html.erb-->
+<!-- /workspaces/Inventory-Management-System/app/views/categories/index.html.erb -->
+<style>
+  .subcategories {
+    display: none;
+  }
+  .subcategory-item {
+    margin-left: 30px; /* Adjust the indentation as needed */
+  }
+  /* Add cursor property for the category links */
+  .category-link:hover {
+    cursor: pointer;
+  }
 
-<h1>Categories</h1>
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header h1 {
+    flex: 1;
+  }
+
+  .header .col {
+    text-align: center;
+  }
+
+  .header .col.right {
+    text-align: right;
+  }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(".category-link").click(function() {
+      var subcategoryList = $(this).next(".subcategories");
+      subcategoryList.slideToggle();
+    });
+  });
+</script>
+
+<div class="header">
+  <h1>Categories</h1>
+  <% if current_user.role == "admin" || current_user.role == "manager" %>
+    <div class="col">
+      <div id="create_category">
+        <h1><%= link_to "New Category", new_category_path %></h1>
+      </div>
+    </div>
+    <div class="col right">
+      <div id="create_subcategory">
+        <h1><%= link_to "New Subcategory", new_subcategory_path %></h1>
+      </div>
+    </div>
+  <% end %>
+</div>
+<hr>
 
 <div id="categories">
   <% @categories.each do |category| %>
-    <%= render category %>
-    <p>
-      <%= link_to "Show this category", category %>
-    </p>
+    <div class="category">
+      <h5 class="category-link">
+        <%= link_to category.name, category %><i class="fas fa-chevron-down" style="float: right;"></i>
+      </h5>
+      <div class="subcategories">
+        <% category.subcategories.each do |subcategory| %>
+          <h6 class="subcategory-item"><%= link_to subcategory.name, subcategory %></h6>
+        <% end %>
+      </div>
+    </div>
+    <hr>
   <% end %>
 </div>
-
-<%= link_to "New category", new_category_path %>

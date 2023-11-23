@@ -1,27 +1,39 @@
+#/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb
+#/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb
 class CategoriesController < ApplicationController
-  before_action :set_category, only: %i[ show edit update destroy ]
+  before_action :set_category, only: %i[show edit update destroy]
+  # before_action :set_form_variables, only: %i[new edit]
+
+  # before_action :authorize_category, except: %i[index show]
 
   # GET /categories or /categories.json
   def index
-    @categories = Category.all
+    @categories = Category.all.includes(:subcategories)
   end
 
   # GET /categories/1 or /categories/1.json
   def show
+    @category = Category.find(params[:id])
+    @products = @category.products.includes(:category, :subcategory, :supplier)
+    authorize @category
   end
+
 
   # GET /categories/new
   def new
     @category = Category.new
+    authorize @category
   end
 
   # GET /categories/1/edit
   def edit
+    authorize @category
   end
 
   # POST /categories or /categories.json
   def create
     @category = Category.new(category_params)
+    authorize @category
 
     respond_to do |format|
       if @category.save
@@ -36,6 +48,7 @@ class CategoriesController < ApplicationController
 
   # PATCH/PUT /categories/1 or /categories/1.json
   def update
+    authorize @category
     respond_to do |format|
       if @category.update(category_params)
         format.html { redirect_to category_url(@category), notice: "Category was successfully updated." }
@@ -49,8 +62,11 @@ class CategoriesController < ApplicationController
 
   # DELETE /categories/1 or /categories/1.json
   def destroy
+    authorize @category
+    @category.products.each do |product|
+      product.update(category: nil)
+    end
     @category.destroy
-
     respond_to do |format|
       format.html { redirect_to categories_url, notice: "Category was successfully destroyed." }
       format.json { head :no_content }
@@ -58,13 +74,18 @@ class CategoriesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_category
-      @category = Category.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def category_params
-      params.require(:category).permit(:name, :description, :subcategory)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_category
+    @category = Category.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def category_params
+    params.require(:category).permit(:id, :name, :description, :subcategory)
+  end
+
+  def authorize_category
+    authorize Category
+  end
 end
