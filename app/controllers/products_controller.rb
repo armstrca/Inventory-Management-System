@@ -5,14 +5,17 @@ class ProductsController < ApplicationController
 
   # GET /products or /products.json
   def index
-    @products = Product.includes(:category, :subcategory, :supplier).all
+    @pagy, @products = pagy(Product.all)
+    # authorize @products
   end
+
 
   # GET /products/1 or /products/1.json
   def show
-    @product = Product.find(params[:id]).includes(:category, :subcategory, :supplier).all
+    @product = Product.includes(:category, :subcategory, :supplier).find(params[:id])
     authorize @product
   end
+
 
   # GET /products/new
   def new

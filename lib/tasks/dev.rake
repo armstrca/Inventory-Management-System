@@ -3,10 +3,10 @@
     desc "Drops, creates, migrates, and adds sample data to database"
     task reset: [
       :environment,
-      "db:schema:cache:clear",
-      "db:drop",
-      "db:create",
-      "db:migrate",
+      # "db:schema:cache:clear",
+      # "db:drop",
+      # "db:create",
+      # "db:migrate",
       "dev:sample_data",
     ]
 
@@ -106,7 +106,7 @@
         addresses = location_addresses + faker_addresses
 
         # Seed Orders table with sample data
-        1500.times do
+        1000.times do
           sending_address = addresses.sample
           receiving_address = addresses.sample
 
@@ -147,7 +147,7 @@
 
         # Seed Suppliers table with sample data
 
-        100.times do
+        50.times do
           s = Supplier.create(
             name: Faker::Company.name,
             address: Faker::Address.full_address,
@@ -157,7 +157,7 @@
           )
         end
         puts "100 suppliers created"
-        6000.times do
+        600.times do
           p = Product.create(
             name: Faker::Commerce.product_name,
             description: Faker::Lorem.sentence,
@@ -178,9 +178,9 @@
         # Seed Users table with sample data
 
         # Seed OrderProducts table with sample data
-        2000.times do
+        200.times do
           op = OrderProduct.create(
-            quantity_ordered: Faker::Number.between(from: 1, to: 20),
+            quantity_ordered: Faker::Number.between(from: 2, to: 20),
             shipping_cost: Faker::Number.between(from: 1, to: 30),
             order_id: Order.all.sample.id,
             product_id: Product.all.sample.id,
