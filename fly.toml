@@ -11,7 +11,7 @@ console_command = "/rails/bin/rails console"
 
 
 [deploy]
-  release_command = "bin/rails db:migrate dev:sample_data assets:precompile"
+  release_command = "bin/rails db:migrate assets:precompile"
 
 [http_service]
   internal_port = 3000
