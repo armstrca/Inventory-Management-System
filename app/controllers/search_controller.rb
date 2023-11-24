@@ -32,9 +32,8 @@ class SearchController < ApplicationController
     # Search in 'orders' model
     results[:orders] = Order.ransack(status_or_description_cont: @q).result.to_a
 
-# Search in 'order_products' model
-results[:order_products] = OrderProduct.ransack(quantity_ordered_eq: @q).result.to_a
-
+    # Search in 'order_products' model
+    results[:order_products] = OrderProduct.ransack(quantity_ordered_eq: @q.to_i).result.to_a
 
     # Search in 'storage_locations' model
     results[:storage_locations] = StorageLocation.ransack(name_or_description_cont: @q).result.to_a
