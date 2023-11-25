@@ -11,6 +11,7 @@ require 'pagy/extras/foundation'
 require 'pagy/extras/materialize'
 require 'pagy/extras/navs'
 require 'pagy/extras/semantic'
+require 'pagy/extras/array'
 require 'pagy/extras/uikit'
 require 'pagy/extras/items' # works without further configuration
 # Pagy::VARS[:items_extra] = true
