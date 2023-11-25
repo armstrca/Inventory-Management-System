@@ -12,23 +12,32 @@
 #  stock_quantity :integer
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
+#  branch_id      :integer
 #  category_id    :integer          not null
+#  company_id     :integer
 #  subcategory_id :integer          not null
 #  supplier_id    :integer
 #
 # Indexes
 #
-#  index_products_on_category_id     (category_id)
-#  index_products_on_subcategory_id  (subcategory_id)
-#  index_products_on_supplier_id     (supplier_id)
+#  index_products_on_branch_id                        (branch_id)
+#  index_products_on_category_id                      (category_id)
+#  index_products_on_company_and_branch_and_category  (company_id,branch_id,category_id)
+#  index_products_on_company_id                       (company_id)
+#  index_products_on_subcategory_id                   (subcategory_id)
+#  index_products_on_supplier_id                      (supplier_id)
 #
 # Foreign Keys
 #
+#  branch_id       (branch_id => branches.id)
 #  category_id     (category_id => categories.id)
+#  company_id      (company_id => companies.id)
 #  subcategory_id  (subcategory_id => subcategories.id)
 #  supplier_id     (supplier_id => suppliers.id)
 #
 class Product < ApplicationRecord
+  belongs_to :company
+  has_many :branches
   belongs_to :category
   belongs_to :subcategory
   belongs_to :supplier
@@ -44,4 +53,3 @@ class Product < ApplicationRecord
     subcategory&.name
   end
 end
-

@@ -10,7 +10,21 @@
 #  report_type   :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  branch_id     :integer
+#  company_id    :integer
+#
+# Indexes
+#
+#  index_reports_on_branch_id   (branch_id)
+#  index_reports_on_company_id  (company_id)
+#
+# Foreign Keys
+#
+#  branch_id   (branch_id => branches.id)
+#  company_id  (company_id => companies.id)
 #
 class Report < ApplicationRecord
+  belongs_to :company
+  belongs_to :branch
   include Ransackable
 end

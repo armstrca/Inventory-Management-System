@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/models/user.rb
-#/workspaces/Inventory-Management-System/app/models/user.rb
 # == Schema Information
 #
 # Table name: users
@@ -17,52 +16,69 @@
 #  role                   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  branch_id              :integer
+#  company_id             :integer
 #
 # Indexes
 #
+#  index_users_on_branch_id             (branch_id)
+#  index_users_on_company_id            (company_id)
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
+# Foreign Keys
+#
+#  branch_id   (branch_id => branches.id)
+#  company_id  (company_id => companies.id)
+#
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # Devise modules
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  # include User::Roleable
+
+  # Associations
+  belongs_to :company
+  has_many :branches
+  has_one_attached :image
+
+  # Callbacks
   before_validation :email_uniqueness_on_update
+
+  # Validations
+  validates :first_name, presence: { message: "First name is required" }
+  validates :last_name, presence: { message: "Last name is required" }
+  validates :email, presence: { message: "Email is required" },
+                    format: { with: URI::MailTo::EMAIL_REGEXP, message: "Invalid email format" }
+  validates :role, presence: { message: "Role is required" }
+
+  # Custom validation method
   def email_uniqueness_on_update
     if email_changed? && User.where(email: email).where.not(id: id).exists?
       errors.add(:email, "has already been taken")
     end
   end
 
+  # Devise method to update without password
   def update_without_password(params, *options)
     params.delete(:password)
     params.delete(:password_confirmation)
     update(params, *options)
   end
 
-  include Ransackable
-
-  def self.create_new_user(params)
-    @user = User.create!(params)
-  end
-
-  # enum role: { admin: "admin", manager: "manager", staff: "staff" }
-
+  # Role-related methods
   ROLES = %w[admin manager staff].freeze
+
   def self.admins
-    User.where(role: "admin")
+    where(role: "admin")
   end
 
   def self.managers
-    User.where(role: "manager")
+    where(role: "manager")
   end
 
   def self.staff
-    User.where(role: "staff")
+    where(role: "staff")
   end
-
 
   def admin?
     role == "admin"
@@ -76,29 +92,20 @@ class User < ApplicationRecord
     role == "staff"
   end
 
-  has_one_attached :image
-
+  # Image-related methods
   def image_url
-    if image.attached?
-      Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
-    else
-      # Provide a default image URL or handle this case as needed
-      ActionController::Base.helpers.asset_path("default_user_image.jpg")
-    end
+    image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true) : ActionController::Base.helpers.asset_path("default_user_image.jpg")
   end
-
 
   def delete_image=(value)
-    if value == '1' && image.attached?
-      image.purge
-    end
+    image.purge if value == "1" && image.attached?
   end
 
-  devise :database_authenticatable
+  # Class method to create a new user
+  def self.create_new_user(params)
+    create!(params)
+  end
 
-  validates :first_name, presence: { message: "First name is required" }
-  validates :last_name, presence: { message: "Last name is required" }
-  validates :email, presence: { message: "Email is required" },
-                    format: { with: URI::MailTo::EMAIL_REGEXP, message: "Invalid email format" }
-  validates :role, presence: { message: "Role is required" }
+  # Include Ransackable module (assuming it's defined elsewhere)
+  include Ransackable
 end

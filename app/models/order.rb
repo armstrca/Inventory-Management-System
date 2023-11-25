@@ -12,14 +12,25 @@
 #  status            :string
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  branch_id         :integer
+#  company_id        :integer
 #
 # Indexes
 #
+#  index_orders_on_branch_id          (branch_id)
+#  index_orders_on_company_id         (company_id)
 #  index_orders_on_expected_delivery  (expected_delivery)
 #  index_orders_on_receiving_address  (receiving_address)
 #  index_orders_on_sending_address    (sending_address)
 #
+# Foreign Keys
+#
+#  branch_id   (branch_id => branches.id)
+#  company_id  (company_id => companies.id)
+#
 class Order < ApplicationRecord
+  belongs_to :company
+  belongs_to :branch
   has_many :order_products
   has_many :products, through: :order_products
   belongs_to :supplier, optional: true

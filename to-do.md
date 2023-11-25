@@ -36,7 +36,6 @@ uuuuh this app only works for one business at a time. So all the models would ha
 -----------------------------------------------------------------------
 
     Need controllers/routes for this stuff:
-    Login/404/Register/Forgot password stuff
     Error handling for new orders, new suppliers, new categories, fix existing error handling for new products, inventory_transactions
     New join table...supplier_shipments?
 
@@ -47,13 +46,6 @@ uuuuh this app only works for one business at a time. So all the models would ha
 LESS IMPORTANT
 -----------------------------------------------------------------------
 
-    -----------------------------------------------------------------------
-
-    -----------------------------------------------------------------------
-
-    Categories
-      Fix title header for Categories#show so they display on one line, maybe switch all such headers to h2 or smaller
-    -----------------------------------------------------------------------
 
     -----------------------------------------------------------------------
 
@@ -72,3 +64,19 @@ LESS IMPORTANT
 
 Orders#index is just so dang slow what the heck
   okay look into making the datatable one of those ones that only loads one a new page within the table
+
+
+Post-deployment thoughts:
+
+DataTables for Suppliers#index and Users#index do not match styling for those of Products and Orders
+  - That's because they render from smaller tables, so DataTables client-side pagination ain't so bad
+
+Ostensibly DataTables is supposed to be able to do server-side pagination, but I have yet to see any proof of this in my app
+
+New orders need to require products be in them and specify how many of each product
+  - any time a product is added to an order its stock_quantity should be updated accordingly
+
+Inventory transactions really are eventually necessary because a business would need to handle returns/refunds, and maybe even lost/destroyed stock
+
+I'm beginning to add company_id to each model table, but 'company' should probably eventually be its own model with associations to almost everything. This is mostly because a company may have multiple branches/locations, and certain users should only have access privileges to a limited number of those branches.
+  - Updates for all affected models need to be handled in the controllers and submitted params (rolling eyes emoji)
