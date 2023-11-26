@@ -11,7 +11,7 @@ console_command = "/rails/bin/rails console"
 
 
 [deploy]
-  release_command = "bin/rails dev:reset assets:precompile"
+  release_command = "bin/rails dev:reset DISABLE_DATABASE_ENVIRONMENT_CHECK=1 assets:precompile"
 
 [http_service]
   internal_port = 3000
