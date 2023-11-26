@@ -29,14 +29,14 @@ namespace :dev do
     3.times do |i|
       b = Branch.create(
         name: "Branch #{i + 1}",
-        address: Faker::Address.full_address,
+        # address: Faker::Address.full_address,
         company_id: company.id,
       )
-      if b.persisted?
-        puts b.inspect
-      else
-        puts b.errors.full_messages
-      end
+      # if b.persisted?
+      #   puts b.inspect
+      # else
+      #   puts b.errors.full_messages
+      # end
     end
 
     puts "One company with three branches created."
