@@ -37,7 +37,7 @@
 #
 class Product < ApplicationRecord
   belongs_to :company
-  has_many :branches
+  has_many :branchesz
   belongs_to :category
   belongs_to :subcategory
   belongs_to :supplier

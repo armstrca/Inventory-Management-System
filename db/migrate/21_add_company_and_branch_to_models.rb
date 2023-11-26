@@ -34,10 +34,5 @@ class AddCompanyAndBranchToModels < ActiveRecord::Migration[7.0]
 
     # Example: Update products index
     add_index :products, [:company_id, :branch_id, :category_id], name: "index_products_on_company_and_branch_and_category"
-
-    # Example: Update other relevant indexes
-    User.update_all(company_id: 1, branch_id: 1)
-    Product.update_all(company_id: 1, branch_id: 1)
-    Order.update_all(company_id: 1, branch_id: 1)
   end
 end

@@ -20,9 +20,8 @@ namespace :dev do
 
     50.times do
       supplier_company_names << Faker::Company.name
-      supplier_catchphrases <<  Faker::Company.catch_phrase
+      supplier_catchphrases << Faker::Company.catch_phrase
     end
-
 
     company = Company.create(name: "ZomboCom")
 
@@ -31,12 +30,13 @@ namespace :dev do
       b = Branch.create(
         name: "Branch #{i + 1}",
         address: Faker::Address.full_address,
-        company: company)
-        if b.persisted?
-          puts b.inspect
-        else
-          puts b.errors.full_messages
-        end
+        company_id: company.id,
+      )
+      if b.persisted?
+        puts b.inspect
+      else
+        puts b.errors.full_messages
+      end
     end
 
     puts "One company with three branches created."
@@ -96,6 +96,17 @@ namespace :dev do
       bio: Faker::Lorem.paragraph,
       company_id: company.id,
       branch_id: Branch.all.sample.id,
+    )
+
+    User.create(
+      first_name: "Anna",
+      last_name: "Knittington",
+      email: "anna@cute.girl",
+      password: "forever",
+      role: "admin",
+      bio: Faker::Lorem.paragraph,
+      company_id: company.id,
+      branch_id: 1,
     )
 
     # Seed Categories table with sample data
@@ -182,7 +193,6 @@ namespace :dev do
       )
     end
     puts "10 reports created"
-
 
     50.times do
       s = Supplier.create(
