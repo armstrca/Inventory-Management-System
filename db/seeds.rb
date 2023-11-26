@@ -7,21 +7,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-# unless Rails.env.production?
-namespace :dev do
-  desc "Drops, creates, migrates, and adds sample data to database"
-  task reset: [
-         :environment,
-         "db:schema:cache:clear",
-         "db:drop",
-         "db:create",
-         "db:migrate",
-         "dev:sample_data",
-       ]
 
-  desc "Fill the database tables with some sample data"
-  task sample_data: :environment do
-    # if Rails.env.development?
 
     supplier_company_names = []
 
@@ -258,5 +244,4 @@ namespace :dev do
     puts "200 order_products created"
 
     puts "Sample data has been seeded into the database."
-  end
-end
+
