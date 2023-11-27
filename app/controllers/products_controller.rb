@@ -82,6 +82,7 @@ class ProductsController < ApplicationController
 
     render json: { subcategories: subcategories }
   end
+  
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -91,7 +92,7 @@ class ProductsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def product_params
-    params.require(:product).permit(:name, :description, :sku, :price, :stock_quantity, :category_id, :subcategory_id, :supplier_id)
+    params.require(:product).permit(:name, :description, :sku, :price, :stock_quantity, :category_id, :subcategory_id, :supplier_id, :company_id, :branch_id)
   end
 
 end

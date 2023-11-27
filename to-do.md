@@ -51,7 +51,6 @@ LESS IMPORTANT
 
     Orders
       Orders#show table font/display, linkiness and orders#index
-      Orders#show buttons
       Require at least one product for each order
     -----------------------------------------------------------------------
 
@@ -60,10 +59,6 @@ LESS IMPORTANT
     Suppliers
     Possible integration of hypothetical supplier_shipments table
 -----------------------------------------------------------------------
-
-
-Orders#index is just so dang slow what the heck
-  okay look into making the datatable one of those ones that only loads one a new page within the table
 
 
 Post-deployment thoughts:
@@ -80,3 +75,13 @@ Inventory transactions really are eventually necessary because a business would 
 
 I'm beginning to add company_id to each model table, but 'company' should probably eventually be its own model with associations to almost everything. This is mostly because a company may have multiple branches/locations, and certain users should only have access privileges to a limited number of those branches.
   - Updates for all affected models need to be handled in the controllers and submitted params (rolling eyes emoji)
+
+
+
+
+
+
+
+Params handling:
+  - controllers: done
+  - views:

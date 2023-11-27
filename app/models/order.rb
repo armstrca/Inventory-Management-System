@@ -30,10 +30,13 @@
 #
 class Order < ApplicationRecord
   belongs_to :company
-  belongs_to :branch
+  belongs_to :branch, optional: true
   has_many :order_products
   has_many :products, through: :order_products
   belongs_to :supplier, optional: true
+  # validates :products, presence: true
+  # validates_associated :products, presence: true
+
 
   def self.incoming
     Order.where(receiving_address: StorageLocation.select(:address)).order(expected_delivery: :asc)

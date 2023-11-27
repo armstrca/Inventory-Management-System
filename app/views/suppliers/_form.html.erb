@@ -1,5 +1,7 @@
 <!--/workspaces/Inventory-Management-System/app/views/suppliers/_form.html.erb-->
-<!--/workspaces/Inventory-Management-System/app/views/suppliers/_form.html.erb-->
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=<%= ENV.fetch("GMAPS_KEY") %>&libraries=places&callback=initMap"></script>
+
 <%= form_with(model: supplier) do |form| %>
   <% if supplier.errors.any? %>
     <div style="color: red">
@@ -28,7 +30,38 @@
     <%= form.text_field :description %>
   </div>
 
+  <%= form.hidden_field :company_id, value: current_user.company_id %>
+
   <div>
-    <%= form.submit %>
+    <%= form.label :address, style: "display: block" %>
+    <%= form.text_field :address, id: "supplier_address", class: "google-places-autocomplete", placeholder: "Enter an address", style: "width: 350px;" %>
   </div>
-<% end %>
+  <p>
+    <div>
+      <%= form.submit %>
+    </div>
+  <% end %>
+
+  <!-- Add a script to enable Google Places Autocomplete for the address field -->
+<script>
+  function initMap() {
+    var input = document.getElementById('supplier_address');
+    
+    if (!input) {
+      console.error("Could not find the 'supplier_address' input field.");
+      return;
+    }
+
+    if (!window.google || !window.google.maps || !window.google.maps.places) {
+      console.error("Google Maps API or Places library not loaded.");
+      return;
+    }
+
+    var autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], apiKey: '<%= ENV.fetch("GMAPS_KEY") %>' });
+
+    autocomplete.addListener('place_changed', function() {
+      var place = autocomplete.getPlace();
+      console.log(place); // Log the place details to check if it's working as expected
+    });
+  }
+</script>

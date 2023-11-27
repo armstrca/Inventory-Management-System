@@ -27,7 +27,7 @@
       });
     });
   </script>
-  
+
   <div>
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name %>
@@ -52,6 +52,9 @@
     <%= form.label :stock_quantity, style: "display: block" %>
     <%= form.number_field :stock_quantity, max: 9999, title: "Please enter a value below 5 digits." %>
   </div>
+
+  <%= form.hidden_field :company_id, value: current_user.company_id %>
+  <%= form.hidden_field :branch_id, value: current_user.branch_id %>
 
   <div>
     <%= form.label :category_id, style: "display: block" %>

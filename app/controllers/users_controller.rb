@@ -95,12 +95,12 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:id, :email, :password, :password_confirmation, :delete_image, :first_name, :last_name, :role, :bio, :image, :delete_image)
+    params.require(:user).permit(:id, :email, :password, :password_confirmation, :delete_image, :first_name, :last_name, :role, :bio, :image, :delete_image, :company_id, :branch_id)
   end
 
   def user_params_without_password
     # Allow updating all user attributes except password-related ones
-    params.require(:user).permit(:id, :email, :password, :password_confirmation, :delete_image, :first_name, :last_name, :role, :bio, :image, :delete_image)
+    params.require(:user).permit(:id, :email, :password, :password_confirmation, :delete_image, :first_name, :last_name, :role, :bio, :image, :delete_image, :company_id, :branch_id)
   end
 
   # Use callbacks to share common setup or constraints between actions.

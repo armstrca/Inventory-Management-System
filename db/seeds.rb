@@ -226,7 +226,7 @@
     puts "600 products created"
 
     # Seed OrderProducts table with sample data
-    200.times do
+    2000.times do
       op = OrderProduct.create(
         quantity_ordered: Faker::Number.between(from: 2, to: 20),
         shipping_cost: Faker::Number.between(from: 1, to: 30),
@@ -244,4 +244,3 @@
     puts "200 order_products created"
 
     puts "Sample data has been seeded into the database."
-

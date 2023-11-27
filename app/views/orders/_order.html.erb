@@ -24,12 +24,12 @@
 
   <p>
     <strong>Sending Address:</strong>
-    <%= order.sending_address %>
+    <%= link_to order.sending_address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(order.sending_address)}", target: "_blank"  %>
   </p>
 
   <p>
     <strong>Receiving Address:</strong>
-    <%= order.receiving_address %>
+    <%= link_to order.receiving_address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(order.receiving_address)}", target: "_blank"  %>
   </p>
   <script>
     $(document).ready(function() {

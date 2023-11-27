@@ -1,5 +1,7 @@
 <!--/workspaces/Inventory-Management-System/app/views/orders/_form.html.erb-->
-<!--/workspaces/Inventory-Management-System/app/views/orders/_form.html.erb-->
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=<%= ENV.fetch("GMAPS_KEY") %>&libraries=places&callback=initMap"></script>
+
 <%= form_with(model: order) do |form| %>
   <% if order.errors.any? %>
     <div style="color: red">
@@ -12,7 +14,8 @@
       </ul>
     </div>
   <% end %>
-
+  <%= form.hidden_field :company_id, value: current_user.company_id %>
+  <%= form.hidden_field :branch_id, value: current_user.branch_id %>
   <div>
     <%= form.label :expected_delivery, style: "display: block" %>
     <%= form.date_field :expected_delivery %>
@@ -34,7 +37,7 @@
 
   <div>
     <%= form.label :receiving_address, style: "display: block" %>
-    <%= form.text_field :receiving_address %>
+    <%= form.text_field :receiving_address, id: "receiving_address", class: "google-places-autocomplete", placeholder: "Enter an address", style: "width: 350px;" %>
   </div>
 
   <div>
@@ -42,64 +45,6 @@
     <%= form.text_field :description %>
   </div>
   <p>
-    <script>
-      $(document).ready(function() {
-        var table = $('#dataTable').DataTable({
-          paging: true,
-          ordering: true,
-          selectable: true,
-          fixedheader: true
-        });
-      });
-    </script>
-    <div class="row">
-      <div id="incoming" class="col">
-        <div class="card shadow mb-4">
-          <div class="card-header py-3 collapse-header" data-toggle="collapse" data-target="#incomingTableCollapse">
-            <h6 class="m-0 font-weight-regular text-black">Full Inventory</h6>
-          </div>
-          <div class="card-body collapse" id="incomingTableCollapse">
-            <div class="table-responsive">
-              <table class="table datatable-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead class="datatable-header">
-                  <tr>
-                    <th class="sortable" data-mdb-sort="name">ID</th>
-                    <th class="sortable" data-mdb-sort="name">Name</th>
-                    <th class="sortable" data-mdb-sort="description">Description</th>
-                    <th class="sortable" data-mdb-sort="sku">SKU</th>
-                    <th class="sortable" data-mdb-sort="price">Price</th>
-                    <th class="sortable" data-mdb-sort="quantity">Units</th>
-                    <th class="sortable" data-mdb-sort="category">Category</th>
-                    <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
-                    <th class="sortable" data-mdb-sort="supplier">Supplier</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% Product.all.each do |product| %>
-                    <tr>
-                      <td><%= form.check_box :product_ids, { multiple: true }, product.id, nil %></td>
-                      <td><%= product.id %></td>
-                      <td><%= product.name %></td>
-                      <td><%= product.sku %></td>
-                      <td>$<%= number_with_precision(product.price, precision: 2) %></td>
-                      <td><%= product.stock_quantity %></td>
-                      <td><%= product.category.try(:name) || '' %></td>
-                      <td><%= product.subcategory.try(:name) || '' %></td>
-                      <td><%= product.supplier.try(:name) || '' %></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <%= form.submit %>
-      </div>
-    <% end %>
-
     <script>
       $(document).ready(function () {
         var table = $('#productTable').DataTable({
@@ -111,4 +56,84 @@
           fixedheader: true
         });
       });
+            function initMap() {
+        var input = document.getElementById('receiving_address');
+
+        if (!input) {
+          console.error("Could not find the 'receiving_address' input field.");
+          return;
+        }
+
+        if (!window.google || !window.google.maps || !window.google.maps.places) {
+          console.error("Google Maps API or Places library not loaded.");
+          return;
+        }
+
+        var autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], apiKey: '<%= ENV.fetch("GMAPS_KEY") %>' });
+
+        autocomplete.addListener('place_changed', function() {
+          var place = autocomplete.getPlace();
+          console.log(place); // Log the place details to check if it's working as expected
+        });
+      }
     </script>
+    <div class="row">
+      <div id="products" class="col">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3 -header" data-toggle="" data-target="#productsTable">
+            <div class="d-flex justify-content-between align-items-center">
+              <h6 class="m-0 font-weight-regular text-black">Products</h6>
+              <%== pagy_items_selector_js(@pagy, item_name: 'Products'.pluralize(@pagy.count)) %>
+            </div>
+          </div>
+          <div class="card-body " id="productsTableCollapse">
+            <div class="table-responsive">
+              <table class="table datatable-bordered" id="productsTable" width="100%" cellspacing="0">
+                <thead class="datatable-header">
+                  <tr>
+                    <th class="sortable" data-mdb-sort="check-box"></th>
+                    <th class="sortable" data-mdb-sort="product_id">ID</th>
+                    <th class="sortable" data-mdb-sort="name">Name</th>
+                    <th class="sortable" data-mdb-sort="description">Description</th>
+                    <th class="sortable" data-mdb-sort="sku">SKU</th>
+                    <th class="sortable" data-mdb-sort="price">Price</th>
+                    <th class="sortable" data-mdb-sort="quantity">Units</th>
+                    <th class="sortable" data-mdb-sort="category">Category</th>
+                    <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
+                    <th class="sortable" data-mdb-sort="supplier">Supplier</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @products.each do |product| %>
+                    <tr>
+                      <td><%= form.check_box :product_ids, { multiple: true }, product.id, nil %></td>
+                      <td><%= product.id %></td>
+                      <td><%= link_to product.name, product %></td>
+                      <td><%= product.description %></td>
+                      <td><%= product.sku %></td>
+                      <td>$<%= number_with_precision(product.price, precision: 2) %></td>
+                      <td><%= product.stock_quantity %></td>
+                      <td><%= product.category ? link_to(product.category.name, product.category) : '' %></td>
+                      <td><%= product.subcategory ? link_to(product.subcategory.name, product.subcategory) : '' %></td>
+                      <td><%= product.supplier ? link_to(product.supplier.name, product.supplier) : '' %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+              <div class="pagy-container" style="display: flex; justify-content: space-between; font-family: 'Philosopher';">
+                <div class="pagy-info" id="incomingable_info" role="status" aria-live="polite" style="padding-top: 7px;">
+                  <%== pagy_info(@pagy) %>
+                </div>
+                <div class="pagy-nav">
+                  <%== render partial: 'pagy/bootstrap_nav', locals: {pagy: @pagy} %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit %>
+      </div>
+    <% end %>

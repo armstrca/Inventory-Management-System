@@ -27,6 +27,8 @@
     <%= form.collection_select :category_id, Category.all, :id, :name, { prompt: "Select a category" }, class: "category-select" %>
   </div>
 
+  <%= form.hidden_field :company_id, value: current_user.company_id %>
+  
   <div>
     <%= form.submit %>
   </div>

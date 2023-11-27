@@ -30,29 +30,49 @@ class OrdersController < ApplicationController
     @incoming_orders = Order.incoming
     @outgoing_orders = Order.outgoing
     authorize @order
+    @pagy, @products = pagy(Product.all)
   end
 
   # GET /orders/new
   def new
     @order = Order.new
     authorize @order
+    @pagy, @products = pagy(Product.all)
   end
 
   def edit
     @order = Order.find(params[:id]) # Retrieve the order by its ID
     authorize @order
+    @pagy, @products = pagy(Product.all)
   end
 
+  # POST /orders or /orders.json
   # POST /orders or /orders.json
   def create
     @order = Order.new(order_params)
     authorize @order
+    @pagy, @products = pagy(Product.all)
+
+    # Map product_ids to Product instances
+    product_ids = order_params[:product_ids].reject(&:blank?).map(&:to_i)
+    @order.product_ids = product_ids
+
+    products = Product.where(id: product_ids)
+
+    puts "Order Params Products: #{order_params[:product_ids]}"
+    puts "Product IDs: #{product_ids.inspect}"
+    puts "Products: #{products.inspect}"
+
+    @order.products = products
 
     respond_to do |format|
       if @order.save
         format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
         format.json { render :show, status: :created, location: @order }
       else
+        # Debugging line: Print the errors if the order save fails
+        puts "Order save failed. Errors: #{@order.errors.full_messages}"
+
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
@@ -141,6 +161,8 @@ class OrdersController < ApplicationController
       :description,
       :receiving_address,
       :sending_address,
+      :company_id,
+      :branch_id,
       product_ids: [],
     )
   end

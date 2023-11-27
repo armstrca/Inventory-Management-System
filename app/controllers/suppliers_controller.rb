@@ -72,6 +72,6 @@ class SuppliersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def supplier_params
-      params.require(:supplier).permit(:name, :contact_info, :description, :standing)
+      params.require(:supplier).permit(:name, :contact_info, :description, :address, :company_id)
     end
 end

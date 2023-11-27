@@ -178,7 +178,11 @@ namespace :dev do
         branch_id: Branch.all.sample.id,
       )
 
-      # puts o
+      if o.persisted?
+        puts o.inspect
+      else
+        puts o.errors.full_messages
+      end
     end
 
     puts "1000 orders created"
@@ -202,11 +206,11 @@ namespace :dev do
         description: supplier_catchphrases.uniq.sample,
         company_id: company.id,
       )
-      if s.persisted?
-        puts s.inspect
-      else
-        puts s.errors.full_messages
-      end
+      # if s.persisted?
+      #   puts s.inspect
+      # else
+      #   puts s.errors.full_messages
+      # end
     end
     puts "50 suppliers created"
     600.times do
@@ -222,11 +226,11 @@ namespace :dev do
         company_id: company.id,
         branch_id: Branch.all.sample.id,
       )
-      if p.persisted?
-        puts p.inspect
-      else
-        puts p.errors.full_messages
-      end
+      # if p.persisted?
+      #   puts p.inspect
+      # else
+      #   puts p.errors.full_messages
+      # end
     end
     puts "600 products created"
 

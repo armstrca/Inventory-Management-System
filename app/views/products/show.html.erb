@@ -6,13 +6,13 @@
 
 <div>
   <% if current_user.role == "admin" %>
-    <%= button_to "Edit product", edit_product_path, method: :get %> 
+    <%= button_to "Edit #{@product}", edit_product_path, method: :get %> 
     <p></p>
     <%= button_to "All Products", products_path, method: :get %>
     <p></p>
     <%= button_to "Delete Product", product_path, method: :delete %>
   <% elsif current_user.role == "manager" %>
-    <%= button_to "Edit Product", edit_product_path, method: :get %> 
+    <%= button_to "Edit #{@product}", edit_product_path, method: :get %> 
     <p></p>
     <%= button_to "All Products", products_path, method: :get %>
     <p></p>

@@ -67,6 +67,6 @@ class ReportsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def report_params
-      params.require(:report).permit(:report_type, :date, :data_criteria)
+      params.require(:report).permit(:report_type, :date, :data_criteria, :company_id, :branch_id)
     end
 end
