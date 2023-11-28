@@ -82,10 +82,6 @@ ActiveRecord::Schema[7.0].define(version: 21) do
     t.datetime "updated_at", null: false
     t.integer "product_id", null: false
     t.integer "order_id", null: false
-    t.integer "company_id"
-    t.integer "branch_id"
-    t.index ["branch_id"], name: "index_order_products_on_branch_id"
-    t.index ["company_id"], name: "index_order_products_on_company_id"
     t.index ["order_id"], name: "index_order_products_on_order_id"
     t.index ["product_id"], name: "index_order_products_on_product_id"
   end
@@ -201,8 +197,6 @@ ActiveRecord::Schema[7.0].define(version: 21) do
   add_foreign_key "categories", "companies"
   add_foreign_key "inventory_transactions", "branches"
   add_foreign_key "inventory_transactions", "companies"
-  add_foreign_key "order_products", "branches"
-  add_foreign_key "order_products", "companies"
   add_foreign_key "order_products", "orders"
   add_foreign_key "order_products", "products"
   add_foreign_key "orders", "branches"

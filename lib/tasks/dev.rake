@@ -241,8 +241,6 @@ namespace :dev do
         shipping_cost: Faker::Number.between(from: 1, to: 30),
         order_id: Order.all.sample.id,
         product_id: Product.all.sample.id,
-        company_id: company.id,
-        branch_id: Branch.all.sample.id,
       )
       # if op.persisted?
       #   puts op.inspect
@@ -255,5 +253,3 @@ namespace :dev do
     puts "Sample data has been seeded into the database."
   end
 end
-# end
-# end

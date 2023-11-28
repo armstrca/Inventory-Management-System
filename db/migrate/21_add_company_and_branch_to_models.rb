@@ -20,9 +20,6 @@ class AddCompanyAndBranchToModels < ActiveRecord::Migration[7.0]
     add_reference :reports, :company, foreign_key: { to_table: :companies }
     add_reference :reports, :branch, foreign_key: { to_table: :branches }
 
-    add_reference :order_products, :company, foreign_key: { to_table: :companies }
-    add_reference :order_products, :branch, foreign_key: { to_table: :branches }
-
     add_reference :storage_locations, :company, foreign_key: { to_table: :companies }
     add_reference :storage_locations, :branch, foreign_key: { to_table: :branches }
 

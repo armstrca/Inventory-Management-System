@@ -49,21 +49,10 @@ class OrdersController < ApplicationController
   # POST /orders or /orders.json
   # POST /orders or /orders.json
   def create
+    puts "Order params: #{order_params.inspect}"
     @order = Order.new(order_params)
     authorize @order
     @pagy, @products = pagy(Product.all)
-
-    # Map product_ids to Product instances
-    product_ids = order_params[:product_ids].reject(&:blank?).map(&:to_i)
-    @order.product_ids = product_ids
-
-    products = Product.where(id: product_ids)
-
-    puts "Order Params Products: #{order_params[:product_ids]}"
-    puts "Product IDs: #{product_ids.inspect}"
-    puts "Products: #{products.inspect}"
-
-    @order.products = products
 
     respond_to do |format|
       if @order.save
@@ -98,7 +87,7 @@ class OrdersController < ApplicationController
         # Additional logic to associate products with the order
         if processed_order_params[:products].present?
           product_ids = processed_order_params[:products].reject(&:empty?).map(&:to_i)
-          products = Product.where(id: product_ids)
+          @order.product_ids = product_ids
 
           if products.count == product_ids.count
             # Debugging line 2: Print the list of product_ids and their count
@@ -149,10 +138,6 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
-  def outgoing_params
-    params.require(:order).permit(:attribute1, :attribute2, :attribute3)
-  end
-
   # Only allow a list of trusted parameters through.
   def order_params
     params.require(:order).permit(
@@ -163,7 +148,7 @@ class OrdersController < ApplicationController
       :sending_address,
       :company_id,
       :branch_id,
-      product_ids: [],
+      order_products_attributes: [:id, :quantity_ordered, :shipping_cost, :product_id],
     )
   end
 end

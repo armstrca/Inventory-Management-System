@@ -41,8 +41,8 @@ class Product < ApplicationRecord
   belongs_to :category
   belongs_to :subcategory
   belongs_to :supplier
-  has_many :orders, through: :order_products
-  has_many :order_products
+  has_many :order_products, dependent: :destroy
+  has_many :orders, through: :order_products, dependent: :destroy
   include Ransackable
 
   def category_name
