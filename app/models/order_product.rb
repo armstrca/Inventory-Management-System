@@ -23,7 +23,7 @@
 #  product_id  (product_id => products.id)
 #
 class OrderProduct < ApplicationRecord
-  belongs_to :order, dependent: :destroy
-  belongs_to :product, dependent: :destroy
+  belongs_to :order
+  belongs_to :product
   include Ransackable
 end

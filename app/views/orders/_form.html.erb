@@ -2,7 +2,7 @@
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=<%= ENV.fetch("GMAPS_KEY") %>&libraries=places&callback=initMap"></script>
 
-<%= form_with(model: order) do |form| %>
+<%= form_with(model: order, multipart: true) do |form| %>
   <% if order.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(order.errors.count, "error") %> prohibited this order from being saved:</h2>
@@ -18,12 +18,12 @@
   <%= form.hidden_field :branch_id, value: current_user.branch_id %>
   <div>
     <%= form.label :expected_delivery, style: "display: block" %>
-    <%= form.date_field :expected_delivery %>
+    <%= form.date_field :expected_delivery, required: true %>
   </div>
 
   <div>
     <%= form.label :status, style: "display: block" %>
-    <%= form.select :status, ['Processing', 'In Transit', 'Delivered'] %>
+    <%= form.select :status, ['Processing', 'In Transit', 'Delivered'], required: true %>
   </div>
 
   <div>
@@ -31,18 +31,18 @@
     <% if order.new_record? %>
       <%= form.collection_select :sending_address, StorageLocation.all, :address, :address %>
     <% else %>
-      <%= form.text_field :sending_address %>
+      <%= form.text_field :sending_address, required: true %>
     <% end %>
   </div>
 
   <div>
     <%= form.label :receiving_address, style: "display: block" %>
-    <%= form.text_field :receiving_address, id: "receiving_address", class: "google-places-autocomplete", placeholder: "Enter an address", style: "width: 350px;" %>
+    <%= form.text_field :receiving_address, id: "receiving_address", class: "google-places-autocomplete", placeholder: "Enter an address", style: "width: 350px;", required: true %>
   </div>
 
   <div>
     <%= form.label :description, style: "display: block" %>
-    <%= form.text_field :description %>
+    <%= form.text_field :description, required: true %>
   </div>
   <p>
     <script>
@@ -55,6 +55,27 @@
           selectable: true,
           fixedheader: true
         });
+
+    $('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"]').prop('disabled', true);
+
+    // Handle remove product click
+    $('#productsTable').on('click', '.remove-product', function() {
+      var row = $(this).closest('tr');
+      var productId = row.find('input[name$="[product_id]"]').val();
+
+      // Remove the row using DataTables API
+      table.row(row).remove().draw(false);
+
+      // Disable the corresponding fields in the form
+      $('input[name$="[order_products_attributes]['+ productId +'][quantity_ordered]"]').prop('disabled', true);
+      $('input[name$="[order_products_attributes]['+ productId +'][shipping_cost]"]').prop('disabled', true);
+    });
+
+    $('#productsTable').on('change', 'input[type="checkbox"]', function() {
+      var checkbox = $(this);
+      var fields = checkbox.closest('tr').find('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"]');
+      fields.prop('disabled', !checkbox.prop('checked'));
+    });
       });
             function initMap() {
         var input = document.getElementById('receiving_address');
@@ -77,40 +98,41 @@
         });
       }
     </script>
-    <%= form.fields_for :order_products, OrderProduct.new do |order_product_fields| %>
-
-      <div class="row">
-        <div id="products" class="col">
-          <div class="card shadow mb-4">
-            <div class="card-header py-3 -header" data-toggle="" data-target="#productsTable">
-              <div class="d-flex justify-content-between align-items-center">
-                <h6 class="m-0 font-weight-regular text-black">Products</h6>
-                <%== pagy_items_selector_js(@pagy, item_name: 'Products'.pluralize(@pagy.count)) %>
-              </div>
+    <div class="row">
+      <div id="products" class="col">
+        <div class="card shadow mb-4">
+          <div class="card-header py-3 -header" data-toggle="" data-target="#productsTable">
+            <div class="d-flex justify-content-between align-items-center">
+              <h6 class="m-0 font-weight-regular text-black">Products</h6>
+              <%== pagy_items_selector_js(@pagy, item_name: 'Products'.pluralize(@pagy.count)) %>
             </div>
-            <div class="card-body " id="productsTableCollapse">
-              <div class="table-responsive">
-                <table class="table datatable-bordered" id="productsTable" width="100%" cellspacing="0">
-                  <thead class="datatable-header">
-                    <tr>
-                      <th class="sortable" data-mdb-sort="check-box"></th>
-                      <th class="sortable" data-mdb-sort="product_id">ID</th>
-                      <th class="sortable" data-mdb-sort="name">Name</th>
-                      <th class="sortable" data-mdb-sort="description">Description</th>
-                      <th class="sortable" data-mdb-sort="sku">SKU</th>
-                      <th class="sortable" data-mdb-sort="price">Price</th>
-                      <th class="sortable" data-mdb-sort="quantity">Units</th>
-                      <th class="sortable" data-mdb-sort="category">Category</th>
-                      <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
-                      <th class="sortable" data-mdb-sort="supplier">Supplier</th>
-                      <th class="sortable" data-mdb-sort="quantity_ordered">Quantity Ordered</th>
-                      <th class="sortable" data-mdb-sort="shipping_cost">Shipping Cost</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% @products.each do |product| %>
+          </div>
+          <div class="card-body " id="productsTableCollapse">
+            <div class="table-responsive">
+              <table class="table datatable-bordered" id="productsTable" width="100%" cellspacing="0">
+                <thead class="datatable-header">
+                  <tr>
+                    <th class="sortable" data-mdb-sort="check-box"></th>
+                    <th class="sortable" data-mdb-sort="product_id">ID</th>
+                    <th class="sortable" data-mdb-sort="name">Name</th>
+                    <th class="sortable" data-mdb-sort="description">Description</th>
+                    <th class="sortable" data-mdb-sort="sku">SKU</th>
+                    <th class="sortable" data-mdb-sort="price">Price</th>
+                    <th class="sortable" data-mdb-sort="quantity">Units</th>
+                    <th class="sortable" data-mdb-sort="category">Category</th>
+                    <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
+                    <th class="sortable" data-mdb-sort="supplier">Supplier</th>
+                    <th class="sortable" data-mdb-sort="quantity_ordered">Quantity Ordered</th>
+                    <th class="sortable" data-mdb-sort="shipping_cost">Shipping Cost</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @products.each do |product| %>
+                    <% existing_order_product = @order.order_products.find_by(product_id: product.id) %>
+                    <%= form.fields_for :order_products, existing_order_product || product.order_products.new do |order_product_fields| %>
                       <tr>
-                        <td><%= order_product_fields.check_box :product_id, {}, product.id, nil %></td>
+                        <td><%= order_product_fields.check_box :product_id, { checked: existing_order_product.present? }, product.id, nil %></td>
                         <td><%= product.id %></td>
                         <td><%= link_to product.name, product %></td>
                         <td><%= product.description %></td>
@@ -120,19 +142,24 @@
                         <td><%= product.category ? link_to(product.category.name, product.category) : '' %></td>
                         <td><%= product.subcategory ? link_to(product.subcategory.name, product.subcategory) : '' %></td>
                         <td><%= product.supplier ? link_to(product.supplier.name, product.supplier) : '' %></td>
-                        <td><%= order_product_fields.number_field :quantity_ordered %></td>
-                        <td><%= order_product_fields.number_field :shipping_cost %></td>
+                        <td><%= order_product_fields.number_field :quantity_ordered, value: existing_order_product&.quantity_ordered %></td>
+                        <td><%= order_product_fields.number_field :shipping_cost, value: existing_order_product&.shipping_cost %></td>
+                        <td><% if existing_order_product.present? %>
+                          <%= link_to "Delete", remove_product_order_path(), method: :delete, data: { confirm: "Are you sure?" } %>
+                        <% end %></td>
+
                       </tr>
                     <% end %>
                   <% end %>
+
                 </tbody>
 
               </table>
               <div class="pagy-container" style="display: flex; justify-content: space-between; font-family: 'Philosopher';">
-                <div class="pagy-info" id="productsTable_info" role="status" aria-live="polite" style="padding-top: 7px;">
+                <div class="pagy-info" id="productsTable_info" role="status" aria-live="polite" style="padding-top: 10px;">
                   <%== pagy_info(@pagy) %>
                 </div>
-                <div class="pagy-nav">
+                <div class="pagy-nav" style="padding-top: 10px;">
                   <%== render partial: 'pagy/bootstrap_nav', locals: {pagy: @pagy} %>
                 </div>
               </div>
@@ -146,13 +173,3 @@
       </div>
 
     <% end %>
-
-    <script>
-      $(document).ready(function() {
-        $('#productsTable').on('change', 'input[type="checkbox"]', function() {
-          var checkbox = $(this);
-          var fields = checkbox.closest('tr').find('input, select');
-          fields.prop('disabled', !checkbox.prop('checked'));
-        });
-      });
-    </script>

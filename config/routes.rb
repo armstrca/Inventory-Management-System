@@ -10,6 +10,9 @@ Rails.application.routes.draw do
   resources :order_items
   get '/orders/incoming', to: 'orders#incoming'
   get '/orders/outgoing', to: 'orders#outgoing'
+  resources :orders do
+    delete 'remove_product/:id', to: 'orders#remove_product', on: :member, as: :remove_product
+  end
   resources :orders
   resources :suppliers
   resources :categories
