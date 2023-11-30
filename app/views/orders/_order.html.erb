@@ -1,5 +1,4 @@
 <!--/workspaces/Inventory-Management-System/app/views/orders/_order.html.erb-->
-<!--/workspaces/Inventory-Management-System/app/views/orders/_order.html.erb-->
 <div id="<%= dom_id order %>">
   <p>
     <h4>
@@ -24,12 +23,12 @@
 
   <p>
     <strong>Sending Address:</strong>
-    <%= order.sending_address %>
+    <%= link_to order.sending_address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(order.sending_address)}", target: "_blank"  %>
   </p>
 
   <p>
     <strong>Receiving Address:</strong>
-    <%= order.receiving_address %>
+    <%= link_to order.receiving_address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(order.receiving_address)}", target: "_blank"  %>
   </p>
   <script>
     $(document).ready(function() {
@@ -41,12 +40,12 @@
       });
     });
   </script>
-  <p>
+
 
     <!-- Add a table structure for products -->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-regular text-black">Order Contents:</h6>
+        <h6 class="m-0 font-weight-regular text-black">Order Contents</h6>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -62,6 +61,8 @@
                 <th class="sortable" data-mdb-sort="category">Category</th>
                 <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
                 <th class="sortable" data-mdb-sort="supplier">Supplier</th>
+                <th class="sortable" data-mdb-sort="supplier">Quantity</th>
+                <th class="sortable" data-mdb-sort="supplier">Shipping</th>
               </tr>
             </thead>
             <tbody>
@@ -76,6 +77,8 @@
                   <td><%= product.category.name %></td>
                   <td><%= product.subcategory.name %></td>
                   <td><%= link_to product.supplier.name %></td>
+                  <td><%= product.order_products.find_by(order_id: order.id).quantity_ordered %></td>
+                  <td>$<%= number_with_precision(product.order_products.find_by(order_id: order.id).shipping_cost, precision: 2) %></td>
                 </tr>
               <% end %>
             </tbody>

@@ -23,6 +23,9 @@
     <%= form.text_field :description %>
   </div>
 
+  <%= form.hidden_field :company_id, value: current_user.company_id %>
+
+
   <div>
     <%= form.submit %>
   </div>

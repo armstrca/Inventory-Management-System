@@ -30,10 +30,12 @@
 #
 class Order < ApplicationRecord
   belongs_to :company
-  belongs_to :branch
-  has_many :order_products
+  belongs_to :branch, optional: true
+  has_many :order_products, dependent: :destroy
   has_many :products, through: :order_products
   belongs_to :supplier, optional: true
+
+  accepts_nested_attributes_for :order_products, allow_destroy: true
 
   def self.incoming
     Order.where(receiving_address: StorageLocation.select(:address)).order(expected_delivery: :asc)
@@ -42,5 +44,6 @@ class Order < ApplicationRecord
   def self.outgoing
     Order.where(sending_address: StorageLocation.select(:address)).order(expected_delivery: :asc)
   end
+
   include Ransackable
 end

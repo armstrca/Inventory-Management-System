@@ -23,6 +23,9 @@
     <%= form.date_field :date %>
   </div>
 
+  <%= form.hidden_field :company_id, value: current_user.company_id %>
+  <%= form.hidden_field :branch_id, value: current_user.branch_id %>
+
   <div>
     <%= form.label :data_criteria, style: "display: block" %>
     <%= form.text_field :data_criteria %>

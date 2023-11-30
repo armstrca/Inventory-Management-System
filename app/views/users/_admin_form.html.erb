@@ -1,5 +1,4 @@
 <!--/workspaces/Inventory-Management-System/app/views/users/_admin_form.html.erb-->
-<!--/workspaces/Inventory-Management-System/app/views/users/_admin_form.html.erb-->
 <%= form_with(model: user, url: @admin_form_url, method: @http_method) do |form| %>
   <% if user.errors.any? %>
     <div style="color: red">
@@ -13,8 +12,6 @@
     </div>
   <% end %>
 
-<%# debugger %>
-
   <div>
     <%= form.label :first_name, style: "display: block" %>
     <%= form.text_field :first_name, required: true %>
@@ -27,18 +24,19 @@
     <p>
       <div>
         <%= form.label :email, style: "display: block" %>
-        <%= form.text_field :email, required: true, id: "user_email" %>
+        <%= form.text_field :email, required: true, id: "user_email", autocomplete: "off" %>
         <span id="email-availability"></span>
       </div>
+
       <p>
         <div>
           <%= form.label :password, style: "display: block" %>
-          <%= form.password_field :password, required: !@user.persisted? %>
+          <%= form.password_field :password, required: true, autocomplete: "off" %>
         </div>
         <p>
           <div>
             <%= form.label :password_confirmation, style: "display: block" %>
-            <%= form.password_field :password_confirmation, required: !@user.persisted? %>
+            <%= form.password_field :password_confirmation, required: true %>
           </div>
           <p>
 
@@ -56,44 +54,27 @@
                 </div>
 
               <% end %>
-
+              <%= form.hidden_field :company_id, value: current_user.company_id %>
               <p>
                 <div>
-                  <%= form.label :bio, style: "display: block" %>
-                  <%= form.text_field :bio, required: true %>
+                  <%= form.label :branch_id, style: "display: block" %>
+                  <%= form.collection_select :branch_id, current_user.company.branches, :id, :name, prompt: "Select a branch" %>
                 </div>
                 <p>
                   <div>
-                    <%= form.submit @action, id: 'create-update-button' %>
-
+                    <%= form.label :bio, style: "display: block" %>
+                    <%= form.text_field :bio, required: true %>
                   </div>
+                  <p>
+                    <div>
+                      <%= form.submit @action, id: 'create-update-button' %>
 
-<!--                  <script>
-                    // Function to check email availability
-                    function checkEmailAvailability() {
-                      const email = $('#user_email').val();
-
-                      $.post('/users/check_email_availability', { email: email }, function (data) {
-                        if (data.available) {
-                          $('#email-availability').text('Email is available');
-                          $('#email-availability').removeClass('unavailable');
-                          $('#create-update-button').prop('disabled', false); // Enable the button
-                        } else {
-                          $('#email-availability').text('Email is already taken');
-                          $('#email-availability').addClass('unavailable');
-                          $('#create-update-button').prop('disabled', true); // Disable the button
-                        }
-                      });
-                    }
-
-                    // Bind the function to the email input's change event
-                    $('#user_email').on('change', checkEmailAvailability);
-                  </script>-->
-                <% end %>
+                    </div>
+                  <% end %>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>

@@ -75,6 +75,6 @@ class InventoryTransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def inventory_transaction_params
-      params.require(:inventory_transaction).permit(:transaction_type, :quantity)
+      params.require(:inventory_transaction).permit(:transaction_type, :quantity, :company_id, :branch_id)
     end
 end

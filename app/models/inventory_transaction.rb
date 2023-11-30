@@ -24,6 +24,6 @@
 #
 class InventoryTransaction < ApplicationRecord
   belongs_to :company
-  belongs_to :branch
+  belongs_to :branch, optional: true
   include Ransackable
 end

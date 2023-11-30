@@ -20,6 +20,10 @@ class OrderPolicy < ApplicationPolicy
    true
   end
 
+  def remove_product?
+    user.admin? || user.manager?
+  end
+
   def show?
     user.staff? || user.admin? || user.manager?
   end

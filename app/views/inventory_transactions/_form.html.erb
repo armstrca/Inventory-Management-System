@@ -23,6 +23,9 @@
     <%= form.number_field :quantity %>
   </div>
 
+  <%= form.hidden_field :company_id, value: current_user.company_id %>
+  <%= form.hidden_field :branch_id, value: current_user.branch_id %>
+
   <div>
     <%= form.submit %>
   </div>

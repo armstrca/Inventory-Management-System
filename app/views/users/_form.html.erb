@@ -1,5 +1,4 @@
 <!-- /workspaces/Inventory-Management-System/app/views/users/_form.html.erb -->
-
 <%= form_with(model: user, url: @form_url, method: @http_method) do |form| %>
   <% if user.errors.any? %>
     <div style="color: red">
@@ -27,13 +26,20 @@
 
       <div>
         <%= form.label :email, style: "display: block" %>
-        <%= form.text_field :email, required: !@user.persisted?, id: "user_email" %>
+        <%= form.text_field :email, required: !@user.persisted?, id: "user_email", autocomplete: "off" %>
         <span id="email-availability"></span>
       </div>
 
       <div>
         <%= form.label :password, style: "display: block" %>
-        <%= form.password_field :password, required: !@user.persisted? %>
+        <%= form.password_field :password, required: !@user.persisted?, autocomplete: "off" %>
+      </div>
+
+      <%= form.hidden_field :company_id, value: current_user.company_id %>
+
+      <div>
+        <%= form.label :branch_id, style: "display: block" %>
+        <%= form.collection_select :branch_id, current_user.company.branches, :id, :name, prompt: "Select a branch" %>
       </div>
 
       <div>

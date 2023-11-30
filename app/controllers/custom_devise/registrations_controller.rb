@@ -38,6 +38,6 @@ class CustomDevise::RegistrationsController < Devise::RegistrationsController
 
   def sign_up_params
     # Customize the permitted parameters for user creation
-    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :role, :bio, :image)
+    params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :role, :bio, :image, :company_id, :branch_id)
   end
 end

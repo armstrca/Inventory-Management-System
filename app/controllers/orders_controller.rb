@@ -30,29 +30,43 @@ class OrdersController < ApplicationController
     @incoming_orders = Order.incoming
     @outgoing_orders = Order.outgoing
     authorize @order
+    @pagy, @products = pagy(Product.all)
   end
 
   # GET /orders/new
   def new
     @order = Order.new
+    selected_products_count = params[:selected_products_count].to_i
+    selected_products_count.times { @order.order_products.build }
     authorize @order
+    @pagy, @products = pagy(Product.all)
   end
 
   def edit
-    @order = Order.find(params[:id]) # Retrieve the order by its ID
+    @order = Order.find(params[:id])
+    @order.order_products.build if @order.order_products.empty? # Build a new OrderProduct if none exist
     authorize @order
+    @pagy, @products = pagy(Product.all)
   end
 
   # POST /orders or /orders.json
   def create
+    puts "Order params: #{order_params.inspect}"
     @order = Order.new(order_params)
+    order_product_attributes = order_params[:order_products_attributes]
+    selected_product_ids = order_product_attributes.values.map { |product| product[:product_id] } if order_product_attributes.present?
+
     authorize @order
+    @pagy, @products = pagy(Product.all)
 
     respond_to do |format|
       if @order.save
-        format.html { redirect_to order_url(@order), notice: "Order was successfully created." }
+        format.html { redirect_to order_url(@order), notice: "Order successfully created." }
         format.json { render :show, status: :created, location: @order }
       else
+        # Debugging line: Print the errors if the order save fails
+        puts "Order save failed. Errors: #{@order.errors.full_messages}"
+
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @order.errors, status: :unprocessable_entity }
       end
@@ -62,45 +76,46 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1 or /orders/1.json
   def update
     @order = Order.find(params[:id])
+    @order.order_products.build if @order.order_products.empty?
+
     authorize @order
 
     # Process the order_params to remove empty strings from the products array
     processed_order_params = order_params
-    if processed_order_params[:products].present?
-      processed_order_params[:products]&.reject!(&:blank?)
-    end
 
     respond_to do |format|
-      if @order.update(processed_order_params)
-        # Debugging line 1: Print the processed order_params to the console
-        puts "Processed order_params: #{processed_order_params.inspect}"
+      if processed_order_params[:order_products_attributes].present? && @order.update(processed_order_params)
+        # Additional logic to update existing order products
+        existing_order_product_ids = @order.order_products.pluck(:product_id)
 
-        # Additional logic to associate products with the order
-        if processed_order_params[:products].present?
-          product_ids = processed_order_params[:products].reject(&:empty?).map(&:to_i)
-          products = Product.where(id: product_ids)
+        if processed_order_params[:order_products_attributes].present?
+          submitted_order_products = processed_order_params[:order_products_attributes].values
 
-          if products.count == product_ids.count
-            # Debugging line 2: Print the list of product_ids and their count
-            puts "Product IDs: #{product_ids.inspect}, Count: #{product_ids.count}"
+          submitted_order_products.each do |submitted_product|
+            product_id = submitted_product[:product_id].to_i
+            existing_order_product = @order.order_products.find_by(product_id: product_id)
 
-            # All products exist, associate them with the order
-            @order.products = products
-            @order.save
-            format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
-            format.json { render :show, status: :ok, location: @order }
-          else
-            # Handle the case where some products don't exist
-            format.html { render :edit, status: :unprocessable_entity, notice: "Some selected products do not exist." }
-            format.json { render json: { error: "Some selected products do not exist." }, status: :unprocessable_entity }
+            if existing_order_product.present?
+              # Use existing values unless explicitly altered
+              existing_order_product.update(
+                quantity_ordered: submitted_product[:quantity_ordered].presence || existing_order_product.quantity_ordered,
+                shipping_cost: submitted_product[:shipping_cost].presence || existing_order_product.shipping_cost,
+              )
+            else
+              # If the product_id doesn't exist in the order, create a new order_product
+              @order.order_products.create(
+                product_id: product_id,
+                quantity_ordered: submitted_product[:quantity_ordered],
+                shipping_cost: submitted_product[:shipping_cost],
+              )
+            end
           end
-        else
-          # No products selected, do nothing
-          format.html { redirect_to order_url(@order), notice: "Order was successfully updated." }
-          format.json { render :show, status: :ok, location: @order }
         end
+
+        format.html { redirect_to order_url(@order), notice: "Order successfully updated." }
+        format.json { render :show, status: :ok, location: @order }
       else
-        # Debugging line 3: Print the errors if the order update fails
+        # Debugging line: Print the errors if the order update fails
         puts "Order update failed. Errors: #{order.errors.full_messages}"
 
         format.html { render :edit, status: :unprocessable_entity }
@@ -117,8 +132,30 @@ class OrdersController < ApplicationController
       product.update(category: nil)
     end
     respond_to do |format|
-      format.html { redirect_to orders_url, notice: "Order was successfully destroyed." }
+      format.html { redirect_to orders_url, notice: "Order successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  # DELETE /orders/1/remove_product/2
+  def remove_product
+    @order = Order.find(params[:id])
+    product_id = params[:product_id]
+    authorize @order
+    # Ensure the product is associated with the order
+    order_product = @order.order_products.find_by(product_id: product_id)
+
+    if order_product
+      order_product.destroy
+      respond_to do |format|
+        format.html { redirect_to edit_order_url(@order), notice: "Product successfully removed from the order." }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to edit_order_url(@order), alert: "Product not found in the order." }
+        format.json { render json: { error: "Product not found in the order." }, status: :not_found }
+      end
     end
   end
 
@@ -129,10 +166,6 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
-  def outgoing_params
-    params.require(:order).permit(:attribute1, :attribute2, :attribute3)
-  end
-
   # Only allow a list of trusted parameters through.
   def order_params
     params.require(:order).permit(
@@ -141,7 +174,9 @@ class OrdersController < ApplicationController
       :description,
       :receiving_address,
       :sending_address,
-      product_ids: [],
+      :company_id,
+      :branch_id,
+      order_products_attributes: [:id, :quantity_ordered, :shipping_cost, :product_id],
     )
   end
 end
