@@ -74,6 +74,7 @@ class OrdersController < ApplicationController
   end
 
   # PATCH/PUT /orders/1 or /orders/1.json
+
   def update
     @order = Order.find(params[:id])
     @order.order_products.build if @order.order_products.empty?
@@ -101,6 +102,11 @@ class OrdersController < ApplicationController
                 quantity_ordered: submitted_product[:quantity_ordered].presence || existing_order_product.quantity_ordered,
                 shipping_cost: submitted_product[:shipping_cost].presence || existing_order_product.shipping_cost,
               )
+
+              # Update stock_quantity for the associated product
+              product = existing_order_product.product
+              new_stock_quantity = product.stock_quantity - existing_order_product.quantity_ordered.to_i
+              product.update(stock_quantity: new_stock_quantity)
             else
               # If the product_id doesn't exist in the order, create a new order_product
               @order.order_products.create(

@@ -1,5 +1,4 @@
 <!--/workspaces/Inventory-Management-System/app/views/products/_product.html.erb-->
-<!--/workspaces/Inventory-Management-System/app/views/products/_product.html.erb-->
 <div id="<%= dom_id product %>">
   <p>
     <strong>Name:</strong>
@@ -18,7 +17,7 @@
 
   <p>
     <strong>Price:</strong>
-    $<%= product.price %>
+    $<%= number_with_precision(product.price, precision: 2) %>
   </p>
 
   <p>
