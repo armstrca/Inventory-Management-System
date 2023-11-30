@@ -56,10 +56,10 @@
           fixedheader: true
         });
 
-    $('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"]').prop('disabled', true);
+          $('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"]').prop('disabled', true);
 
-    // Handle remove product click
-    $('#productsTable').on('click', '.remove-product', function() {
+          // Handle remove product click
+          $('#productsTable').on('click', '.remove-product', function() {
       var row = $(this).closest('tr');
       var productId = row.find('input[name$="[product_id]"]').val();
 
@@ -69,13 +69,13 @@
       // Disable the corresponding fields in the form
       $('input[name$="[order_products_attributes]['+ productId +'][quantity_ordered]"]').prop('disabled', true);
       $('input[name$="[order_products_attributes]['+ productId +'][shipping_cost]"]').prop('disabled', true);
-    });
+          });
 
-    $('#productsTable').on('change', 'input[type="checkbox"]', function() {
+          $('#productsTable').on('change', 'input[type="checkbox"]', function() {
       var checkbox = $(this);
       var fields = checkbox.closest('tr').find('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"]');
       fields.prop('disabled', !checkbox.prop('checked'));
-    });
+          });
       });
             function initMap() {
         var input = document.getElementById('receiving_address');
@@ -144,10 +144,16 @@
                         <td><%= product.supplier ? link_to(product.supplier.name, product.supplier) : '' %></td>
                         <td><%= order_product_fields.number_field :quantity_ordered, value: existing_order_product&.quantity_ordered %></td>
                         <td><%= order_product_fields.number_field :shipping_cost, value: existing_order_product&.shipping_cost %></td>
-                        <td><% if existing_order_product.present? %>
-                          <%= link_to "Delete", remove_product_order_path(), method: :delete, data: { confirm: "Are you sure?" } %>
-                        <% end %></td>
+                        <td>
+                          <td>
+                            <% if existing_order_product %>
+                              <%= link_to 'Delete', remove_product_order_path(@order, product_id: existing_order_product.product_id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+                            <% else %>
+                              <!-- Handle the case when existing_order_product is nil -->
+                            <% end %>
+                          </td>
 
+                        </td>
                       </tr>
                     <% end %>
                   <% end %>
