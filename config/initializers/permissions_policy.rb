@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/config/initializers/permissions_policy.rb
-#/workspaces/Inventory-Management-System/config/initializers/permissions_policy.rb
 # Define an application-wide HTTP permissions policy. For further
 # information see https://developers.google.com/web/updates/2018/06/feature-policy
 #

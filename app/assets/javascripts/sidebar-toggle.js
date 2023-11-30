@@ -1,3 +1,4 @@
+///workspaces/Inventory-Management-System/app/assets/javascripts/sidebar-toggle.js
 // sidebar-toggle.js
 $(document).ready(function () {
   function toggleSidebar() {

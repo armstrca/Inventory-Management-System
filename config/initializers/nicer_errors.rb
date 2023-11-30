@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/config/initializers/nicer_errors.rb
-#/workspaces/Inventory-Management-System/config/initializers/nicer_errors.rb
 
 module ActionDispatch
   class ExceptionWrapper

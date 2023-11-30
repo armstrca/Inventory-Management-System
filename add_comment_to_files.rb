@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/add_comment_to_files.rb
-#/workspaces/Inventory-Management-System/add_comment_to_files.rb
 def add_comment_to_file(file_path)
   comment_char, comment_end = comment_chars_for_file(file_path)
   comment = "#{comment_char}#{file_path}#{comment_end}"

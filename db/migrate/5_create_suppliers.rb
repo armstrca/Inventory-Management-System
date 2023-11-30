@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/db/migrate/5_create_suppliers.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231017201059_create_suppliers.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231017201059_create_suppliers.rb
 class CreateSuppliers < ActiveRecord::Migration[7.0]

@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/models/subcategory.rb
-#/workspaces/Inventory-Management-System/app/models/subcategory.rb
 # == Schema Information
 #
 # Table name: subcategories

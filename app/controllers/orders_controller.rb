@@ -148,13 +148,14 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     product_id = params[:product_id]
     authorize @order
+
     # Ensure the product is associated with the order
     order_product = @order.order_products.find_by(product_id: product_id)
 
     if order_product
       order_product.destroy
       respond_to do |format|
-        format.html { redirect_to edit_order_url(@order), notice: "Product successfully removed from the order." }
+        format.html { redirect_to order_url(@order), notice: "Product successfully removed from the order." }
         format.json { head :no_content }
       end
     else

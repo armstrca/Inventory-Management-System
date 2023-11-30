@@ -1,3 +1,5 @@
+# /workspaces/Inventory-Management-System/lib/tasks/dev.rake
+
 # unless Rails.env.production?
 namespace :dev do
   desc "Drops, creates, migrates, and adds sample data to database"
@@ -178,11 +180,11 @@ namespace :dev do
         branch_id: Branch.all.sample.id,
       )
 
-      if o.persisted?
-        puts o.inspect
-      else
-        puts o.errors.full_messages
-      end
+      # if o.persisted?
+      #   puts o.inspect
+      # else
+      #   puts o.errors.full_messages
+      # end
     end
 
     puts "1000 orders created"
@@ -235,7 +237,7 @@ namespace :dev do
     puts "600 products created"
 
     # Seed OrderProducts table with sample data
-    200.times do
+    4500.times do
       op = OrderProduct.create(
         quantity_ordered: Faker::Number.between(from: 2, to: 20),
         shipping_cost: Faker::Number.between(from: 1, to: 30),

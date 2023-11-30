@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/db/migrate/4_create_products.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231017200902_create_products.rb
 class CreateProducts < ActiveRecord::Migration[7.0]
   def change

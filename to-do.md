@@ -23,13 +23,6 @@ IMPORTANT
   Allow CRUD of storage_location
 
 -----------------------------------------------------------------------
-
-
-uuuuh this app only works for one business at a time. So all the models would have to be updated with a company_id association or something if more than one company ever used it
-
-
-
-
 -----------------------------------------------------------------------
 
     Miscellaneous

@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/models/order.rb
-#/workspaces/Inventory-Management-System/app/models/order.rb
 # == Schema Information
 #
 # Table name: orders

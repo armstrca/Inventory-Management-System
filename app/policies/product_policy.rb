@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/policies/product_policy.rb
-#/workspaces/Inventory-Management-System/app/policies/product_policy.rb
 class ProductPolicy < ApplicationPolicy
   def create?
     user.admin? || user.manager?

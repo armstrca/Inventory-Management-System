@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/datatables/product_datatable.rb
 class ProductDatatable < AjaxDatatablesRails::Base
   def view_columns
     @view_columns ||= {
