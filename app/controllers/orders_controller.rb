@@ -49,29 +49,37 @@ class OrdersController < ApplicationController
     @pagy, @products = pagy(Product.all)
   end
 
-  # POST /orders or /orders.json
-  def create
-    puts "Order params: #{order_params.inspect}"
-    @order = Order.new(order_params)
-    order_product_attributes = order_params[:order_products_attributes]
-    selected_product_ids = order_product_attributes.values.map { |product| product[:product_id] } if order_product_attributes.present?
+# POST /orders or /orders.json
+def create
+  puts "Order params: #{order_params.inspect}"
+  @order = Order.new(order_params)
+  order_product_attributes = order_params[:order_products_attributes]
+  selected_product_ids = order_product_attributes.values.map { |product| product[:product_id] } if order_product_attributes.present?
 
-    authorize @order
-    @pagy, @products = pagy(Product.all)
+  authorize @order
+  @pagy, @products = pagy(Product.all)
 
-    respond_to do |format|
-      if @order.save
-        format.html { redirect_to order_url(@order), notice: "Order successfully created." }
-        format.json { render :show, status: :created, location: @order }
-      else
-        # Debugging line: Print the errors if the order save fails
-        puts "Order save failed. Errors: #{@order.errors.full_messages}"
-
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
+  respond_to do |format|
+    if @order.save
+      # Iterate through order products and update stock_quantity for each associated product
+      @order.order_products.each do |order_product|
+        product = order_product.product
+        new_stock_quantity = product.stock_quantity - order_product.quantity_ordered.to_i
+        product.update(stock_quantity: new_stock_quantity)
       end
+
+      format.html { redirect_to order_url(@order), notice: "Order successfully created." }
+      format.json { render :show, status: :created, location: @order }
+    else
+      # Debugging line: Print the errors if the order save fails
+      puts "Order save failed. Errors: #{@order.errors.full_messages}"
+
+      format.html { render :new, status: :unprocessable_entity }
+      format.json { render json: @order.errors, status: :unprocessable_entity }
     end
   end
+end
+
 
   # PATCH/PUT /orders/1 or /orders/1.json
 
@@ -143,28 +151,34 @@ class OrdersController < ApplicationController
     end
   end
 
-  # DELETE /orders/1/remove_product/2
-  def remove_product
-    @order = Order.find(params[:id])
-    product_id = params[:product_id]
-    authorize @order
+# DELETE /orders/1/remove_product/2
+def remove_product
+  @order = Order.find(params[:id])
+  product_id = params[:product_id]
+  authorize @order
 
-    # Ensure the product is associated with the order
-    order_product = @order.order_products.find_by(product_id: product_id)
+  # Ensure the product is associated with the order
+  order_product = @order.order_products.find_by(product_id: product_id)
 
-    if order_product
-      order_product.destroy
-      respond_to do |format|
-        format.html { redirect_to order_url(@order), notice: "Product successfully removed from the order." }
-        format.json { head :no_content }
-      end
-    else
-      respond_to do |format|
-        format.html { redirect_to edit_order_url(@order), alert: "Product not found in the order." }
-        format.json { render json: { error: "Product not found in the order." }, status: :not_found }
-      end
+  if order_product
+    # Update stock_quantity for the associated product before destroying the order_product
+    product = order_product.product
+    new_stock_quantity = product.stock_quantity + order_product.quantity_ordered.to_i
+    product.update(stock_quantity: new_stock_quantity)
+
+    order_product.destroy
+
+    respond_to do |format|
+      format.html { redirect_to order_url(@order), notice: "Product successfully removed from the order." }
+      format.json { head :no_content }
+    end
+  else
+    respond_to do |format|
+      format.html { redirect_to edit_order_url(@order), alert: "Product not found in the order." }
+      format.json { render json: { error: "Product not found in the order." }, status: :not_found }
     end
   end
+end
 
   private
 
