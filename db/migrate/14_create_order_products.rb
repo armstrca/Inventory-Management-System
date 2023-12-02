@@ -5,7 +5,7 @@ class CreateOrderProducts < ActiveRecord::Migration[7.0]
     create_table :order_products do |t|
       t.integer :quantity_ordered
       t.float :shipping_cost
-
+      t.string :transaction_type
       t.timestamps
     end
   end

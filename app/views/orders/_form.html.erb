@@ -53,11 +53,12 @@
           ordering: true,
           selectable: false,
           fixedheader: false,
-          searchable: false
+          searchable: false,
+          info: false,
         });
 
         // Disable certain input fields
-        $('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"]').prop('disabled', true);
+        $('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"], select[name$="[transaction_type]"]').prop('disabled', true);
 
         // Handle remove product click
         $('#productsTable').on('click', '.remove-product', function() {
@@ -68,37 +69,37 @@
           table.row(row).remove().draw(false);
 
           // Disable the corresponding fields in the form
-          $('input[name$="[order_products_attributes]['+ productId +'][quantity_ordered]"], input[name$="[order_products_attributes]['+ productId +'][shipping_cost]"]').prop('disabled', true);
+          $('input[name$="[order_products_attributes]['+ productId +'][quantity_ordered]"], input[name$="[order_products_attributes]['+ productId +'][shipping_cost]"], select[name$="[order_products_attributes]['+ productId +'][transaction_type]"]').prop('disabled', true);
         });
 
         // Handle checkbox change
         $('#productsTable').on('change', 'input[type="checkbox"]', function() {
           var checkbox = $(this);
-          var fields = checkbox.closest('tr').find('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"]');
+          var fields = checkbox.closest('tr').find('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"], select[name$="[transaction_type]"]');
           fields.prop('disabled', !checkbox.prop('checked'));
         });
-      });
+          });
 
-      function initMap() {
-        var input = document.getElementById('receiving_address');
+          function initMap() {
+            var input = document.getElementById('receiving_address');
 
-        if (!input) {
-          console.error("Could not find the 'receiving_address' input field.");
-          return;
-        }
+            if (!input) {
+              console.error("Could not find the 'receiving_address' input field.");
+              return;
+            }
 
-        if (!window.google || !window.google.maps || !window.google.maps.places) {
-          console.error("Google Maps API or Places library not loaded.");
-          return;
-        }
+            if (!window.google || !window.google.maps || !window.google.maps.places) {
+              console.error("Google Maps API or Places library not loaded.");
+              return;
+            }
 
-        var autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], apiKey: '<%= ENV.fetch("GMAPS_KEY") %>' });
+            var autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], apiKey: '<%= ENV.fetch("GMAPS_KEY") %>' });
 
-        autocomplete.addListener('place_changed', function() {
-          var place = autocomplete.getPlace();
-          console.log(place); // Log the place details to check if it's working as expected
-        });
-      }
+            autocomplete.addListener('place_changed', function() {
+              var place = autocomplete.getPlace();
+              console.log(place); // Log the place details to check if it's working as expected
+            });
+          }
     </script>
 
     <!--    <div class="row">
@@ -118,15 +119,13 @@
                 <th class="sortable" data-mdb-sort="check-box"></th>
                 <th class="sortable" data-mdb-sort="product_id">ID</th>
                 <th class="sortable" data-mdb-sort="name">Name</th>
-                <th class="sortable" data-mdb-sort="description">Description</th>
                 <th class="sortable" data-mdb-sort="sku">SKU</th>
                 <th class="sortable" data-mdb-sort="price">Price</th>
                 <th class="sortable" data-mdb-sort="quantity">Units</th>
-                <th class="sortable" data-mdb-sort="category">Category</th>
-                <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
                 <th class="sortable" data-mdb-sort="supplier">Supplier</th>
                 <th class="sortable" data-mdb-sort="quantity_ordered">Quantity Ordered</th>
                 <th class="sortable" data-mdb-sort="shipping_cost">Shipping</th>
+                <th class="sortable" data-mdb-sort="transaction_type">Type</th>
                 <th></th>
               </tr>
             </thead>
@@ -138,15 +137,16 @@
                     <td><%= order_product_fields.check_box :product_id, { checked: existing_order_product.present? }, product.id, nil %></td>
                     <td><%= product.id %></td>
                     <td><%= link_to product.name, product %></td>
-                    <td><%= product.description %></td>
                     <td><%= product.sku %></td>
                     <td>$<%= number_with_precision(product.price, precision: 2) %></td>
                     <td><%= product.stock_quantity %></td>
-                    <td><%= product.category ? link_to(product.category.name, product.category) : '' %></td>
-                    <td><%= product.subcategory ? link_to(product.subcategory.name, product.subcategory) : '' %></td>
                     <td><%= product.supplier ? link_to(product.supplier.name, product.supplier) : '' %></td>
                     <td><%= order_product_fields.number_field :quantity_ordered, value: existing_order_product&.quantity_ordered %></td>
                     <td><%= order_product_fields.number_field :shipping_cost, value: existing_order_product&.shipping_cost %></td>
+                    <td>
+                      <%= order_product_fields.select :transaction_type, ['sale_to_customer', 'purchase_from_supplier', 'customer_return', 'refund_to_customer', 'return_to_supplier', 'stock_loss'].map { |type| [type.gsub('_', ' ').capitalize, type] }, {}, required: true %>
+                    </td>
+
                     <td>
                       <% if existing_order_product %>
                         <%= link_to 'Delete', remove_product_order_path(@order, product_id: existing_order_product.product_id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
@@ -170,10 +170,11 @@
         </div>
       </div>
     </div>
-  </div>
+    <%#= form.hidden_field :total, value: @order.calculate_transaction_amount(existing_order_product || product.order_products.new) %>
+    <%= form.hidden_field :total, value: @order.calculate_total %>
 
-  <div>
-    <%= form.submit %>
-  </div>
+    <div>
+      <%= form.submit %>
+    </div>
 
-<% end %>
+  <% end %>

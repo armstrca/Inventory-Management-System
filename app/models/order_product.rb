@@ -6,6 +6,7 @@
 #  id               :integer          not null, primary key
 #  quantity_ordered :integer
 #  shipping_cost    :float
+#  transaction_type :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  order_id         :integer          not null

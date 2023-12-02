@@ -30,6 +30,12 @@
     <strong>Receiving Address:</strong>
     <%= link_to order.receiving_address, "https://www.google.com/maps?q=#{URI.encode_www_form_component(order.receiving_address)}", target: "_blank"  %>
   </p>
+
+<p>
+  <strong>Total:</strong>
+  $<%= number_with_precision(@order.total, precision: 2, negative_format: '(%n)') %></span>
+</p>
+
   <script>
     $(document).ready(function() {
       var table = $('#dataTable').DataTable({
@@ -41,6 +47,7 @@
     });
   </script>
 
+  <% @order_total = 0 %>
   <!-- Add a table structure for products -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -55,14 +62,14 @@
               <th class="sortable" data-mdb-sort="name">Name</th>
               <th class="sortable" data-mdb-sort="description">Description</th>
               <th class="sortable" data-mdb-sort="sku">SKU</th>
-              <th class="sortable" data-mdb-sort="price">Price</th>
-              <th class="sortable" data-mdb-sort="quantity">Units</th>
               <th class="sortable" data-mdb-sort="category">Category</th>
               <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
               <th class="sortable" data-mdb-sort="supplier">Supplier</th>
               <th class="sortable" data-mdb-sort="quantity">Quantity</th>
+              <th class="sortable" data-mdb-sort="price">Price</th>
               <th class="sortable" data-mdb-sort="shipping_cost">Shipping</th>
-            <th class="sortable" data-mdb-sort="delete"></th>
+              <th class="sortable" data-mdb-sort="type">Type</th>
+              <th class="sortable" data-mdb-sort="delete"></th>
             </tr>
           </thead>
           <tbody>
@@ -73,30 +80,40 @@
                 <td><%= link_to product.name, product %></td>
                 <td><%= product.description %></td>
                 <td><%= product.sku %></td>
-                <td>$<%= number_with_precision(product.price, precision: 2) %></td>
-                <td><%= product.stock_quantity %></td>
                 <td><%= product.category.name %></td>
                 <td><%= product.subcategory.name %></td>
                 <td><%= link_to product.supplier.name %></td>
                 <td><%= product.order_products.find_by(order_id: order.id).quantity_ordered %></td>
-                <td>$<%= number_with_precision(product.order_products.find_by(order_id: order.id).shipping_cost, precision: 2) %></td>
-              <td>
-<% if existing_order_product %>
-  <%= link_to 'Delete', remove_product_order_path(@order, product_id: existing_order_product.product_id),
+                <td>
+                  $<%= number_with_precision(product.price * existing_order_product.quantity_ordered, precision: 2) %>
+                </td>
+                <td>
+                  $<%= number_with_precision(product.order_products.find_by(order_id: order.id).shipping_cost, precision: 2) %>
+                </td>
+
+                <td><%= product.order_products.find_by(order_id: order.id).transaction_type.gsub('_', ' ').capitalize %></td>
+                <td>
+                  <% if existing_order_product %>
+                    <%= link_to 'Delete', remove_product_order_path(@order, product_id: existing_order_product.product_id),
               method: :delete, data: { confirm: 'Are you sure?' },
               class: 'btn btn-danger',
               # Redirect to order show view after product deletion
               onclick: "window.location.href = '#{order_url(@order)}'" %>
-<% else %>
-  <!-- Handle the case when existing_order_product is nil -->
-<% end %>
-              </td>
+                  <% else %>
+                    <!-- Handle the case when existing_order_product is nil -->
+                  <% end %>
+                </td>
               </tr>
             <% end %>
           </tbody>
         </table>
+
       </p>
     </div>
   </div>
 </div>
 </div>
+<p>
+  <strong>Total:</strong>
+  $<%= number_with_precision(@order.total, precision: 2, negative_format: '(%n)') %></span>
+</p>

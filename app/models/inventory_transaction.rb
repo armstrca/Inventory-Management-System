@@ -26,3 +26,7 @@ class InventoryTransaction < ApplicationRecord
   belongs_to :branch, optional: true
   include Ransackable
 end
+
+
+
+# sale return exchange refund supplier_purchase

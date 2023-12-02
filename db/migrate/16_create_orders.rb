@@ -9,6 +9,7 @@ class CreateOrders < ActiveRecord::Migration[7.0]
       t.string :description
       t.string :sending_address
       t.string :receiving_address
+      t.decimal :total
       t.timestamps
     end
 
