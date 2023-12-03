@@ -33,6 +33,7 @@
 
 <p>
   <strong>Total:</strong>
+  <% @order.calculate_total %>
   $<%= number_with_precision(@order.total, precision: 2, negative_format: '(%n)') %></span>
 </p>
 
@@ -46,8 +47,7 @@
       });
     });
   </script>
-
-  <% @order_total = 0 %>
+  
   <!-- Add a table structure for products -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">

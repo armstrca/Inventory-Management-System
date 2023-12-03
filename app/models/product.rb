@@ -44,6 +44,10 @@ class Product < ApplicationRecord
   has_many :orders, through: :order_products, dependent: :destroy
   include Ransackable
 
+  def calculate_dynamic_stock_quantity
+    order_products.sum(:quantity_ordered)
+  end
+
   def category_name
     category&.name
   end

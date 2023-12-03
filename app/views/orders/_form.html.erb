@@ -144,7 +144,7 @@
                     <td><%= order_product_fields.number_field :quantity_ordered, value: existing_order_product&.quantity_ordered %></td>
                     <td><%= order_product_fields.number_field :shipping_cost, value: existing_order_product&.shipping_cost %></td>
                     <td>
-                      <%= order_product_fields.select :transaction_type, ['sale_to_customer', 'purchase_from_supplier', 'customer_return', 'refund_to_customer', 'return_to_supplier', 'stock_loss'].map { |type| [type.gsub('_', ' ').capitalize, type] }, {}, required: true %>
+                      <%= order_product_fields.select :transaction_type, ['sale_to_customer', 'purchase_from_supplier', 'refund_to_customer', 'return_to_supplier', 'stock_loss'].map { |type| [type.gsub('_', ' ').capitalize, type] }, {}, required: true %>
                     </td>
 
                     <td>
@@ -170,8 +170,7 @@
         </div>
       </div>
     </div>
-    <%#= form.hidden_field :total, value: @order.calculate_transaction_amount(existing_order_product || product.order_products.new) %>
-    <%= form.hidden_field :total, value: @order.calculate_total %>
+
 
     <div>
       <%= form.submit %>
