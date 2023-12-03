@@ -13,16 +13,13 @@
 
   .card {
     max-width: 1500px; /* Adjust the max-width as needed */
-    margin-left: -100px;
-    margin-right: -100px;
+
   }
 
   .header {
     display: flex;
     align-items: center;
     max-width: 1900px; /* Adjust the max-width as needed */
-    margin-left: -100px;
-    margin-right: -140px;
   }
 
   h1 {
@@ -105,6 +102,7 @@
                 <th class="sortable" data-mdb-sort="product_name">Product IDs</th>
                 <th class="sortable" data-mdb-sort="quantity_ordered">Units</th>
                 <th class="sortable" data-mdb-sort="shipping_cost">Shipping</th>
+                <th class="sortable" data-mdb-sort="order_total">Total</th>
               </tr>
             </thead>
             <tbody>
@@ -119,6 +117,7 @@
                   <td><%= order.products.pluck(:id).join(', ') %></td>
                   <td><%= order.order_products.sum(:quantity_ordered) %></td>
                   <td>$<%= number_with_precision(order.order_products.sum(:shipping_cost), precision: 2) %></td>
+                  <td>$<%= order.total %></td>
                 </tr>
               <% end %>
             </tbody>

@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/models/storage_location.rb
-#/workspaces/Inventory-Management-System/app/models/storage_location.rb
 # == Schema Information
 #
 # Table name: storage_locations

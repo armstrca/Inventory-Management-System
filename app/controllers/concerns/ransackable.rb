@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/controllers/concerns/ransackable.rb
-#/workspaces/Inventory-Management-System/app/controllers/concerns/ransackable.rb
 # app/models/concerns/ransackable.rb
 module Ransackable
   extend ActiveSupport::Concern

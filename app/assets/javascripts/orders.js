@@ -1,3 +1,4 @@
+///workspaces/Inventory-Management-System/app/assets/javascripts/orders.js
 // orders.js
 
 jQuery(document).ready(function() {

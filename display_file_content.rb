@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/display_file_content.rb
-#/workspaces/Inventory-Management-System/display_file_content.rb
 require "clipboard"
 
 def display_file_content(file_path)

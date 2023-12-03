@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/models/product.rb
-#/workspaces/Inventory-Management-System/app/models/product.rb
 # == Schema Information
 #
 # Table name: products
@@ -44,6 +43,10 @@ class Product < ApplicationRecord
   has_many :order_products, dependent: :destroy
   has_many :orders, through: :order_products, dependent: :destroy
   include Ransackable
+
+  def calculate_dynamic_stock_quantity
+    order_products.sum(:quantity_ordered)
+  end
 
   def category_name
     category&.name

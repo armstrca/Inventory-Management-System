@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/config/initializers/sentry.rb
 if ENV["SENTRY_DSN"]
 
 Sentry.init do |config|

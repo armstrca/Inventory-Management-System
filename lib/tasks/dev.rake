@@ -1,3 +1,5 @@
+# /workspaces/Inventory-Management-System/lib/tasks/dev.rake
+
 # unless Rails.env.production?
 namespace :dev do
   desc "Drops, creates, migrates, and adds sample data to database"
@@ -32,11 +34,11 @@ namespace :dev do
         # address: Faker::Address.full_address,
         company_id: company.id,
       )
-      # if b.persisted?
-      #   puts b.inspect
-      # else
-      #   puts b.errors.full_messages
-      # end
+      if b.persisted?
+        puts b.inspect
+      else
+        puts b.errors.full_messages
+      end
     end
 
     puts "One company with three branches created."
@@ -44,7 +46,7 @@ namespace :dev do
     # Array to store generated email addresses
     generated_emails = []
 
-    200.times do
+    100.times do
       # Generate a unique email address
       email = Faker::Internet.unique.email
       while generated_emails.include?(email)
@@ -52,7 +54,7 @@ namespace :dev do
       end
       generated_emails << email
 
-      User.create(
+      u = User.create(
         email: email,
         password: "password",
         role: %w(admin staff manager).sample,
@@ -63,8 +65,14 @@ namespace :dev do
         branch_id: Branch.all.sample.id,
         # image: Faker::Avatar.image,
       )
+
+      if u.persisted?
+        puts u.inspect
+      else
+        puts u.errors.full_messages
+      end
     end
-    puts "200 users created"
+
     User.create(
       first_name: "Alice",
       last_name: "Smith",
@@ -108,45 +116,60 @@ namespace :dev do
       company_id: company.id,
       branch_id: 1,
     )
-
+    puts "104 users created"
     # Seed Categories table with sample data
     20.times do
-      Category.create(
+      c = Category.create(
         name: Faker::Commerce.department,
         description: Faker::Lorem.sentence,
         subcategory: Faker::Commerce.department,
         company_id: company.id,
       )
+      if c.persisted?
+        puts c.inspect
+      else
+        puts c.errors.full_messages
+      end
     end
     puts "20 categories created"
     40.times do
-      Subcategory.create(
+      sc = Subcategory.create(
         name: Faker::Commerce.department,
         description: Faker::Lorem.sentence,
         category: Category.all.sample,
         company_id: company.id,
       )
+      if sc.persisted?
+        puts sc.inspect
+      else
+        puts sc.errors.full_messages
+      end
     end
     puts "40 subcategories created"
-    # Seed InventoryTransactions table with sample data
-    200.times do
-      InventoryTransaction.create(
-        transaction_type: %w(incoming_return outgoing_return incoming_sale outgoing_sale).sample,
-        quantity: Faker::Number.between(from: 1, to: 100),
-        company_id: company.id,
-        branch_id: Branch.all.sample.id,
-      )
-    end
-    puts "200 inventory_transactions created"
+    # # Seed InventoryTransactions table with sample data
+    # 200.times do
+    #   InventoryTransaction.create(
+    #     transaction_type: %w(incoming_return outgoing_return incoming_sale outgoing_sale).sample,
+    #     quantity: Faker::Number.between(from: 1, to: 100),
+    #     company_id: company.id,
+    #     branch_id: Branch.all.sample.id,
+    #   )
+    # end
+    # puts "200 inventory_transactions created"
     # Seed Locations table with sample data
     10.times do
-      StorageLocation.create(
+      sl = StorageLocation.create(
         name: Faker::Address.community,
         description: Faker::Lorem.sentence,
         address: Faker::Address.full_address,
         company_id: company.id,
         branch_id: Branch.all.sample.id,
       )
+      if sl.persisted?
+        puts sl.inspect
+      else
+        puts sl.errors.full_messages
+      end
     end
     puts "10 storage_locations created"
     # Create an array with 10 instances of addresses from Location.address.sample
@@ -176,6 +199,7 @@ namespace :dev do
         receiving_address: receiving_address,
         company_id: company.id,
         branch_id: Branch.all.sample.id,
+        total: 0,
       )
 
       if o.persisted?
@@ -206,11 +230,11 @@ namespace :dev do
         description: supplier_catchphrases.uniq.sample,
         company_id: company.id,
       )
-      # if s.persisted?
-      #   puts s.inspect
-      # else
-      #   puts s.errors.full_messages
-      # end
+      if s.persisted?
+        puts s.inspect
+      else
+        puts s.errors.full_messages
+      end
     end
     puts "50 suppliers created"
     600.times do
@@ -226,29 +250,49 @@ namespace :dev do
         company_id: company.id,
         branch_id: Branch.all.sample.id,
       )
-      # if p.persisted?
-      #   puts p.inspect
-      # else
-      #   puts p.errors.full_messages
-      # end
+      if p.persisted?
+        puts p.inspect
+      else
+        puts p.errors.full_messages
+      end
     end
     puts "600 products created"
 
     # Seed OrderProducts table with sample data
-    200.times do
+    4500.times do
       op = OrderProduct.create(
         quantity_ordered: Faker::Number.between(from: 2, to: 20),
         shipping_cost: Faker::Number.between(from: 1, to: 30),
         order_id: Order.all.sample.id,
         product_id: Product.all.sample.id,
+        transaction_type: %w(sale_to_customer purchase_from_supplier refund_to_customer return_to_supplier stock_loss).sample,
       )
-      # if op.persisted?
-      #   puts op.inspect
-      # else
-      #   puts op.errors.full_messages
-      # end
+      if op.persisted?
+        puts op.inspect
+      else
+        puts op.errors.full_messages
+      end
     end
-    puts "200 order_products created"
+    puts "4500 order_products created"
+
+    Order.all.each do |o|
+      o.order_products.each do |order_product|
+        order_product_amount = o.calculate_transaction_amount(order_product)
+        o.update_product_stock(order_product.product, order_product.quantity_ordered) if order_product_amount != 0
+      end
+
+      o.calculate_total
+
+      # Save the order to persist the calculated total
+      o.save
+      if o.persisted?
+        puts o.inspect
+      else
+        puts o.errors.full_messages
+      end
+    end
+
+    puts "Order totals and stock quantities calculated"
 
     puts "Sample data has been seeded into the database."
   end

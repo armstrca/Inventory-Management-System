@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/controllers/users_controller.rb
-#/workspaces/Inventory-Management-System/app/controllers/users_controller.rb
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
   before_action :set_form_variables, only: %i[edit]

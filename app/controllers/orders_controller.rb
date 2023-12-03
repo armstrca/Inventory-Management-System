@@ -61,6 +61,14 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
+        # # Iterate through order products and update stock_quantity for each associated product
+        # @order.order_products.each do |order_product|
+        #   product = order_product.product
+        #   new_stock_quantity = product.stock_quantity - order_product.quantity_ordered.to_i
+        #   product.update(stock_quantity: new_stock_quantity)
+        # end
+        @order.calculate_total
+        @order.update_product_stock_quantities
         format.html { redirect_to order_url(@order), notice: "Order successfully created." }
         format.json { render :show, status: :created, location: @order }
       else
@@ -75,57 +83,65 @@ class OrdersController < ApplicationController
 
   # PATCH/PUT /orders/1 or /orders/1.json
 
+  # PATCH/PUT /orders/1 or /orders/1.json
   def update
-    @order = Order.find(params[:id])
+    @order = Order.includes(order_products: :product).find(params[:id])
     @order.order_products.build if @order.order_products.empty?
 
     authorize @order
-
     # Process the order_params to remove empty strings from the products array
     processed_order_params = order_params
 
     respond_to do |format|
-      if processed_order_params[:order_products_attributes].present? && @order.update(processed_order_params)
-        # Additional logic to update existing order products
-        existing_order_product_ids = @order.order_products.pluck(:product_id)
+      ActiveRecord::Base.transaction do
+        if processed_order_params[:order_products_attributes].present? && @order.update!(processed_order_params)
+          # Additional logic to update existing order products
+          existing_order_product_ids = @order.order_products.pluck(:product_id)
+          @order.calculate_total
+          @order.update_product_stock_quantities
 
-        if processed_order_params[:order_products_attributes].present?
-          submitted_order_products = processed_order_params[:order_products_attributes].values
+          if processed_order_params[:order_products_attributes].present?
+            submitted_order_products = processed_order_params[:order_products_attributes].values
 
-          submitted_order_products.each do |submitted_product|
-            product_id = submitted_product[:product_id].to_i
-            existing_order_product = @order.order_products.find_by(product_id: product_id)
+            submitted_order_products.each do |submitted_product|
+              product_id = submitted_product[:product_id].to_i
+              existing_order_product = @order.order_products.find_by(product_id: product_id)
 
-            if existing_order_product.present?
-              # Use existing values unless explicitly altered
-              existing_order_product.update(
-                quantity_ordered: submitted_product[:quantity_ordered].presence || existing_order_product.quantity_ordered,
-                shipping_cost: submitted_product[:shipping_cost].presence || existing_order_product.shipping_cost,
-              )
+              if existing_order_product.present?
+                # Use existing values unless explicitly altered
+                existing_order_product.update(
+                  quantity_ordered: submitted_product[:quantity_ordered].presence || existing_order_product.quantity_ordered,
+                  shipping_cost: submitted_product[:shipping_cost].presence || existing_order_product.shipping_cost,
+                  transaction_type: submitted_product[:transaction_type].presence || existing_order_product.transaction_type,
+                )
 
-              # Update stock_quantity for the associated product
-              product = existing_order_product.product
-              new_stock_quantity = product.stock_quantity - existing_order_product.quantity_ordered.to_i
-              product.update(stock_quantity: new_stock_quantity)
-            else
-              # If the product_id doesn't exist in the order, create a new order_product
-              @order.order_products.create(
-                product_id: product_id,
-                quantity_ordered: submitted_product[:quantity_ordered],
-                shipping_cost: submitted_product[:shipping_cost],
-              )
+                # Update stock_quantity for the associated product
+                product = existing_order_product.product
+                new_stock_quantity = product.stock_quantity - existing_order_product.quantity_ordered.to_i
+                product.update(stock_quantity: new_stock_quantity)
+              else
+                # If the product_id doesn't exist in the order, create a new order_product
+                @order.order_products.create(
+                  product_id: product_id,
+                  quantity_ordered: submitted_product[:quantity_ordered],
+                  shipping_cost: submitted_product[:shipping_cost],
+                  transaction_type: submitted_product[:transaction_type],
+                )
+                @order.calculate_total
+                @order.update_product_stock_quantities
+              end
             end
           end
+
+          format.html { redirect_to order_url(@order), notice: "Order successfully updated." }
+          format.json { render :show, status: :ok, location: @order }
+        else
+          # Debugging line: Print the errors if the order update fails
+          puts "Order update failed. Errors: #{@order.errors.full_messages}"
+
+          format.html { render :edit, status: :unprocessable_entity }
+          format.json { render json: @order.errors, status: :unprocessable_entity }
         end
-
-        format.html { redirect_to order_url(@order), notice: "Order successfully updated." }
-        format.json { render :show, status: :ok, location: @order }
-      else
-        # Debugging line: Print the errors if the order update fails
-        puts "Order update failed. Errors: #{order.errors.full_messages}"
-
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -148,13 +164,20 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     product_id = params[:product_id]
     authorize @order
+
     # Ensure the product is associated with the order
     order_product = @order.order_products.find_by(product_id: product_id)
 
     if order_product
+      # Update stock_quantity for the associated product before destroying the order_product
+      product = order_product.product
+      new_stock_quantity = product.stock_quantity + order_product.quantity_ordered.to_i
+      product.update(stock_quantity: new_stock_quantity)
+
       order_product.destroy
+
       respond_to do |format|
-        format.html { redirect_to edit_order_url(@order), notice: "Product successfully removed from the order." }
+        format.html { redirect_to order_url(@order), notice: "Product successfully removed from the order." }
         format.json { head :no_content }
       end
     else
@@ -182,7 +205,8 @@ class OrdersController < ApplicationController
       :sending_address,
       :company_id,
       :branch_id,
-      order_products_attributes: [:id, :quantity_ordered, :shipping_cost, :product_id],
+      :total,
+      order_products_attributes: [:id, :quantity_ordered, :shipping_cost, :product_id, :transaction_type],
     )
   end
 end

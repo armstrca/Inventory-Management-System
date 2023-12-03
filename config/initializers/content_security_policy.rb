@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/config/initializers/content_security_policy.rb
-#/workspaces/Inventory-Management-System/config/initializers/content_security_policy.rb
 # Be sure to restart your server when you modify this file.
 
 # Define an application-wide content security policy.

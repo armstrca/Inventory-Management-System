@@ -47,135 +47,133 @@
   <p>
     <script>
       $(document).ready(function () {
-        var table = $('#productTable').DataTable({
-          paging: true,
+        // DataTable initialization
+        var table = $('#productsTable').DataTable({
+          paging: false,
           ordering: true,
-          processing: true,
-          serverSide: true,
-          selectable: true,
-          fixedheader: true
+          selectable: false,
+          fixedheader: false,
+          searchable: false,
+          info: false,
         });
 
-          $('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"]').prop('disabled', true);
+        // Disable certain input fields
+        $('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"], select[name$="[transaction_type]"]').prop('disabled', true);
 
-          // Handle remove product click
-          $('#productsTable').on('click', '.remove-product', function() {
-      var row = $(this).closest('tr');
-      var productId = row.find('input[name$="[product_id]"]').val();
+        // Handle remove product click
+        $('#productsTable').on('click', '.remove-product', function() {
+          var row = $(this).closest('tr');
+          var productId = row.find('input[name$="[product_id]"]').val();
 
-      // Remove the row using DataTables API
-      table.row(row).remove().draw(false);
+          // Remove the row using DataTables API
+          table.row(row).remove().draw(false);
 
-      // Disable the corresponding fields in the form
-      $('input[name$="[order_products_attributes]['+ productId +'][quantity_ordered]"]').prop('disabled', true);
-      $('input[name$="[order_products_attributes]['+ productId +'][shipping_cost]"]').prop('disabled', true);
-          });
-
-          $('#productsTable').on('change', 'input[type="checkbox"]', function() {
-      var checkbox = $(this);
-      var fields = checkbox.closest('tr').find('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"]');
-      fields.prop('disabled', !checkbox.prop('checked'));
-          });
-      });
-            function initMap() {
-        var input = document.getElementById('receiving_address');
-
-        if (!input) {
-          console.error("Could not find the 'receiving_address' input field.");
-          return;
-        }
-
-        if (!window.google || !window.google.maps || !window.google.maps.places) {
-          console.error("Google Maps API or Places library not loaded.");
-          return;
-        }
-
-        var autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], apiKey: '<%= ENV.fetch("GMAPS_KEY") %>' });
-
-        autocomplete.addListener('place_changed', function() {
-          var place = autocomplete.getPlace();
-          console.log(place); // Log the place details to check if it's working as expected
+          // Disable the corresponding fields in the form
+          $('input[name$="[order_products_attributes]['+ productId +'][quantity_ordered]"], input[name$="[order_products_attributes]['+ productId +'][shipping_cost]"], select[name$="[order_products_attributes]['+ productId +'][transaction_type]"]').prop('disabled', true);
         });
-      }
+
+        // Handle checkbox change
+        $('#productsTable').on('change', 'input[type="checkbox"]', function() {
+          var checkbox = $(this);
+          var fields = checkbox.closest('tr').find('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"], select[name$="[transaction_type]"]');
+          fields.prop('disabled', !checkbox.prop('checked'));
+        });
+          });
+
+          function initMap() {
+            var input = document.getElementById('receiving_address');
+
+            if (!input) {
+              console.error("Could not find the 'receiving_address' input field.");
+              return;
+            }
+
+            if (!window.google || !window.google.maps || !window.google.maps.places) {
+              console.error("Google Maps API or Places library not loaded.");
+              return;
+            }
+
+            var autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], apiKey: '<%= ENV.fetch("GMAPS_KEY") %>' });
+
+            autocomplete.addListener('place_changed', function() {
+              var place = autocomplete.getPlace();
+              console.log(place); // Log the place details to check if it's working as expected
+            });
+          }
     </script>
-    <div class="row">
-      <div id="products" class="col">
-        <div class="card shadow mb-4">
-          <div class="card-header py-3 -header" data-toggle="" data-target="#productsTable">
-            <div class="d-flex justify-content-between align-items-center">
-              <h6 class="m-0 font-weight-regular text-black">Products</h6>
-              <%== pagy_items_selector_js(@pagy, item_name: 'Products'.pluralize(@pagy.count)) %>
-            </div>
-          </div>
-          <div class="card-body " id="productsTableCollapse">
-            <div class="table-responsive">
-              <table class="table datatable-bordered" id="productsTable" width="100%" cellspacing="0">
-                <thead class="datatable-header">
+
+    <!--    <div class="row">
+      <div id="productsTable" class="col">-->
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <h6 class="m-0 font-weight-regular text-black">Products</h6>
+          <%#== pagy_items_selector_js(@pagy, item_name: 'Products'.pluralize(@pagy.count)) %>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table datatable-bordered" id="productsTable" width="100%" cellspacing="0">
+            <thead class="datatable-header">
+              <tr>
+                <th class="sortable" data-mdb-sort="check-box"></th>
+                <th class="sortable" data-mdb-sort="product_id">ID</th>
+                <th class="sortable" data-mdb-sort="name">Name</th>
+                <th class="sortable" data-mdb-sort="sku">SKU</th>
+                <th class="sortable" data-mdb-sort="price">Price</th>
+                <th class="sortable" data-mdb-sort="quantity">Units</th>
+                <th class="sortable" data-mdb-sort="supplier">Supplier</th>
+                <th class="sortable" data-mdb-sort="quantity_ordered">Quantity Ordered</th>
+                <th class="sortable" data-mdb-sort="shipping_cost">Shipping</th>
+                <th class="sortable" data-mdb-sort="transaction_type">Type</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @products.each do |product| %>
+                <% existing_order_product = @order.order_products.find_by(product_id: product.id) %>
+                <%= form.fields_for :order_products, existing_order_product || product.order_products.new do |order_product_fields| %>
                   <tr>
-                    <th class="sortable" data-mdb-sort="check-box"></th>
-                    <th class="sortable" data-mdb-sort="product_id">ID</th>
-                    <th class="sortable" data-mdb-sort="name">Name</th>
-                    <th class="sortable" data-mdb-sort="description">Description</th>
-                    <th class="sortable" data-mdb-sort="sku">SKU</th>
-                    <th class="sortable" data-mdb-sort="price">Price</th>
-                    <th class="sortable" data-mdb-sort="quantity">Units</th>
-                    <th class="sortable" data-mdb-sort="category">Category</th>
-                    <th class="sortable" data-mdb-sort="subcategory">Subcategory</th>
-                    <th class="sortable" data-mdb-sort="supplier">Supplier</th>
-                    <th class="sortable" data-mdb-sort="quantity_ordered">Quantity Ordered</th>
-                    <th class="sortable" data-mdb-sort="shipping_cost">Shipping Cost</th>
-                    <th></th>
+                    <td><%= order_product_fields.check_box :product_id, { checked: existing_order_product.present? }, product.id, nil %></td>
+                    <td><%= product.id %></td>
+                    <td><%= link_to product.name, product %></td>
+                    <td><%= product.sku %></td>
+                    <td>$<%= number_with_precision(product.price, precision: 2) %></td>
+                    <td><%= product.stock_quantity %></td>
+                    <td><%= product.supplier ? link_to(product.supplier.name, product.supplier) : '' %></td>
+                    <td><%= order_product_fields.number_field :quantity_ordered, value: existing_order_product&.quantity_ordered %></td>
+                    <td><%= order_product_fields.number_field :shipping_cost, value: existing_order_product&.shipping_cost %></td>
+                    <td>
+                      <%= order_product_fields.select :transaction_type, ['sale_to_customer', 'purchase_from_supplier', 'refund_to_customer', 'return_to_supplier', 'stock_loss'].map { |type| [type.gsub('_', ' ').capitalize, type] }, {}, required: true %>
+                    </td>
+
+                    <td>
+                      <% if existing_order_product %>
+                        <%= link_to 'Delete', remove_product_order_path(@order, product_id: existing_order_product.product_id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+                      <% else %>
+                        <!-- Handle the case when existing_order_product is nil -->
+                      <% end %>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  <% @products.each do |product| %>
-                    <% existing_order_product = @order.order_products.find_by(product_id: product.id) %>
-                    <%= form.fields_for :order_products, existing_order_product || product.order_products.new do |order_product_fields| %>
-                      <tr>
-                        <td><%= order_product_fields.check_box :product_id, { checked: existing_order_product.present? }, product.id, nil %></td>
-                        <td><%= product.id %></td>
-                        <td><%= link_to product.name, product %></td>
-                        <td><%= product.description %></td>
-                        <td><%= product.sku %></td>
-                        <td>$<%= number_with_precision(product.price, precision: 2) %></td>
-                        <td><%= product.stock_quantity %></td>
-                        <td><%= product.category ? link_to(product.category.name, product.category) : '' %></td>
-                        <td><%= product.subcategory ? link_to(product.subcategory.name, product.subcategory) : '' %></td>
-                        <td><%= product.supplier ? link_to(product.supplier.name, product.supplier) : '' %></td>
-                        <td><%= order_product_fields.number_field :quantity_ordered, value: existing_order_product&.quantity_ordered %></td>
-                        <td><%= order_product_fields.number_field :shipping_cost, value: existing_order_product&.shipping_cost %></td>
-                        <td>
-                          <td>
-                            <% if existing_order_product %>
-                              <%= link_to 'Delete', remove_product_order_path(@order, product_id: existing_order_product.product_id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-                            <% else %>
-                              <!-- Handle the case when existing_order_product is nil -->
-                            <% end %>
-                          </td>
-
-                        </td>
-                      </tr>
-                    <% end %>
-                  <% end %>
-
-                </tbody>
-
-              </table>
-              <div class="pagy-container" style="display: flex; justify-content: space-between; font-family: 'Philosopher';">
-                <div class="pagy-info" id="productsTable_info" role="status" aria-live="polite" style="padding-top: 10px;">
-                  <%== pagy_info(@pagy) %>
-                </div>
-                <div class="pagy-nav" style="padding-top: 10px;">
-                  <%== render partial: 'pagy/bootstrap_nav', locals: {pagy: @pagy} %>
-                </div>
-              </div>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="pagy-container" style="display: flex; justify-content: space-between; font-family: 'Philosopher';">
+            <div class="pagy-info" id="productsTable_info" role="status" aria-live="polite" style="padding-top: 10px;">
+              <%== pagy_info(@pagy) %>
+            </div>
+            <div class="pagy-nav" style="padding-top: 10px;">
+              <%== render partial: 'pagy/bootstrap_nav', locals: {pagy: @pagy} %>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div>
-        <%= form.submit %>
-      </div>
 
-    <% end %>
+    <div>
+      <%= form.submit %>
+    </div>
+
+  <% end %>

@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/db/migrate/16_create_orders.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231017201433_create_orders.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231017201433_create_orders.rb
 class CreateOrders < ActiveRecord::Migration[7.0]
@@ -8,6 +9,7 @@ class CreateOrders < ActiveRecord::Migration[7.0]
       t.string :description
       t.string :sending_address
       t.string :receiving_address
+      t.decimal :total
       t.timestamps
     end
 

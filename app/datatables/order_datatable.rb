@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/datatables/order_datatable.rb
 class OrderDatatable < AjaxDatatablesRails::ActiveRecord
   def view_columns
     # Declare strings in this format: ModelName.column_name

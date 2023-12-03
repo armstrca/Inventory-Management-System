@@ -1,4 +1,4 @@
-# /workspaces/Inventory-Management-System/app/controllers/errors_controller.rb
+#/workspaces/Inventory-Management-System/app/controllers/errors_controller.rb
 class ErrorsController < ApplicationController
   def not_found
     authorize :errors, :not_found?

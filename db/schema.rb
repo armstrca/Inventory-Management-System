@@ -78,6 +78,7 @@ ActiveRecord::Schema[7.0].define(version: 21) do
   create_table "order_products", force: :cascade do |t|
     t.integer "quantity_ordered"
     t.float "shipping_cost"
+    t.string "transaction_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "product_id", null: false
@@ -92,6 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 21) do
     t.string "description"
     t.string "sending_address"
     t.string "receiving_address"
+    t.decimal "total"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "company_id"

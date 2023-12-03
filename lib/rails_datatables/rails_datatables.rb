@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/lib/rails_datatables/rails_datatables.rb
 require 'rails'
 
 module RailsDatatables

@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/models/inventory_transaction.rb
-#/workspaces/Inventory-Management-System/app/models/inventory_transaction.rb
 # == Schema Information
 #
 # Table name: inventory_transactions
@@ -27,3 +26,7 @@ class InventoryTransaction < ApplicationRecord
   belongs_to :branch, optional: true
   include Ransackable
 end
+
+
+
+# sale return exchange refund supplier_purchase

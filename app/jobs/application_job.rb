@@ -1,5 +1,4 @@
 #/workspaces/Inventory-Management-System/app/jobs/application_job.rb
-#/workspaces/Inventory-Management-System/app/jobs/application_job.rb
 class ApplicationJob < ActiveJob::Base
   # Automatically retry jobs that encountered a deadlock
   # retry_on ActiveRecord::Deadlocked

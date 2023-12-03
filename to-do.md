@@ -23,13 +23,6 @@ IMPORTANT
   Allow CRUD of storage_location
 
 -----------------------------------------------------------------------
-
-
-uuuuh this app only works for one business at a time. So all the models would have to be updated with a company_id association or something if more than one company ever used it
-
-
-
-
 -----------------------------------------------------------------------
 
     Miscellaneous
@@ -73,15 +66,7 @@ New orders need to require products be in them and specify how many of each prod
 
 Inventory transactions really are eventually necessary because a business would need to handle returns/refunds, and maybe even lost/destroyed stock
 
-I'm beginning to add company_id to each model table, but 'company' should probably eventually be its own model with associations to almost everything. This is mostly because a company may have multiple branches/locations, and certain users should only have access privileges to a limited number of those branches.
-  - Updates for all affected models need to be handled in the controllers and submitted params (rolling eyes emoji)
 
 
 
 
-
-
-
-Params handling:
-  - controllers: done
-  - views:
