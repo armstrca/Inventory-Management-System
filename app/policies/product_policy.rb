@@ -8,6 +8,10 @@ class ProductPolicy < ApplicationPolicy
     user.staff? || user.admin? || user.manager?
   end
 
+  def index?
+    user.staff? || user.admin? || user.manager?
+  end
+
   def update?
     user.admin? || user.manager?
   end
@@ -19,7 +23,7 @@ class ProductPolicy < ApplicationPolicy
   def subcategories_by_category?
     user.admin?
   end
-  
+
   def edit?
     user.admin? || user.manager?
   end

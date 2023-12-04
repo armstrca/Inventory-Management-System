@@ -61,11 +61,11 @@
         },
       });
   $('#ordersTable tbody').on('click', 'tr', function() {
-         var data = ordersTable.row(this).data();
+        var data = ordersTable.row(this).data();
          console.log(data); // This will log the data object to the console.
          window.location.href = '/orders/' + data.id;
-     });
-  });
+         });
+       });
 </script>
 
 <div class="row">

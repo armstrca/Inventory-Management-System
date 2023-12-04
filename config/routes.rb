@@ -1,8 +1,7 @@
 #/workspaces/Inventory-Management-System/config/routes.rb
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  mount Blazer::Engine, at: "blazer"
-  root "products#index"
+  get '/products/index', to: 'products#index'
   get '/forgot_password', to: 'users#forgot_password'
   devise_for :users, :controllers => { :registrations => "custom_devise/registrations" }
   resources :users
@@ -26,6 +25,7 @@ Rails.application.routes.draw do
   get "search", to: "search#index"
   get "/subcategories_by_category", to: "products#subcategories_by_category"
 
+  root "products#index"
   # match "*path", to: "errors#not_found", via: :all
   # get 'errors/not_found'
   # get 'errors/internal_server_error'

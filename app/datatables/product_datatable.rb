@@ -1,53 +1,115 @@
-#/workspaces/Inventory-Management-System/app/datatables/product_datatable.rb
-class ProductDatatable < AjaxDatatablesRails::Base
-  def view_columns
-    @view_columns ||= {
-      id: { source: 'Product.id' },
-      name: { source: 'Product.name' },
-      description: { source: 'Product.description' },
-      sku: { source: 'Product.sku' },
-      price: { source: 'Product.price' },
-      stock_quantity: { source: 'Product.stock_quantity' },
-      category: { source: 'Category.name' },
-      subcategory: { source: 'Subcategory.name' },
-      supplier: { source: 'Supplier.name' }
-    }
-  end
+require "application_datatable"
 
-  def data
-    records.map do |product|
-      {
-        id: product.id,
-        name: link_to(product.name, product),
-        description: product.description,
-        sku: product.sku,
-        price: number_with_precision(product.price, precision: 2),
-        stock_quantity: product.stock_quantity,
-        category: product.category.try(:name),
-        subcategory: product.subcategory.try(:name),
-        supplier: product.supplier.try(:name)
-      }
-    end
+class ProductDatatable < ApplicationDatatable
+  delegate :params, to: :@view
+
+  def as_json(options = {})
+    {
+      recordsTotal: count,
+      recordsFiltered: total_entries,
+      data: data,
+    }
   end
 
   private
 
-  def get_raw_records
-    Product.includes(:category, :subcategory, :supplier).all
+  def data
+    records.map do |product|
+      {
+        # Assuming `link_to` is a helper method from the view context
+        id: link_to(product.id, product),
+        name: product.name,
+        description: product.description,
+        sku: product.sku,
+        price: product.price,
+        stock_quantity: product.stock_quantity,
+        category: product.category_name,
+        subcategory: product.subcategory_name,
+        supplier: product.supplier_name,
+        company_id: product.company_id,
+      }
+    end
   end
 
-  def search_records
-    records.where(filter_query)
+  def records
+    @records ||= fetch_records
   end
 
-  def filter_query
-    return nil if params[:search].blank?
+  def fetch_records(counting = false)
+    products = Product.joins(:category, :subcategory, :supplier)
+                      .select('products.*, categories.name AS category_name, subcategories.name AS subcategory_name, suppliers.name AS supplier_name')
 
-    conditions = []
+    # When counting, we don't need to sort or paginate
+    unless counting
+      if params[:order].present?
+        products = products.order(sort_column => sort_direction)
+      end
 
-    # Add conditions based on your search requirements
-    # For example, if you want to search by product name:
-    conditions << "products.name ILIKE :search"
-    { search: "%#{params[:search]}%" }
+      products = products.page(page).per(per_page)
+    end
+
+    if params[:search][:value].present?
+      search_value = "%#{params[:search][:value]}%"
+      products = products.where(search_query, search_value: search_value)
+    end
+
+    products
+  end
+
+  def search_query
+    queries = searchable_columns.map do |column|
+      # Use the original column names without 'AS' aliases
+      "#{column} LIKE :search_value"
+    end
+    queries.join(' OR ')
+  end
+
+  def sort_column
+    columns = %w[
+      products.id
+      products.name
+      products.description
+      products.sku
+      products.price
+      products.stock_quantity
+      categories.name
+      subcategories.name
+      suppliers.name
+    ]
+    columns[params[:order]['0'][:column].to_i]
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:order]['0'][:dir]) ? params[:order]['0'][:dir] : 'asc'
+  end
+
+  def page
+    params[:start].to_i / per_page + 1
+  end
+
+  def per_page
+    params[:length].to_i.positive? ? params[:length].to_i : 10
+  end
+
+  def searchable_columns
+    @searchable_columns ||= [
+      'products.id',
+      'products.name',
+      'products.description',
+      'products.sku',
+      'products.price',
+      'products.stock_quantity',
+      'categories.name', # Alias not needed, just use the column name
+      'subcategories.name', # Alias not needed, just use the column name
+      'suppliers.name', # Alias not needed, just use the column name
+    ]
+  end
+
+  def total_entries
+    Product.count
+  end
+
+  def count
+    fetch_records(true).count(:all)
   end
 end

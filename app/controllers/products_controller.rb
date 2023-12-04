@@ -1,11 +1,16 @@
 #/workspaces/Inventory-Management-System/app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
+  respond_to :html, :datatables
 
   # GET /products or /products.json
   def index
-    @pagy, @products = pagy(Product.all)
-    # authorize @products
+    @products = Product.all
+    authorize @products
+    respond_to do |format|
+      format.html
+      format.json { render json: ProductDatatable.new(view_context).as_json }
+    end
   end
 
 
@@ -81,7 +86,7 @@ class ProductsController < ApplicationController
 
     render json: { subcategories: subcategories }
   end
-  
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
