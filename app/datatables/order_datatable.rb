@@ -38,21 +38,65 @@ class OrderDatatable < ApplicationDatatable
   end
 
   def fetch_records
-    orders = Order.order("#{sort_column} #{sort_direction}")
+    orders = Order.joins(:order_products).group('orders.id')
+    if params[:order].present?
+      orders = orders.order(Arel.sql("#{sort_column} #{sort_direction}"))
+    end
     orders = orders.page(page).per(per_page)
     if params[:search][:value].present?
-      orders = orders.where("status LIKE ?", "%#{params[:search][:value]}%")
+      search_value = "%#{params[:search][:value]}%"
+      orders = orders.where(search_query, search_value: search_value)
     end
     orders
   end
 
+  def search_query
+    # Construct a SQL query for searching multiple columns
+    # Exclude 'product_id' from the search columns if it's not a direct column
+    queries = searchable_columns.reject { |col| col == :product_id || col == :quantity_ordered || col == :shipping_cost }.map { |column|
+      "#{column} LIKE :search_value"
+    }
+
+    # If you want to search by product_id, consider adding a join and a condition like:
+    # queries << "order_product.product_id LIKE :search_value"
+    # queries << "order_products.quantity_ordered LIKE :search_value"
+    # queries << "order_products.shipping_cost LIKE :search_value"
+
+    queries.join(' OR ')
+  end
+
   def sort_column
-    columns = %w[id expected_delivery status description receiving_address sending_address total]
-    columns[params[:order]["0"][:column].to_i]
+    # Define a whitelist of column names
+      # Temporarily hardcode the column name for testing
+  return 'orders.total' if params[:order]['0'][:column].to_i == 9
+    columns = %w[
+      orders.id
+      orders.expected_delivery
+      orders.status
+      orders.sending_address
+      orders.receiving_address
+      orders.description
+      orders.total
+      quantity_ordered
+      shipping_cost
+    ]
+
+    # Use a hash to map the sortable columns to their corresponding SQL expressions
+    column_expressions = {
+      'quantity_ordered' => 'SUM(order_products.quantity_ordered)',
+      'shipping_cost' => 'SUM(order_products.shipping_cost)'
+    }
+
+    index = params[:order]['0'][:column].to_i
+    column_name = columns[index]
+
+    # Use the SQL expression if it exists, otherwise use the column name directly
+    column_expressions.fetch(column_name, column_name)
   end
 
   def sort_direction
-    params[:order]["0"][:dir] == "desc" ? "desc" : "asc"
+    # Define a whitelist of valid sort directions
+    %w[asc desc].include?(params[:order]['0'][:dir]) ? params[:order]['0'][:dir] : 'asc'
   end
 
   def page
@@ -72,11 +116,10 @@ class OrderDatatable < ApplicationDatatable
       :sending_address,
       :receiving_address,
       :description,
-      :product_name,
-      :quantity_ordered,
+      :product_id,
+      :order_total,
       :quantity_ordered,
       :shipping_cost,
-      :order_total,
     # ... add other searchable columns
     ]
   end
@@ -90,11 +133,11 @@ class OrderDatatable < ApplicationDatatable
       :sending_address,
       :receiving_address,
       :description,
-      :product_name,
-      :quantity_ordered,
+      :product_id,
+      :order_total,
       :quantity_ordered,
       :shipping_cost,
-      :order_total,
+
     # ... add other orderable columns
     ]
   end

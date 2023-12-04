@@ -1,58 +1,204 @@
-///workspaces/Inventory-Management-System/app/assets/javascripts/orders.js
-// orders.js
+  $(document).ready(function () {
+    var ordersTable = $('#ordersTable').DataTable({
+    processing: true,
+  serverSide: true,
+  paging: true,
+  autowidth: true,
+  ordering: true,
+  searching: true,
+  lengthChange: true,
+  autoFill: true,
+  lengthMenu: [5, 10, 25, 50, 100],
+  ajax: {
+    url: '<%= orders_index_path(format: :json) %>',
+  type: 'GET',
+  dataType: 'json',
+  data: function (d) {
+    // Add additional parameters if needed
+    // Example: d.custom_param = 'value';
+  }
+      },
 
-jQuery(document).ready(function() {
-  $('#orders-datatable').dataTable({
-    "processing": true,
-    "serverSide": true,
-    "ajax": {
-      "url": $('#orders-datatable').data('source')
-    },
-    "pagingType": "full_numbers",
-    "columns": [
-      {"data": "id"},
-      {"data": "expected_delivery"},
-      {"data": "status"},
-      {"data": "receiving_address"},
-      {"data": "sending_address"},
-      {"data": "description"},
-      {
-        "data": "products",
-        "render": function(data, type, row) {
-          if (type === 'display' && data && Array.isArray(data)) {
-            return data.map(function(product) {
-              return product.id;
-            }).join(', ');
-          }
-          return '';
-        }
+  columns: [
+  {data: 'id' },
+  {data: 'expected_delivery' },
+  {data: 'status' },
+  {data: 'sending_address' },
+  {data: 'receiving_address' },
+  {data: 'description' },
+  {data: 'product_id' },
+  {data: 'quantity_ordered' },
+  {data: 'shipping_cost' },
+  {data: 'order_total' }
+  // Add more columns as needed
+  ],
+  columnDefs: [
+  {
+    targets: [3, 4], // Column indices (0-based) for sending_address and receiving_address
+  render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '<span style="font-size: 12px;">' + data + '</span>';
+            }
+  return data;
+          },
+        },
+  {
+    targets: [9, 8], // Column index (0-based) for the 'Total' column
+  render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '$' + data;
+            }
+  return data;
+          },
+        },
+  // Add more columnDefs as needed
+  ],
+  language: {
+    searchPlaceholder: "Search...", // Set a placeholder for the search input
       },
-      {
-        "data": null,
-        "render": function(data, type, row) {
-          if (type === 'display' && row.order_products) {
-            return row.order_products.reduce(function(sum, orderProduct) {
-              return sum + orderProduct.quantity_ordered;
-            }, 0);
-          }
-          return '';
-        }
+    });
+
+  var incomingTable = $('#incomingTable').DataTable({
+    processing: true,
+  serverSide: true,
+  paging: true,
+  autowidth: true,
+  ordering: true,
+  searching: true,
+  lengthChange: true,
+  lengthMenu: [5, 10, 25, 50, 100],
+  ajax: {
+    url: '<%= incoming_orders_path(format: :json) %>',
+  type: 'GET',
+  dataType: 'json',
+  data: function (d) {
+    // Add additional parameters if needed
+    // Example: d.custom_param = 'value';
+  }
       },
-      {
-        "data": null,
-        "render": function(data, type, row) {
-          if (type === 'display' && row.order_products) {
-            return '$' + row.order_products.reduce(function(sum, orderProduct) {
-              return sum + orderProduct.shipping_cost;
-            }, 0).toFixed(2);
-          }
-          return '';
-        }
-      }
-    ]
+  columns: [
+  {data: 'id' },
+  {data: 'expected_delivery' },
+  {data: 'status' },
+  {data: 'sending_address' },
+  {data: 'receiving_address' },
+  {data: 'description' },
+  {data: 'product_id' },
+  {data: 'quantity_ordered' },
+  {data: 'shipping_cost' },
+  {data: 'order_total' }
+  // Add more columns as needed
+  ],
+  columnDefs: [
+  {
+    targets: [3, 4], // Column indices (0-based) for sending_address and receiving_address
+  render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '<span style="font-size: 12px;">' + data + '</span>';
+            }
+  return data;
+          },
+        },
+  {
+    targets: [9, 8], // Column index (0-based) for the 'Total' column
+  render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '$' + data;
+            }
+  return data;
+          },
+        },
+  // Add more columnDefs as needed
+  ],
+  language: {
+    searchPlaceholder: "Search...", // Set a placeholder for the search input
+      },
+    });
+
+  var outgoingTable = $('#outgoingTable').DataTable({
+    processing: true,
+  serverSide: true,
+  paging: true,
+  autowidth: true,
+  ordering: true,
+  searching: true,
+  lengthChange: true,
+  lengthMenu: [5, 10, 25, 50, 100],
+  ajax: {
+    url: '<%= outgoing_orders_path(format: :json) %>',
+  type: 'GET',
+  dataType: 'json',
+  data: function (d) {
+    // Add additional parameters if needed
+    // Example: d.custom_param = 'value';
+  }
+      },
+  columns: [
+  {data: 'id' },
+  {data: 'expected_delivery' },
+  {data: 'status' },
+  {data: 'sending_address' },
+  {data: 'receiving_address' },
+  {data: 'description' },
+  {data: 'product_id' },
+  {data: 'quantity_ordered' },
+  {data: 'shipping_cost' },
+  {data: 'order_total' },
+  // Add more columns as needed
+  ],
+  columnDefs: [
+  {
+    targets: [3, 4], // Column indices (0-based) for sending_address and receiving_address
+  render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '<span style="font-size: 12px;">' + data + '</span>';
+            }
+  return data;
+          },
+        },
+  {
+    targets: [9, 8], // Column index (0-based) for the 'Total' column
+  render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '$' + data;
+            }
+  return data;
+          },
+        },
+  {
+    targets: 8, // Column index (0-based) for the 'shipping' column
+  render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '$' + parseFloat(data).toFixed(2);
+            }
+  return data;
+          },
+        },
+  ],
+  language: {
+    searchPlaceholder: "Search...", // Set a placeholder for the search input
+      },
+    });
+  $('#ordersTable tbody').on('click', 'tr', function() {
+       var data = ordersTable.row(this).data();
+  console.log(data); // This will log the data object to the console.
+  window.location.href = '/orders/' + data.id;
+   });
+
+  $('#incomingTable tbody').on('click', 'tr', function() {
+        var data = incomingTable.row(this).data();
+  window.location.href = '/orders/' + data.id;
+    });
+
+  $('#outgoingTable tbody').on('click', 'tr', function() {
+        var data = outgoingTable.row(this).data();
+  window.location.href = '/orders/' + data.id;
+    });
   });
-});
-
-// pagingType is optional, if you want full pagination controls.
-// Check dataTables documentation to learn more about
-// available options.
