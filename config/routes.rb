@@ -1,5 +1,6 @@
 #/workspaces/Inventory-Management-System/config/routes.rb
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   root "products#index"
   get '/forgot_password', to: 'users#forgot_password'
   devise_for :users, :controllers => { :registrations => "custom_devise/registrations" }
