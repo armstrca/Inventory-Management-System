@@ -18,14 +18,14 @@ class ProductDatatable < ApplicationDatatable
       {
         # Assuming `link_to` is a helper method from the view context
         id: link_to(product.id, product),
-        name: product.name,
+        name: link_to(product.name, product),
         description: product.description,
         sku: product.sku,
         price: product.price,
         stock_quantity: product.stock_quantity,
-        category: product.category_name,
-        subcategory: product.subcategory_name,
-        supplier: product.supplier_name,
+        category: link_to(product.category_name, product.category),
+        subcategory: link_to(product.subcategory_name, product.subcategory),
+        supplier: link_to(product.supplier_name, product.supplier),
         company_id: product.company_id,
       }
     end
