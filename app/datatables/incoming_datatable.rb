@@ -1,7 +1,7 @@
 # /workspaces/Inventory-Management-System/app/datatables/order_datatable.rb
 require "application_datatable"
 
-class OrderDatatable < ApplicationDatatable
+class IncomingDatatable < ApplicationDatatable
   delegate :params, to: :@view
 
   def as_json(options = {})
@@ -38,7 +38,7 @@ class OrderDatatable < ApplicationDatatable
   end
 
   def fetch_records
-    orders = Order.order("#{sort_column} #{sort_direction}")
+    orders = Order.incoming.order("#{sort_column} #{sort_direction}")
     orders = orders.page(page).per(per_page)
     if params[:search][:value].present?
       orders = orders.where("status LIKE ?", "%#{params[:search][:value]}%")
@@ -100,10 +100,10 @@ class OrderDatatable < ApplicationDatatable
   end
 
   def total_entries
-    Order.count # or any other way you count your total entries
+    Order.incoming.count # or any other way you count your total entries
   end
 
   def count
-    Order.count # or any other way you count your total entries
+    Order.incoming.count # or any other way you count your total entries
   end
 end

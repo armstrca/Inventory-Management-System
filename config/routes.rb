@@ -8,8 +8,8 @@ Rails.application.routes.draw do
   resources :roles
   resources :inventory_transactions
   resources :order_items
-  get '/orders/incoming', to: 'orders#incoming'
-  get '/orders/outgoing', to: 'orders#outgoing'
+  get 'orders/incoming', to: 'orders#incoming', as: :incoming_orders
+  get 'orders/outgoing', to: 'orders#outgoing', as: :outgoing_orders
   get '/orders/index2', to: 'orders#index2'
   resources :orders do
     member do

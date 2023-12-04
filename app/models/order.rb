@@ -70,6 +70,9 @@ class Order < ApplicationRecord
     product.update!(stock_quantity: product.stock_quantity + quantity)
   end
 
+  scope :incoming, -> { where(type: 'incoming') }
+  scope :outgoing, -> { where(type: 'outgoing') }
+
   def self.incoming
     Order.where(receiving_address: StorageLocation.select(:address)).order(expected_delivery: :asc)
   end
