@@ -5,22 +5,15 @@ class OrdersController < ApplicationController
   respond_to :html, :datatables
 
   # GET /orders or /orders.json
-  def index
-    @pagy, @orders = pagy(Order.all)
-    # @pagy, @incoming_orders = pagy(Order.incoming)
-    # @pagy, @outgoing_orders = pagy(Order.outgoing)
-    authorize @orders
-  end
 
-  def index2
+
+  def index
     @orders = Order.all
     authorize @orders
     respond_to do |format|
       format.html
       format.json { render json: OrderDatatable.new(view_context).as_json }
     end
-
-
   end
 
   # GET /orders/incoming
