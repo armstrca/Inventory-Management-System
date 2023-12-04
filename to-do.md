@@ -29,14 +29,12 @@ LESS IMPORTANT
 
 Post-deployment thoughts:
 
-DataTables for Suppliers#index and Users#index do not match styling for those of Products and Orders
-  - That's because they render from smaller tables, so DataTables client-side pagination ain't so bad
+
 
 
 
 Styling/formatting/nifty features for orders tables
-Make table visuals consistent across app (Products)
-  - paging refinement for categories/subcategories?
+
 
 
 Mobile responsiveness

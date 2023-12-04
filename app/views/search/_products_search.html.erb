@@ -1,20 +1,4 @@
 <!--/workspaces/Inventory-Management-System/app/views/products/index.html.erb-->
-<head>
-  <%= stylesheet_link_tag 'dataTables_custom', media: 'all', 'data-turbolinks-track': 'reload' %>
-</head>
-<div class="header">
-  <h1>Products</h1>
-  <% if current_user.role == "admin" || current_user.role == "manager" %>
-    <div class="container text-right">
-      <div class="row">
-        <div id="create_product" class="col">
-          <h1><%= link_to "New Product", new_product_path %></h1>
-        </div>
-      </div>
-    </div>
-  <% end %>
-</div>
-
 <script>
   $(document).ready(function () {
     var productTable = $('#productTable').DataTable({
@@ -61,12 +45,12 @@ $('#productTable tbody').on('click', 'tr', function() {
 <div class="row">
   <div id="products" class="col">
     <div class="card shadow mb-4">
-      <div class="card-header py-3 -header" data-toggle="" data-target="#productsCardBody">
+      <div class="card-header py-3 -header" data-toggle="collapse" data-target="#productsCardBody">
         <div class="d-flex justify-content-between align-items-center">
           <h6 class="m-0 font-weight-regular text-black">Products</h6>
         </div>
       </div>
-      <div class="card-body " id="productsCardBody">
+      <div class="card-body collapse" id="productsCardBody">
         <div class="table-responsive">
           <table class="table datatable-bordered" id="productTable" width="100%" cellspacing="0">
             <thead class="datatable-header">
