@@ -1,0 +1,39 @@
+#ordersTable tbody th,
+#incomingTable tbody th,
+#outgoingTable tbody th {
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+
+  .card {
+    max-width: 1500px; /* Adjust the max-width as needed */
+
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    max-width: 1900px; /* Adjust the max-width as needed */
+  }
+
+  h1 {
+    margin: 0; /* Remove margin to make text touch the edges */
+  }
+
+#ordersTable tbody tr,
+#incomingTable tbody tr,
+#outgoingTable tbody tr {
+    cursor: pointer;
+}
+
+  .pagy-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Philosopher';
+    padding-top: 7px;
+  }
+
+  .pagy-info {
+    flex-grow: 1;
+  }

@@ -3,7 +3,7 @@
 #
 # Table name: orders
 #
-#  id                :value          not null, primary key
+#  id                :integer          not null, primary key
 #  description       :string
 #  expected_delivery :date
 #  receiving_address :string
@@ -12,8 +12,8 @@
 #  total             :decimal(, )
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  branch_id         :value
-#  company_id        :value
+#  branch_id         :integer
+#  company_id        :integer
 #
 # Indexes
 #
