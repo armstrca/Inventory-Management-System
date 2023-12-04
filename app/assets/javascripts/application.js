@@ -8,7 +8,7 @@
 //= require dataTables/jquery.dataTables
 //= require rails_datatables.js
 //= require pagy
-//= require_tree .
+//= require_tree 
 
 document.addEventListener("DOMContentLoaded", function() {
   // Function to update the left position of the fixed-topbar

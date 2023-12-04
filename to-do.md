@@ -3,18 +3,6 @@
 IMPORTANT
 -----------------------------------------------------------------------
 
-----Inventory_transaction stuff
------------------------------------------------------------------------
-
-  Returns?
-  Refunds?
-  Figure it out
-  Join table with products/orders
-  Error handling
-  An inventory transaction would include incoming orders from suppliers, outgoing orders to customers, return/refund orders from customers
-  
-  Orders should calculate the total cost of the products in the order
-
 ----Storage_location stuff
 -----------------------------------------------------------------------
 
@@ -65,8 +53,3 @@ New orders need to require products be in them and specify how many of each prod
   - any time a product is added to an order its stock_quantity should be updated accordingly
 
 Inventory transactions really are eventually necessary because a business would need to handle returns/refunds, and maybe even lost/destroyed stock
-
-
-
-
-

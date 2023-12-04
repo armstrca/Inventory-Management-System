@@ -12,6 +12,18 @@ class OrdersController < ApplicationController
     authorize @orders
   end
 
+  def index2
+    @orders = Order.all
+    # @pagy, @incoming_orders = pagy(Order.incoming)
+    # @pagy, @outgoing_orders = pagy(Order.outgoing)
+    authorize @orders
+    respond_to do |format|
+      format.html
+      format.json { render json: OrderDatatable.new(view_context).as_json }
+      # This will now pass the view_context which includes the params with info on the requested data
+    end
+  end
+
   # GET /orders/incoming
   def incoming
     @pagy, @incoming_orders = pagy(Order.incoming)
