@@ -26,9 +26,11 @@
     margin: 0; /* Remove margin to make text touch the edges */
   }
 
-  table tbody tr[data-href] {
+#ordersTable tbody tr,
+#incomingTable tbody tr,
+#outgoingTable tbody tr {
     cursor: pointer;
-  }
+}
 
   .pagy-container {
     display: flex;
@@ -76,6 +78,29 @@
         { data: 'order_total' }
         // Add more columns as needed
       ],
+      columnDefs: [
+        {
+          targets: [3, 4], // Column indices (0-based) for sending_address and receiving_address
+          render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '<span style="font-size: 12px;">' + data + '</span>';
+            }
+            return data;
+          },
+        },
+{
+          targets: [9, 8], // Column index (0-based) for the 'Total' column
+          render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '$' + data;
+            }
+            return data;
+          },
+        },
+        // Add more columnDefs as needed
+      ],
       language: {
         info: "", // Remove the information about the number of entries
         search: "_INPUT_", // Customize the search input placeholder
@@ -113,6 +138,29 @@
         { data: 'shipping_cost' },
         { data: 'order_total' }
         // Add more columns as needed
+      ],
+      columnDefs: [
+        {
+          targets: [3, 4], // Column indices (0-based) for sending_address and receiving_address
+          render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '<span style="font-size: 12px;">' + data + '</span>';
+            }
+            return data;
+          },
+        },
+        {
+          targets: [9, 8], // Column index (0-based) for the 'Total' column
+          render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '$' + data;
+            }
+            return data;
+          },
+        },
+        // Add more columnDefs as needed
       ],
       language: {
         info: "", // Remove the information about the number of entries
@@ -152,23 +200,58 @@
         { data: 'order_total' }
         // Add more columns as needed
       ],
+      columnDefs: [
+        {
+          targets: [3, 4], // Column indices (0-based) for sending_address and receiving_address
+          render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '<span style="font-size: 12px;">' + data + '</span>';
+            }
+            return data;
+          },
+        },
+        {
+          targets: [9, 8], // Column index (0-based) for the 'Total' column
+          render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '$' + data;
+            }
+            return data;
+          },
+        },
+        {
+          targets: 8, // Column index (0-based) for the 'shipping' column
+          render: function (data, type, row, meta) {
+            // 'display' type will only affect the display and not sorting or filtering
+            if (type === 'display') {
+              return '$' + parseFloat(data).toFixed(2);
+            }
+            return data;
+          },
+        },
+      ],
       language: {
         info: "", // Remove the information about the number of entries
         search: "_INPUT_", // Customize the search input placeholder
         searchPlaceholder: "Search...", // Set a placeholder for the search input
       },
     });
-  });
-</script>
+   $('#ordersTable tbody').on('click', 'tr', function() {
+       var data = ordersTable.row(this).data();
+       console.log(data); // This will log the data object to the console.
+       window.location.href = '/orders/' + data.id; 
+   });
 
-<!-- Include Pagination Script -->
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var tableRows = document.querySelectorAll("table tbody tr[data-href]");
-    tableRows.forEach(function (row) {
-      row.addEventListener("click", function () {
-        window.location.href = this.dataset.href;
-      });
+    $('#incomingTable tbody').on('click', 'tr', function() {
+        var data = incomingTable.row(this).data();
+        window.location.href = '/orders/' + data.id;
+    });
+
+    $('#outgoingTable tbody').on('click', 'tr', function() {
+        var data = outgoingTable.row(this).data();
+        window.location.href = '/orders/' + data.id;
     });
   });
 </script>
