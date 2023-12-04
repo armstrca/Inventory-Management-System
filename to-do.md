@@ -30,12 +30,12 @@ LESS IMPORTANT
 Post-deployment thoughts:
 
 
-
-
-
 Styling/formatting/nifty features for orders tables
-
 
 
 Mobile responsiveness
 Table margins!!!
+
+
+
+Fix orders#index Total:$null issue for new additions

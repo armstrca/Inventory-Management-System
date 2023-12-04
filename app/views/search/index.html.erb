@@ -1,8 +1,11 @@
 <!--/workspaces/Inventory-Management-System/app/views/search/index.html.erb-->
-<% if @results.empty? %>
-  <div class="alert alert-info" role="alert">
-    No results found.
+<% puts  @results.inspect  %>
+<% if @users.empty? && @categories.empty? && @subcategories.empty? && @orders.empty? && @products.empty? && @suppliers.empty?
+ %>
+  <div class="alert alert-info" role="alert" style="margin-top: 100px; font-family: Philosopher; font-size: 50px; text-align:center" >
+    No results found...
   </div>
+
 <% else %>
   <% if @users.any? %>
     <%= render partial: 'users_search' %>
