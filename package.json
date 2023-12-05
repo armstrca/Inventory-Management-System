@@ -19,6 +19,5 @@
 {
     "scripts": {
       "build:css": "tailwindcss -i ./input.css -o ./output.css",
-    ...
     }
   }
