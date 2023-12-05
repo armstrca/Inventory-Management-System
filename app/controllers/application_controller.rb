@@ -1,7 +1,6 @@
 #/workspaces/Inventory-Management-System/app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
-  include Pagy::Backend
   helper ApplicationHelper
   before_action :authenticate_user!
   after_action :verify_authorized, except: [:index, :new], unless: :devise_controller?
