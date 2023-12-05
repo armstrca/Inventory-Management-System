@@ -4,6 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.2.1"
 
 gem "pagy"
+gem 'cssbundling-rails', '>= 1.3.3'
 
 gem "pundit"
 gem 'simple_form'
@@ -134,4 +135,3 @@ gem "dockerfile-rails", ">= 1.5", :group => :development
 gem "sentry-ruby", "~> 5.13"
 
 gem "sentry-rails", "~> 5.13"
-gem "cssbundling-rails"

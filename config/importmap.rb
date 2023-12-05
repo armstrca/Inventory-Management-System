@@ -6,8 +6,6 @@ pin "@hotwired/turbo-rails", to: "turbo.min.js", preload: true
 pin "@hotwired/stimulus", to: "stimulus.min.js", preload: true
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js", preload: true
 pin_all_from "app/javascript/controllers", under: "controllers"
-pin 'pagy-module'
-
 pin "jszip", to: "/workspaces/Inventory-Management-System/node_modules/jszip/dist/jszip.js"
 pin "pdfmake", to: "/workspaces/Inventory-Management-System/node_modules/pdfmake/build/pdfmake.js"
 pin "datatables.net-dt", to: "/workspaces/Inventory-Management-System/node_modules/datatables.net-dt/js/jquery.dataTables.js"
