@@ -17,10 +17,10 @@ gem "bullet", group: "development"
 gem "ransack"
 
 gem "importmap-rails"
-gem 'blazer'
+# gem 'blazer'
 gem 'ahoy_matey'
 gem "turbo-rails"
-gem "rails_admin"
+# gem "rails_admin"
 gem "stimulus-rails"
 gem "jbuilder"
 
