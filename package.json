@@ -16,8 +16,3 @@
     "jszip": "^3.10.1",
     "pdfmake": "^0.2.8"
   }
-{
-    "scripts": {
-      "build:css": "tailwindcss -i ./input.css -o ./output.css",
-    }
-  }

@@ -3,8 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.1"
 
-gem "pagy"
-gem 'cssbundling-rails', '>= 1.3.3'
+# gem "pagy"
+# gem 'cssbundling-rails', '>= 1.3.3'
 
 gem "pundit"
 gem 'simple_form'
@@ -19,7 +19,7 @@ gem "ransack"
 
 gem "importmap-rails"
 # gem 'blazer'
-gem 'ahoy_matey'
+# gem 'ahoy_matey'
 gem "turbo-rails"
 # gem "rails_admin"
 gem "stimulus-rails"
