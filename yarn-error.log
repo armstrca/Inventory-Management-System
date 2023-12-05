@@ -1,0 +1,48 @@
+Arguments: 
+  /usr/local/bin/node /usr/share/yarn/bin/yarn.js install
+
+PATH: 
+  /workspaces/Inventory-Management-System/bin:/home/student/.fly/bin:/vscode/bin/linux-x64/1a5daa3a0231a0fbba4f14db7ec463cf99d7768e/bin/remote-cli:/workspaces/Inventory-Management-System/bin:/home/student/.fly/bin:/home/student/.rvm/ruby-3.2.1/bin:/home/student/.rvm/ruby-3.2.1@global/bin:/home/student/.rvm/rubies/ruby-3.2.1/bin:/home/student/.rvm/bin:/workspaces/.rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/postgresql/12/bin:/home/student/.pg_ctl/bin:/home/student/.rvm/bin:/home/student/.rvm/bin:/home/student/.rvm/bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.17.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  SyntaxError: /workspaces/Inventory-Management-System/package.json: Unexpected token } in JSON at position 651
+      at JSON.parse (<anonymous>)
+      at /usr/share/yarn/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/usr/share/yarn/lib/cli.js:310:30)
+      at /usr/share/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "dependencies": {
+      "datatables.net-autofill-dt": "^2.6.0",
+      "datatables.net-buttons-dt": "^2.4.2",
+      "datatables.net-colreorder-dt": "^1.7.0",
+      "datatables.net-datetime": "^1.5.0",
+      "datatables.net-dt": "^1.13.8",
+      "datatables.net-fixedcolumns-dt": "^4.3.0",
+      "datatables.net-fixedheader-dt": "^3.4.0",
+      "datatables.net-keytable-dt": "^2.11.0",
+      "datatables.net-responsive-dt": "^2.5.0",
+      "datatables.net-scroller-dt": "^2.3.0",
+      "datatables.net-searchbuilder-dt": "^1.6.0",
+      "datatables.net-searchpanes-dt": "^2.2.0",
+      "datatables.net-select-dt": "^1.7.0",
+      "jszip": "^3.10.1",
+      "pdfmake": "^0.2.8",
+    },
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
