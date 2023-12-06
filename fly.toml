@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for invy on 2023-12-03T22:12:52Z
+# fly.toml app configuration file generated for invy on 2023-12-05T23:34:12Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -10,7 +10,7 @@ console_command = "/rails/bin/rails console"
 [build]
 
 [deploy]
-  release_command = "bin/rails dev:sample_data assets:precompile"
+  release_command = "bin/rails db:prepare db:seed dev:sample_data assets:precompile"
 
 [http_service]
   internal_port = 3000

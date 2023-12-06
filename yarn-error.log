@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  SyntaxError: /workspaces/Inventory-Management-System/package.json: Unexpected token } in JSON at position 651
+  SyntaxError: /workspaces/Inventory-Management-System/package.json: Unexpected end of JSON input
       at JSON.parse (<anonymous>)
       at /usr/share/yarn/lib/cli.js:1629:59
       at Generator.next (<anonymous>)
@@ -38,8 +38,8 @@ npm manifest:
       "datatables.net-searchpanes-dt": "^2.2.0",
       "datatables.net-select-dt": "^1.7.0",
       "jszip": "^3.10.1",
-      "pdfmake": "^0.2.8",
-    },
+      "pdfmake": "^0.2.8"
+    }
 
 yarn manifest: 
   No manifest
