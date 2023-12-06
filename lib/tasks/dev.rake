@@ -45,7 +45,7 @@ namespace :dev do
     else
       puts company.errors.full_messages
     end
-    branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }
+    branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: 1, created_at: Time.current, updated_at: Time.current } }
     Branch.insert_all!(branches)
     if branches.last.present?
       puts branches.last.inspect
@@ -116,13 +116,13 @@ namespace :dev do
 
   desc "Fill the database tables with sample data 1"
   task sample_data_1: :environment do
-    # company = Company.first
+    company = Company.first
     # if company.present?
     #   puts company.inspect
     # else
     #   puts company.errors.full_messages
     # end
-    # branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }
+    # branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: 1, created_at: Time.current, updated_at: Time.current } }
     # Branch.insert_all!(branches)
     # if branches.last.present?
     #   puts branches.last.inspect
@@ -143,7 +143,7 @@ namespace :dev do
         bio: Faker::Lorem.paragraph,
         first_name: Faker::Name.first_name,
         last_name: Faker::Name.last_name,
-        company_id: company.id,
+        company_id: 1,
         branch_id: branch_ids.sample,
         created_at: Time.current,
         updated_at: Time.current,
@@ -208,7 +208,7 @@ namespace :dev do
     #   puts u4.inspect
     # else
     #   puts u4.errors.full_messages
-    end
+    # end
     User.insert_all!(users_data)
     if users_data.last.present?
       puts users_data.last.inspect
@@ -220,7 +220,7 @@ namespace :dev do
         name: Faker::Commerce.department,
         description: Faker::Lorem.sentence,
         subcategory: Faker::Commerce.department,
-        company_id: company.id,
+        company_id: 1,
         created_at: Time.current,
         updated_at: Time.current,
       }
@@ -233,7 +233,7 @@ namespace :dev do
         name: Faker::Commerce.department,
         description: Faker::Lorem.sentence,
         category_id: category_ids.sample,
-        company_id: company.id,
+        company_id: 1,
         created_at: Time.current,
         updated_at: Time.current,
       }
@@ -245,7 +245,7 @@ namespace :dev do
         name: Faker::Address.community,
         description: Faker::Lorem.sentence,
         address: Faker::Address.full_address,
-        company_id: company.id,
+        company_id: 1,
         branch_id: branch_ids.sample,
         created_at: Time.current,
         updated_at: Time.current,
@@ -259,7 +259,7 @@ namespace :dev do
         address: Faker::Address.full_address,
         contact_info: Faker::Internet.email,
         description: Faker::Company.catch_phrase,
-        company_id: company.id,
+        company_id: 1,
         created_at: Time.current,
         updated_at: Time.current,
       }
@@ -291,7 +291,7 @@ namespace :dev do
         description: "#{["FedEx", "UPS", "USPS"].sample} tracking ##{rand(1000000000000)}",
         sending_address: sending_address,
         receiving_address: receiving_address,
-        company_id: company.id,
+        company_id: 1,
         branch_id: branch_ids.sample,
         total: 0,
         created_at: Time.current,
@@ -311,7 +311,7 @@ namespace :dev do
         category_id: category_ids.sample,
         subcategory_id: Subcategory.pluck(:id).sample,
         supplier_id: Supplier.pluck(:id).sample, # This requires existing Supplier records
-        company_id: company.id,
+        company_id: 1,
         branch_id: branch_ids.sample,
         created_at: Time.current,
         updated_at: Time.current,
