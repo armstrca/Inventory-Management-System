@@ -11,7 +11,7 @@ namespace :dev do
   #        "db:migrate",
   #        "dev:sample_data",
   #      ]
-  Rails.env = "production"
+
   desc "Destroy all database data"
   task destroy_all: :environment do
     OrderProduct.destroy_all
