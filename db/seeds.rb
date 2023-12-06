@@ -14,7 +14,7 @@ User.create(
   email: "alice@smith.com",
   password: "password",
   role: "admin",
-  bio: Faker::Lorem.paragraph,
+  bio: "eyyyyy I'm walkin' heah!",
   company_id: 1,
   branch_id: 1,
 )
@@ -25,7 +25,7 @@ User.create(
   email: "staff@staff.staff",
   password: "password",
   role: "staff",
-  bio: Faker::Lorem.paragraph,
+  bio: "eyyyyy I'm walkin' heah!",
   company_id: 1,
   branch_id: 1,
 )
@@ -36,7 +36,7 @@ User.create(
   email: "manager@mangey.manga",
   password: "password",
   role: "manager",
-  bio: Faker::Lorem.paragraph,
+  bio: "eyyyyy I'm walkin' heah!",
   company_id: 1,
   branch_id: 1,
 )
@@ -47,7 +47,7 @@ User.create(
   email: "anna@cute.girl",
   password: "forever",
   role: "admin",
-  bio: Faker::Lorem.paragraph,
+  bio: "eyyyyy I'm walkin' heah!",
   company_id: 1,
   branch_id: 1,
 )
