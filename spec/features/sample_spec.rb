@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/spec/features/sample_spec.rb
 require "rails_helper"
 
 describe "This project" do

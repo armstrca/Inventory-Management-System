@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/datatables/product_datatable.rb
 require "application_datatable"
 
 class ProductDatatable < ApplicationDatatable

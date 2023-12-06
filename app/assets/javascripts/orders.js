@@ -1,4 +1,3 @@
-///workspaces/Inventory-Management-System/app/assets/javascripts/orders.js
   $(document).ready(function () {
     var ordersTable = $('#ordersTable').DataTable({
     processing: true,

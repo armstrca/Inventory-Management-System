@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/controllers/locations_controller.rb
 class LocationsController < ApplicationController
   before_action :set_location, only: %i[ show edit update destroy ]
 

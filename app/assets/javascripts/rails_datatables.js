@@ -1,4 +1,3 @@
-///workspaces/Inventory-Management-System/app/assets/javascripts/rails_datatables.js
 var root = typeof exports !== 'undefined' ? exports : this;
 
 root.railsDatatables = function (sSource, aoData, fnCallback) {

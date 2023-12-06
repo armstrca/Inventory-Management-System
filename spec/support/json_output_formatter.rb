@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/spec/support/json_output_formatter.rb
 RSpec::Support.require_rspec_core "formatters/json_formatter"
 require "oj"
 class JsonOutputFormatter < RSpec::Core::Formatters::JsonFormatter

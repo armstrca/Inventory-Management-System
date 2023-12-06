@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/config/initializers/rails_db.rb
 if Object.const_defined?('RailsDb')
   RailsDb.setup do |config|
     # # enabled or not

@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/controllers/subcategories_controller.rb
 class SubcategoriesController < ApplicationController
   before_action :set_subcategory, only: %i[ show edit update destroy ]
 

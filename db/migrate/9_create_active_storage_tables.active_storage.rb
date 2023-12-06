@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/db/migrate/9_create_active_storage_tables.active_storage.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231101031205_create_active_storage_tables.active_storage.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231101031205_create_active_storage_tables.active_storage.rb
 # This migration comes from active_storage (originally 20170806125915)

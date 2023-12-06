@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/models/category.rb
 # == Schema Information
 #
 # Table name: categories

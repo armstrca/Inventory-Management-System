@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/assets/pagy/extras/items.rb
 require 'pagy/extras/frontend_helpers'
 
 class Pagy # :nodoc:

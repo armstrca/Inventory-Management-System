@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/controllers/orders_controller.rb
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
 

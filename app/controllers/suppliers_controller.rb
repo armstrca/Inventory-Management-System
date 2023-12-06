@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/controllers/suppliers_controller.rb
 class SuppliersController < ApplicationController
   before_action :set_supplier, only: %i[ show edit update destroy ]
 

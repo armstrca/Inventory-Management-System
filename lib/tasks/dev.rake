@@ -16,6 +16,18 @@ namespace :dev do
   task sample_data: :environment do
     Rails.env = "production"
     # ActiveRecord::Base.transaction do
+    OrderProduct.all.delete
+    Product.all.delete
+    Order.all.delete
+    Supplier.all.delete
+    StorageLocation.all.delete
+    Subcategory.all.delete
+    Category.all.delete
+    User.all.delete
+    Branch.all.delete
+    Company.all.delete
+
+
     company = Company.create!(name: "ZomboCom")
 
     branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }

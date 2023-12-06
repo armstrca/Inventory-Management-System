@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/config/initializers/simple_form.rb
 # frozen_string_literal: true
 #
 # Uncomment this and change the path if necessary to include your own

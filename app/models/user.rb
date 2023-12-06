@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/models/user.rb
 # == Schema Information
 #
 # Table name: users

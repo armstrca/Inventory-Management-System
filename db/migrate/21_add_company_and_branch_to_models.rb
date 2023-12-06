@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/db/migrate/21_add_company_and_branch_to_models.rb
 # db/migrate/[timestamp]_add_company_and_branch_to_models.rb
 class AddCompanyAndBranchToModels < ActiveRecord::Migration[7.0]
   def change

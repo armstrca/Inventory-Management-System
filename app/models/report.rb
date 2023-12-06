@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/models/report.rb
 # == Schema Information
 #
 # Table name: reports

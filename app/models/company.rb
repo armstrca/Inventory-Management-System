@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/models/company.rb
 # == Schema Information
 #
 # Table name: companies
