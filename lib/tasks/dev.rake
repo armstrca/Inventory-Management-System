@@ -27,7 +27,7 @@ namespace :dev do
   end
   desc "Create users"
   task create_users: :environment do
-    User.create(
+    u1 = User.create(
       first_name: "Alice",
       last_name: "Smith",
       email: "alice@smith.com",
@@ -37,8 +37,12 @@ namespace :dev do
       company_id: 1,
       branch_id: 1,
     )
-
-    User.create(
+    if u1.persisted?
+      puts u1.inspect
+    else
+      puts u1.errors.full_messages
+    end
+    u2 = User.create(
       first_name: "Staffy",
       last_name: "Staffy",
       email: "staff@staff.staff",
@@ -48,8 +52,12 @@ namespace :dev do
       company_id: 1,
       branch_id: 1,
     )
-
-    User.create(
+    if u2.persisted?
+      puts u2.inspect
+    else
+      puts u2.errors.full_messages
+    end
+    u3 = User.create(
       first_name: "Mangey",
       last_name: "Manager",
       email: "manager@mangey.manga",
@@ -59,8 +67,12 @@ namespace :dev do
       company_id: 1,
       branch_id: 1,
     )
-
-    User.create(
+    if u3.persisted?
+      puts u3.inspect
+    else
+      puts u3.errors.full_messages
+    end
+    u4 = User.create(
       first_name: "Anna",
       last_name: "Knittington",
       email: "anna@cute.girl",
@@ -70,6 +82,11 @@ namespace :dev do
       company_id: 1,
       branch_id: 1,
     )
+    if u4.persisted?
+      puts u4.inspect
+    else
+      puts u4.errors.full_messages
+    end
   end
 
   desc "Fill the database tables with sample data 1"
