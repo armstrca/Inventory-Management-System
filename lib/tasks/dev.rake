@@ -39,9 +39,9 @@ namespace :dev do
   end
   desc "Create users"
   task create_users: :environment do
-    company = Company.create!(name: "ZomboCom")
-    if company.last.persisted?
-      puts company.last.inspect
+    company = Company.create!(id: 1, name: "ZomboCom")
+    if company.persisted?
+      puts company.inspect
     else
       puts company.errors.full_messages
     end
