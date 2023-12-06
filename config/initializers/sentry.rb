@@ -1,7 +1,5 @@
-if ENV["SENTRY_DSN"]
-
 Sentry.init do |config|
-  config.dsn = ENV["SENTRY_DSN"]
+  config.dsn = 'https://f3b94cea03a6bc35972d181d5a266383@o4506351062220800.ingest.sentry.io/4506351062351872'
   config.breadcrumbs_logger = [:active_support_logger, :http_logger]
 
   # Set traces_sample_rate to 1.0 to capture 100%
@@ -12,6 +10,4 @@ Sentry.init do |config|
   config.traces_sampler = lambda do |context|
     true
   end
-end
-
 end

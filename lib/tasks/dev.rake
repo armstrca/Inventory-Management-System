@@ -27,6 +27,19 @@ namespace :dev do
   end
   desc "Create users"
   task create_users: :environment do
+    company = Company.create!(name: "ZomboCom")
+    if company.persisted?
+      puts company.inspect
+    else
+      puts company.errors.full_messages
+    end
+    branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }
+    Branch.insert_all!(branches)
+    if branches.persisted?
+      puts branches.inspect
+    else
+      puts branches.errors.full_messages
+    end
     u1 = User.create(
       first_name: "Alice",
       last_name: "Smith",
@@ -92,10 +105,18 @@ namespace :dev do
   desc "Fill the database tables with sample data 1"
   task sample_data_1: :environment do
     company = Company.create!(name: "ZomboCom")
-
+    if company.persisted?
+      puts company.inspect
+    else
+      puts company.errors.full_messages
+    end
     branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }
     Branch.insert_all!(branches)
-
+    if branches.persisted?
+      puts branches.inspect
+    else
+      puts branches.errors.full_messages
+    end
     branch_ids = Branch.pluck(:id)
     roles = %w(admin staff manager)
     statuses = %w(delivered processing in_transit)
@@ -116,7 +137,7 @@ namespace :dev do
         updated_at: Time.current,
       }
     end
-    User.create(
+    u1 = User.create(
       first_name: "Alice",
       last_name: "Smith",
       email: "alice@smith.com",
@@ -126,8 +147,12 @@ namespace :dev do
       company_id: 1,
       branch_id: 1,
     )
-
-    User.create(
+    if u1.persisted?
+      puts u1.inspect
+    else
+      puts u1.errors.full_messages
+    end
+    u2 = User.create(
       first_name: "Staffy",
       last_name: "Staffy",
       email: "staff@staff.staff",
@@ -137,8 +162,12 @@ namespace :dev do
       company_id: 1,
       branch_id: 1,
     )
-
-    User.create(
+    if u2.persisted?
+      puts u2.inspect
+    else
+      puts u2.errors.full_messages
+    end
+    u3 = User.create(
       first_name: "Mangey",
       last_name: "Manager",
       email: "manager@mangey.manga",
@@ -148,8 +177,12 @@ namespace :dev do
       company_id: 1,
       branch_id: 1,
     )
-
-    User.create(
+    if u3.persisted?
+      puts u3.inspect
+    else
+      puts u3.errors.full_messages
+    end
+    u4 = User.create(
       first_name: "Anna",
       last_name: "Knittington",
       email: "anna@cute.girl",
@@ -159,8 +192,17 @@ namespace :dev do
       company_id: 1,
       branch_id: 1,
     )
+    if u4.persisted?
+      puts u4.inspect
+    else
+      puts u4.errors.full_messages
+    end
     User.insert_all!(users_data)
-
+    if users_data.persisted?
+      puts users_data.inspect
+    else
+      puts users_data.errors.full_messages
+    end
     categories_data = 10.times.map do
       {
         name: Faker::Commerce.department,

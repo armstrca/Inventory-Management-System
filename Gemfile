@@ -15,6 +15,7 @@ gem "bootstrap"
 
 gem "bullet", group: "development"
 
+
 gem "ransack"
 gem 'mini_racer', platforms: :ruby
 
