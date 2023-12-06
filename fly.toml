@@ -10,7 +10,7 @@ console_command = "/rails/bin/rails console"
 [build]
 
 [deploy]
-  release_command = "bin/rails db:prepare dev:destroy_all dev:create_users dev:sample_data_1 dev:sample_data_2 assets:precompile"
+  release_command = "bin/rails db:prepare dev:destroy_all dev:sample_data_1 dev:sample_data_2 assets:precompile"
 
 [http_service]
   internal_port = 3000

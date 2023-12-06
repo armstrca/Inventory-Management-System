@@ -99,7 +99,49 @@ namespace :dev do
         updated_at: Time.current,
       }
     end
+    User.create(
+      first_name: "Alice",
+      last_name: "Smith",
+      email: "alice@smith.com",
+      password: "password",
+      role: "admin",
+      bio: Faker::Lorem.paragraph,
+      company_id: 1,
+      branch_id: 1,
+    )
 
+    User.create(
+      first_name: "Staffy",
+      last_name: "Staffy",
+      email: "staff@staff.staff",
+      password: "password",
+      role: "staff",
+      bio: Faker::Lorem.paragraph,
+      company_id: 1,
+      branch_id: 1,
+    )
+
+    User.create(
+      first_name: "Mangey",
+      last_name: "Manager",
+      email: "manager@mangey.manga",
+      password: "password",
+      role: "manager",
+      bio: Faker::Lorem.paragraph,
+      company_id: 1,
+      branch_id: 1,
+    )
+
+    User.create(
+      first_name: "Anna",
+      last_name: "Knittington",
+      email: "anna@cute.girl",
+      password: "forever",
+      role: "admin",
+      bio: Faker::Lorem.paragraph,
+      company_id: 1,
+      branch_id: 1,
+    )
     User.insert_all!(users_data)
 
     categories_data = 10.times.map do
