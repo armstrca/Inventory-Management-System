@@ -15,7 +15,7 @@ else
 end
 branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }
 Branch.insert_all!(branches)
-if branches.persisted?
+if branches.sample.persisted?
   puts branches.inspect
 else
   puts branches.errors.full_messages

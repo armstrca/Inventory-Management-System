@@ -15,28 +15,40 @@ namespace :dev do
   desc "Destroy all database data"
   task destroy_all: :environment do
     OrderProduct.destroy_all
+    puts "deleted"
+    puts OrderProduct.first.inspect
     Product.destroy_all
+    puts "deleted"
     Order.destroy_all
-    Supplier.destroy_all
-    StorageLocation.destroy_all
-    Subcategory.destroy_all
-    Category.destroy_all
-    User.destroy_all
-    Branch.destroy_all
-    Company.destroy_all
+    puts "deleted"
+    # Supplier.destroy_all
+    # puts "deleted"
+    # StorageLocation.destroy_all
+    # puts "deleted"
+    # Subcategory.destroy_all
+    # puts "deleted"
+    # Category.destroy_all
+    # puts "deleted"
+    # User.destroy_all
+    # puts "deleted"
+    # puts User.first.inspect
+    # Branch.destroy_all
+    # puts "deleted"
+    # Company.destroy_all
+    # puts "deleted"
   end
   desc "Create users"
   task create_users: :environment do
     company = Company.create!(name: "ZomboCom")
-    if company.persisted?
-      puts company.inspect
+    if company.last.persisted?
+      puts company.last.inspect
     else
       puts company.errors.full_messages
     end
     branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }
     Branch.insert_all!(branches)
-    if branches.persisted?
-      puts branches.inspect
+    if branches.last.present?
+      puts branches.last.inspect
     else
       puts branches.errors.full_messages
     end
@@ -104,16 +116,16 @@ namespace :dev do
 
   desc "Fill the database tables with sample data 1"
   task sample_data_1: :environment do
-    company = Company.create!(name: "ZomboCom")
-    if company.persisted?
+    company = Company.create!(id: 1, name: "ZomboCom")
+    if company.present?
       puts company.inspect
     else
       puts company.errors.full_messages
     end
     branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }
     Branch.insert_all!(branches)
-    if branches.persisted?
-      puts branches.inspect
+    if branches.last.present?
+      puts branches.last.inspect
     else
       puts branches.errors.full_messages
     end
@@ -198,8 +210,8 @@ namespace :dev do
       puts u4.errors.full_messages
     end
     User.insert_all!(users_data)
-    if users_data.persisted?
-      puts users_data.inspect
+    if users_data.last.present?
+      puts users_data.last.inspect
     else
       puts users_data.errors.full_messages
     end
