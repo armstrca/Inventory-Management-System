@@ -12,12 +12,68 @@ namespace :dev do
   #        "dev:sample_data",
   #      ]
 
-  desc "Fill the database tables with some sample data"
-  task sample_data: :environment do
+  desc "Destroy all database data"
+  task destroy_all: :environment do
+    OrderProduct.destroy_all
+    Product.destroy_all
+    Order.destroy_all
+    Supplier.destroy_all
+    StorageLocation.destroy_all
+    Subcategory.destroy_all
+    Category.destroy_all
+    User.destroy_all
+    Branch.destroy_all
+    Company.destroy_all
+  end
 
+  task create_users: :environment do
+    User.create(
+      first_name: "Alice",
+      last_name: "Smith",
+      email: "alice@smith.com",
+      password: "password",
+      role: "admin",
+      bio: Faker::Lorem.paragraph,
+      company_id: 1,
+      branch_id: 1,
+    )
 
+    User.create(
+      first_name: "Staffy",
+      last_name: "Staffy",
+      email: "staff@staff.staff",
+      password: "password",
+      role: "staff",
+      bio: Faker::Lorem.paragraph,
+      company_id: 1,
+      branch_id: 1,
+    )
 
+    User.create(
+      first_name: "Mangey",
+      last_name: "Manager",
+      email: "manager@mangey.manga",
+      password: "password",
+      role: "manager",
+      bio: Faker::Lorem.paragraph,
+      company_id: 1,
+      branch_id: 1,
+    )
 
+    User.create(
+      first_name: "Anna",
+      last_name: "Knittington",
+      email: "anna@cute.girl",
+      password: "forever",
+      role: "admin",
+      bio: Faker::Lorem.paragraph,
+      company_id: 1,
+      branch_id: 1,
+    )
+  end
+
+  desc "Fill the database tables with sample data 1"
+  task sample_data_1: :environment do
     company = Company.create!(name: "ZomboCom")
 
     branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }
@@ -97,6 +153,11 @@ namespace :dev do
     end
     Supplier.insert_all!(suppliers_data)
 
+    puts "Sample data 1 has been seeded into the database."
+  end
+
+  desc "Fill the database tables with sample data 2"
+  task sample_data_1: :environment do
     storage_location_ids = StorageLocation.pluck(:id)
     addresses = StorageLocation.pluck(:address).sample(10) + 5.times.map { Faker::Address.full_address }
 
@@ -152,14 +213,13 @@ namespace :dev do
     end
     OrderProduct.insert_all!(order_products_data)
 
-    # Update orders and product stock quantities
+    Update orders and product stock quantities
     Order.all.each do |order|
       order.calculate_total
       order.update_product_stock_quantities
       order.save!
     end
 
-    puts "Sample data has been seeded into the database."
+    puts "Sample data 2 has been seeded into the database."
   end
-end
 end

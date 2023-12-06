@@ -29,6 +29,10 @@ class OrderProduct < ApplicationRecord
 
   after_save :update_product_stock_quantity
 
+  def destroy
+    super
+  end
+
   private
 
   def update_product_stock_quantity
@@ -37,12 +41,11 @@ class OrderProduct < ApplicationRecord
 
   def validate_quantity_ordered
     if quantity_ordered.present? &&
-        (transaction_type == 'sale_to_customer' ||
-         transaction_type == 'return_to_supplier' ||
-         transaction_type == 'stock_loss') &&
-        quantity_ordered > product.stock_quantity
+       (transaction_type == "sale_to_customer" ||
+        transaction_type == "return_to_supplier" ||
+        transaction_type == "stock_loss") &&
+       quantity_ordered > product.stock_quantity
       errors.add(:quantity_ordered, "cannot be greater than available stock quantity (#{product.stock_quantity})")
     end
   end
-
 end

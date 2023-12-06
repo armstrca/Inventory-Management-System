@@ -37,8 +37,14 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :order_products, allow_destroy: true
 
   def calculate_total
+    puts "Calculating total for order #{id}"
+
     self.total = products.sum do |product|
       order_product = order_products.find_by(product_id: product.id)
+      unless order_product
+        puts "Could not find order_product for product #{product.id} in order #{id}"
+      end
+
       calculate_transaction_amount(order_product) || 0
     end
   end
