@@ -14,18 +14,7 @@ namespace :dev do
 
   desc "Fill the database tables with some sample data"
   task sample_data: :environment do
-    # Rails.env = "production"
-    # ActiveRecord::Base.transaction do
-    OrderProduct.where(true).delete
-    Product.where(true).delete
-    Order.where(true).delete
-    Supplier.where(true).delete
-    StorageLocation.where(true).delete
-    Subcategory.where(true).delete
-    Category.where(true).delete
-    User.where(true).delete
-    Branch.where(true).delete
-    Company.where(true).delete
+
 
 
 
@@ -173,4 +162,4 @@ namespace :dev do
     puts "Sample data has been seeded into the database."
   end
 end
-# end
+end
