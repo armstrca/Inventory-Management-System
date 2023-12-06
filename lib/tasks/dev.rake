@@ -11,7 +11,7 @@ namespace :dev do
   #        "db:migrate",
   #        "dev:sample_data",
   #      ]
-
+  Rails.env = "production"
   desc "Destroy all database data"
   task destroy_all: :environment do
     OrderProduct.destroy_all
@@ -25,7 +25,7 @@ namespace :dev do
     Branch.destroy_all
     Company.destroy_all
   end
-
+  desc "Create users"
   task create_users: :environment do
     User.create(
       first_name: "Alice",
@@ -157,10 +157,17 @@ namespace :dev do
   end
 
   desc "Fill the database tables with sample data 2"
-  task sample_data_1: :environment do
+  task sample_data_2: :environment do
+    company = Company.first
+    branch_ids = Branch.pluck(:id)
+    category_ids = Category.pluck(:id)
+    subcategory_ids = Subcategory.pluck(:id)
     storage_location_ids = StorageLocation.pluck(:id)
     addresses = StorageLocation.pluck(:address).sample(10) + 5.times.map { Faker::Address.full_address }
-
+    branch_ids = Branch.pluck(:id)
+    roles = %w(admin staff manager)
+    statuses = %w(delivered processing in_transit)
+    transaction_types = %w(sale_to_customer purchase_from_supplier refund_to_customer return_to_supplier stock_loss)
     orders_data = 600.times.map do
       sending_address = addresses.sample
       receiving_address = addresses.sample
@@ -213,7 +220,7 @@ namespace :dev do
     end
     OrderProduct.insert_all!(order_products_data)
 
-    Update orders and product stock quantities
+    #Update orders and product stock quantities
     Order.all.each do |order|
       order.calculate_total
       order.update_product_stock_quantities
