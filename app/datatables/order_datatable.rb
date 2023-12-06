@@ -1,4 +1,4 @@
-# /workspaces/Inventory-Management-System/app/datatables/order_datatable.rb
+#/workspaces/Inventory-Management-System/app/datatables/order_datatable.rb
 require "application_datatable"
 
 class OrderDatatable < ApplicationDatatable
