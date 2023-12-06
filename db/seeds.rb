@@ -7,7 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 # unless Rails.env.production?
-company = Company.create!(name: "ZomboCom")
+company = Company.create!(id: 1, name: "ZomboCom")
 if company.persisted?
   puts company.inspect
 else
