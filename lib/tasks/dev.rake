@@ -117,18 +117,18 @@ namespace :dev do
   desc "Fill the database tables with sample data 1"
   task sample_data_1: :environment do
     company = Company.first
-    # if company.present?
-    #   puts company.inspect
-    # else
-    #   puts company.errors.full_messages
-    # end
-    # branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: 1, created_at: Time.current, updated_at: Time.current } }
-    # Branch.insert_all!(branches)
-    # if branches.last.present?
-    #   puts branches.last.inspect
-    # else
-    #   puts branches.errors.full_messages
-    # end
+    if company.present?
+      puts company.inspect
+    else
+      puts company.errors.full_messages
+    end
+    branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: 1, created_at: Time.current, updated_at: Time.current } }
+    Branch.insert_all!(branches)
+    if branches.last.present?
+      puts branches.last.inspect
+    else
+      puts branches.errors.full_messages
+    end
     branch_ids = Branch.pluck(:id)
     roles = %w(admin staff manager)
     statuses = %w(delivered processing in_transit)
