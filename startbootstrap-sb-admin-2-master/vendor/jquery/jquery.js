@@ -1,3 +1,4 @@
+///workspaces/Inventory-Management-System/startbootstrap-sb-admin-2-master/vendor/jquery/jquery.js
 /*!
  * jQuery JavaScript Library v3.6.0
  * https://jquery.com/

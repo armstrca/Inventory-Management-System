@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/remove_generated_comments.rb
 
 def remove_generated_comments(file_path)
   # Read the existing content of the file
@@ -12,9 +13,12 @@ end
 
 def process_files(directory, extensions)
   Dir.glob(File.join(directory, "**/*.{#{extensions.join(',')}}")).each do |file|
-    remove_generated_comments(file)
+    if File.file?(file)
+      remove_generated_comments(file)
+    end
   end
 end
+
 
 # Specify the directory to start the search
 directory_to_search = '/workspaces/Inventory-Management-System/'

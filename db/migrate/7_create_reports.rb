@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/db/migrate/7_create_reports.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231017202200_create_reports.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231017202200_create_reports.rb
 class CreateReports < ActiveRecord::Migration[7.0]

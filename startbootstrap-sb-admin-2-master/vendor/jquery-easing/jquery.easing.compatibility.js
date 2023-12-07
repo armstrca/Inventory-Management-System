@@ -1,3 +1,4 @@
+///workspaces/Inventory-Management-System/startbootstrap-sb-admin-2-master/vendor/jquery-easing/jquery.easing.compatibility.js
 /*
  * Easing Compatibility v1 - http://gsgd.co.uk/sandbox/jquery/easing
  *

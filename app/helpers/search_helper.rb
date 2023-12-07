@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/helpers/search_helper.rb
 module SearchHelper
   def get_columns_for_model(model, products)
     case model.to_s

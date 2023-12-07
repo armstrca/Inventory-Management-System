@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/config/routes.rb
 Rails.application.routes.draw do
   # mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   get '/products/index', to: 'products#index'

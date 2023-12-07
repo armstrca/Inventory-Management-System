@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/db/migrate/6_create_inventory_transactions.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231017201800_create_inventory_transactions.rb
 #/workspaces/Inventory-Management-System/db/migrate/20231017201800_create_inventory_transactions.rb
 class CreateInventoryTransactions < ActiveRecord::Migration[7.0]

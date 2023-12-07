@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/policies/order_product_policy.rb
 class OrderProductPolicy < ApplicationPolicy
   def create?
     user.staff? || user.admin? || user.manager?

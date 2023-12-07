@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/models/inventory_transaction.rb
 # == Schema Information
 #
 # Table name: inventory_transactions

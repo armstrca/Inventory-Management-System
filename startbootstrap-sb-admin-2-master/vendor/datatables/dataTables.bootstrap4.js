@@ -1,3 +1,4 @@
+///workspaces/Inventory-Management-System/startbootstrap-sb-admin-2-master/vendor/datatables/dataTables.bootstrap4.js
 /*! DataTables Bootstrap 4 integration
  * ©2011-2017 SpryMedia Ltd - datatables.net/license
  */
