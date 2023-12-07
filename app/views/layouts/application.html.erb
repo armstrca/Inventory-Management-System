@@ -50,6 +50,7 @@
       <div id="content-wrapper" class="d-flex flex-column" style="padding-bottom: 100px;">
         <%= render 'layouts/topbar' %>
         <div class="container">
+        
           <% if notice.present? %>
             <%= render partial: "shared/flash", locals: { message: notice, css_class: "success" } %>
           <% end %>

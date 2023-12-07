@@ -74,11 +74,6 @@ body {
   outline: 0 !important;
 }
 
-:root {
-  --sidebar-expanded-width: 250px; /* Adjust as needed */
-  --sidebar-collapsed-width: 80px; /* Adjust as needed */
-}
-
 hr {
   box-sizing: content-box;
   height: 0;
@@ -9806,16 +9801,6 @@ a:focus {
   background-color: #f8f9fc;
   width: 100%;
   overflow-x: hidden;
-  transition: margin-left 0.3s ease-in-out;
-  margin-left: var(--sidebar-expanded-width); /* Match expanded sidebar width */
-}
-
-body.sidebar-toggled .sidebar {
-  width: var(--sidebar-collapsed-width);
-}
-
-body.sidebar-toggled #content-wrapper {
-  margin-left: var(--sidebar-collapsed-width); /* Match collapsed sidebar width */
 }
 
 #wrapper #content-wrapper #content {
@@ -10336,8 +10321,8 @@ body.sidebar-toggled #content-wrapper {
 }
 
 .sidebar {
-  width: var(--sidebar-expanded-width);
-  transition: width 0.3s ease-in-out;
+  width: 6.5rem;
+  min-height: 100vh;
 }
 
 .sidebar .nav-item {

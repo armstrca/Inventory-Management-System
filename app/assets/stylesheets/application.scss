@@ -50,9 +50,9 @@ h6,
   transition: width 0.3s ease-in-out;
 }
 
-#content-wrapper {
+#correct-content-wrapper {
   transition: margin-left 0.3s ease-in-out;
-  margin-left: var(--sidebar-expanded-width);
+  padding-left: var(--sidebar-expanded-width);
   /* Match expanded sidebar width */
 }
 
@@ -61,12 +61,13 @@ body.sidebar-toggled .sidebar {
 }
 
 body.sidebar-toggled #content-wrapper {
-  margin-left: var(--sidebar-collapsed-width);
+  padding-left: var(--sidebar-collapsed-width);
   /* Match collapsed sidebar width */
 }
 
 body {
   background-color: #f8f9fc;
+  padding-left: var(--sidebar-expanded-width)
   /* Use the color value of your choice */
 }
 
@@ -147,10 +148,7 @@ hr {
   align-items: center;
 }
 
-// .header h1 {
-//   margin: 0;
-//   /* Remove default margin for h1 elements */
-// }
+
 
 
 a {
