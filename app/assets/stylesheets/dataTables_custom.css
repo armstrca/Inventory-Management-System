@@ -9,7 +9,7 @@
   .card {
     max-width: 1500px; /* Adjust the max-width as needed */
 
-  }
+  /* } */
 
   .header {
     display: flex;
@@ -26,5 +26,3 @@
 #outgoingTable tbody tr {
     cursor: pointer;
 }
-
-

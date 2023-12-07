@@ -2,15 +2,15 @@
 
 # unless Rails.env.production?
 namespace :dev do
-  # desc "Drops, creates, migrates, and adds sample data to database"
-  # task reset: [
-  #        :environment,
-  #        "db:schema:cache:clear",
-  #        "db:drop",
-  #        "db:create",
-  #        "db:migrate",
-  #        "dev:sample_data",
-  #      ]
+  desc "Drops, creates, migrates, and adds sample data to database"
+  task reset: [
+         :environment,
+         "db:schema:cache:clear",
+         "db:drop",
+         "db:create",
+         "db:migrate",
+         "dev:sample_data",
+       ]
 
   desc "Destroy all database data"
   task destroy_all: :environment do
@@ -21,21 +21,21 @@ namespace :dev do
     puts "deleted"
     Order.destroy_all
     puts "deleted"
-    # Supplier.destroy_all
-    # puts "deleted"
-    # StorageLocation.destroy_all
-    # puts "deleted"
-    # Subcategory.destroy_all
-    # puts "deleted"
-    # Category.destroy_all
-    # puts "deleted"
-    # User.destroy_all
-    # puts "deleted"
-    # puts User.first.inspect
-    # Branch.destroy_all
-    # puts "deleted"
-    # Company.destroy_all
-    # puts "deleted"
+    Supplier.destroy_all
+    puts "deleted"
+    StorageLocation.destroy_all
+    puts "deleted"
+    Subcategory.destroy_all
+    puts "deleted"
+    Category.destroy_all
+    puts "deleted"
+    User.destroy_all
+    puts "deleted"
+    puts User.first.inspect
+    Branch.destroy_all
+    puts "deleted"
+    Company.destroy_all
+    puts "deleted"
   end
   desc "Create users"
   task create_users: :environment do
