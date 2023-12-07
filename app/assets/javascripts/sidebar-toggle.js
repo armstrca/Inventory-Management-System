@@ -25,3 +25,31 @@ $(document).ready(function () {
     $('.sidebar').toggleClass('toggled');
   });
 });
+
+
+// Assuming the IDs for the sidebar toggle button and content wrapper are 'sidebarToggle' and 'content-wrapper', respectively.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const sidebarToggle = document.getElementById('sidebarToggle');
+  const contentWrapper = document.getElementById('content-wrapper');
+  const expandedPadding = '250px'; // The padding when the sidebar is expanded
+  const collapsedPadding = '70px'; // The padding when the sidebar is collapsed
+
+  // Function to set dynamic padding
+  function setDynamicPadding() {
+    if (document.body.classList.contains('sidebar-toggled')) {
+      contentWrapper.style.paddingLeft = collapsedPadding;
+    } else {
+      contentWrapper.style.paddingLeft = expandedPadding;
+    }
+  }
+
+  // Event listener for the sidebar toggle
+  sidebarToggle.addEventListener('click', function() {
+    // Wait for the sidebar transition to complete before applying padding
+    setTimeout(setDynamicPadding, 350); // Adjust timing to match CSS animation
+  });
+
+  // Initial padding setup
+  setDynamicPadding();
+});

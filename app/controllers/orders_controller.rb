@@ -5,8 +5,6 @@ class OrdersController < ApplicationController
   respond_to :html, :datatables
 
   # GET /orders or /orders.json
-
-
   def index
     @orders = Order.all
     authorize @orders
@@ -91,8 +89,6 @@ class OrdersController < ApplicationController
       end
     end
   end
-
-  # PATCH/PUT /orders/1 or /orders/1.json
 
   # PATCH/PUT /orders/1 or /orders/1.json
   def update

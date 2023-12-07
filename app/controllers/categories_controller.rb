@@ -17,7 +17,6 @@ class CategoriesController < ApplicationController
     authorize @category
   end
 
-
   # GET /categories/new
   def new
     @category = Category.new

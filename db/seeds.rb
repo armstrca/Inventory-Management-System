@@ -9,18 +9,10 @@
 
 # unless Rails.env.production?
 company = Company.create!(id: 1, name: "ZomboCom")
-if company.persisted?
-  puts company.inspect
-else
-  puts company.errors.full_messages
-end
+
 branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }
 Branch.insert_all!(branches)
-if branches.sample.persisted?
-  puts branches.inspect
-else
-  puts branches.errors.full_messages
-end
+
 u1 = User.create(
   first_name: "Alice",
   last_name: "Smith",

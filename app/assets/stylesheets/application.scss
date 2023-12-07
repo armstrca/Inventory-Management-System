@@ -38,8 +38,36 @@ h6,
   font-family: 'Flexure', sans-serif; // Use 'Flexure' and fall back to a generic sans-serif font
 }
 
+:root {
+  --sidebar-expanded-width: 250px;
+  /* Adjust as needed */
+  --sidebar-collapsed-width: 80px;
+  /* Adjust as needed */
+}
+
+.sidebar {
+  width: var(--sidebar-expanded-width);
+  transition: width 0.3s ease-in-out;
+}
+
+#correct-content-wrapper {
+  transition: margin-left 0.3s ease-in-out;
+  padding-left: var(--sidebar-expanded-width);
+  /* Match expanded sidebar width */
+}
+
+body.sidebar-toggled .sidebar {
+  width: var(--sidebar-collapsed-width);
+}
+
+body.sidebar-toggled #content-wrapper {
+  padding-left: var(--sidebar-collapsed-width);
+  /* Match collapsed sidebar width */
+}
+
 body {
   background-color: #f8f9fc;
+  padding-left: var(--sidebar-expanded-width)
   /* Use the color value of your choice */
 }
 
@@ -120,10 +148,7 @@ hr {
   align-items: center;
 }
 
-// .header h1 {
-//   margin: 0;
-//   /* Remove default margin for h1 elements */
-// }
+
 
 
 a {
@@ -150,7 +175,7 @@ form.navbar-search::before {
   content: "";
   display: block;
   position: absolute;
-  //* padding-left: 250px;
+
   /* Adjust this value as needed */
   width: 100%;
   /* Ensure it covers the entire width */
@@ -171,12 +196,7 @@ form.navbar-search .form-control {
   /* Adjust this value as needed */
 }
 
-/* application.css or application.scss */
-#content-wrapper {
-  flex: 1;
-  padding-left: 250px;
-  /* Allow content to take up available space */
-}
+
 
 .fixed-topbar {
   position: fixed;
@@ -200,7 +220,7 @@ form.navbar-search .form-control {
   /* Set your desired min-width */
   max-width: 250px;
   /* Set your desired max-width */
-  width: 250px;
+
   /* Initial width */
   transition: width .5s;
   /* Add a smooth transition effect */
@@ -221,23 +241,16 @@ form.navbar-search .form-control {
 
 /* Adjust content margin to make space for fixed elements */
 #content-wrapper {
-  // margin-left: 250px; /* Same as sidebar width */
-  margin-top: 80px;
-  /* Same as topbar height */
-  // padding: 20px; /* Add padding to content to prevent overlapping */
-}
-
-
-
-/* White Box Styles */
-.white-box {
-  position: fixed;
-  top: 0;
-  /* Adjust to match the height of the topbar */
-  left: 0;
-  right: 0;
-  height: 70px;
-  background-color: white;
-  z-index: 0;
-  /* Ensure it's below other fixed elements */
+  /* White Box Styles */
+  .white-box {
+    position: fixed;
+    top: 0;
+    /* Adjust to match the height of the topbar */
+    left: 0;
+    right: 0;
+    height: 70px;
+    background-color: white;
+    z-index: 0;
+    /* Ensure it's below other fixed elements */
+  }
 }
