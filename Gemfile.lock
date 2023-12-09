@@ -532,7 +532,6 @@ DEPENDENCIES
   jbuilder
   jquery-datatables-rails (~> 3.4)
   jquery-rails
-  kaminari
   memory_profiler
   mini_racer
   pg (~> 1.1)

@@ -41,7 +41,7 @@ class OrdersController < ApplicationController
     @incoming_orders = Order.incoming
     @outgoing_orders = Order.outgoing
     authorize @order
-    @products = Product.all
+    @pagy, @products = pagy(Product.all)
   end
 
   # GET /orders/new
@@ -50,14 +50,14 @@ class OrdersController < ApplicationController
     selected_products_count = params[:selected_products_count].to_i
     selected_products_count.times { @order.order_products.build }
     authorize @order
-    @products = Product.all
+    @pagy, @products = pagy(Product.all)
   end
 
   def edit
     @order = Order.find(params[:id])
     @order.order_products.build if @order.order_products.empty? # Build a new OrderProduct if none exist
     authorize @order
-    @products = Product.all
+    @pagy, @products = pagy(Product.all)
   end
 
   # POST /orders or /orders.json
@@ -68,7 +68,7 @@ class OrdersController < ApplicationController
     selected_product_ids = order_product_attributes.values.map { |product| product[:product_id] } if order_product_attributes.present?
 
     authorize @order
-    @products = Product.all
+    @pagy, @products = pagy(Product.all)
 
     respond_to do |format|
       if @order.save
