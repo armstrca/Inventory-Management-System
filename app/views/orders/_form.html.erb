@@ -157,14 +157,6 @@
               <% end %>
             </tbody>
           </table>
-          <div class="pagy-container" style="display: flex; justify-content: space-between; font-family: 'Philosopher';">
-            <div class="pagy-info" id="productsTable_info" role="status" aria-live="polite" style="padding-top: 10px;">
-              <%== pagy_info(@pagy) %>
-            </div>
-            <div class="pagy-nav" style="padding-top: 10px;">
-              <%== render partial: 'pagy/bootstrap_nav', locals: {pagy: @pagy} %>
-            </div>
-          </div>
         </div>
       </div>
     </div>
