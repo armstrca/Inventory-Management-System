@@ -16,18 +16,26 @@ class NewOrderProductDatatable < ApplicationDatatable
 
 
   def data
+    # If we are editing an existing order, pre-fetch its order_products
+    existing_order_products = params[:orderId].present? ? Order.find(params[:orderId]).order_products.index_by(&:product_id) : {}
+
     records.map do |product|
+      # Check if the product is part of the existing order
+      order_product = existing_order_products[product.id]
+      in_order = order_product.present?
+
       {
         id: product.id,
-        name: product.name, # No link, since we're in a form
+        name: product.name,
         sku: product.sku,
         price: number_to_currency(product.price),
         stock_quantity: product.stock_quantity,
         supplier: product.supplier_name,
-        quantity_ordered: '', # Placeholder for new quantity_ordered input
-        shipping_cost: '', # Placeholder for new shipping_cost input
-        transaction_type: '' # Placeholder for new transaction_type select
-        # Additional fields like `edit` or `remove` can be included if necessary
+        checkbox: in_order ? 'checked' : '',
+        quantity_ordered: in_order ? order_product.quantity_ordered : nil,
+        shipping_cost: in_order ? order_product.shipping_cost : nil,
+        transaction_type: in_order ? order_product.transaction_type : nil,
+        disabled: in_order ? 'disabled' : ''
       }
     end
   end
