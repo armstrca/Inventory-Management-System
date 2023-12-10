@@ -5,7 +5,6 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
 
-
   def index
     @orders = Order.all
     authorize @orders
@@ -15,7 +14,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  # GET /orders/incoming
+
   def incoming
     @incoming_orders = Order.incoming
     authorize @incoming_orders
@@ -50,6 +49,10 @@ class OrdersController < ApplicationController
     selected_products_count.times { @order.order_products.build }
     authorize @order
     @products = Product.all
+    respond_to do |format|
+      format.html
+      format.json { render json: NewOrderProductDatatable.new(view_context).as_json }
+    end
   end
 
   def edit
@@ -71,12 +74,6 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
-        # # Iterate through order products and update stock_quantity for each associated product
-        # @order.order_products.each do |order_product|
-        #   product = order_product.product
-        #   new_stock_quantity = product.stock_quantity - order_product.quantity_ordered.to_i
-        #   product.update(stock_quantity: new_stock_quantity)
-        # end
         @order.calculate_total
         @order.update_product_stock_quantities
         format.html { redirect_to order_url(@order), notice: "Order successfully created." }
@@ -90,8 +87,6 @@ class OrdersController < ApplicationController
       end
     end
   end
-
-  # PATCH/PUT /orders/1 or /orders/1.json
 
   # PATCH/PUT /orders/1 or /orders/1.json
   def update

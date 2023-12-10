@@ -47,6 +47,10 @@ class Product < ApplicationRecord
     order_products.sum(:quantity_ordered)
   end
 
+  def supplier_name
+    supplier&.name
+  end
+
   def category_name
     category&.name
   end

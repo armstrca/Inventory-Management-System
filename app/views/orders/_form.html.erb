@@ -13,8 +13,11 @@
       </ul>
     </div>
   <% end %>
+
   <%= form.hidden_field :company_id, value: current_user.company_id %>
+
   <%= form.hidden_field :branch_id, value: current_user.branch_id %>
+
   <div>
     <%= form.label :expected_delivery, style: "display: block" %>
     <%= form.date_field :expected_delivery, required: true %>
@@ -45,64 +48,91 @@
   </div>
   <p>
     <script>
-      $(document).ready(function () {
-        // DataTable initialization
-        var table = $('#productsTable').DataTable({
-          paging: false,
-          ordering: true,
-          selectable: false,
-          fixedheader: false,
-          searchable: false,
-          info: false,
+      $(document).ready(function() {
+        var isNewOrder = <%= order.new_record? ? 'true' : 'false' %>;
+        var orderId = <%= order.new_record? ? 'null' : order.id %>;
+
+        $('#new-order-products-table').DataTable({
+          processing: true,
+          serverSide: true,
+          ajax: {
+            url: '<%= new_order_path(format: :json) %>',
+            type: 'GET',
+                data: {
+      isNewOrder: isNewOrder,
+      orderId: orderId
+          }
+          },
+       columns: [
+            {
+              data: null,
+              render: function(data, type, row, meta) {
+                // Render checkbox for each product
+                return `<input type="checkbox" name="order[order_products_attributes][${meta.row}][product_id]" value="${row.id}" class="product-checkbox">`;
+              },
+              orderable: false
+            },
+            { data: 'id' },
+            { data: 'name' },
+            { data: 'sku' },
+            { data: 'price' },
+            { data: 'stock_quantity' },
+            { data: 'supplier' },
+            {
+              data: 'quantity_ordered',
+              render: function(data, type, row, meta) {
+                return `<input type="number" name="order[order_products_attributes][${meta.row}][quantity_ordered]" value="${data}">`;
+              }
+            },
+            {
+              data: 'shipping_cost',
+              render: function(data, type, row, meta) {
+                return `<input type="number" name="order[order_products_attributes][${meta.row}][shipping_cost]" value="${data}">`;
+              }
+            },
+            {
+              data: 'transaction_type',
+              render: function(data, type, row, meta) {
+                return `<select name="order[order_products_attributes][${meta.row}][transaction_type]">
+                          <option value="sale_to_customer">Sale to customer</option>
+                          <option value="purchase_from_supplier">Purchase from supplier</option>
+                          <option value="refund_to_customer">Refund to customer</option>
+                          <option value="return_to_supplier">Return to supplier</option>
+                          <option value="stock_loss">Stock loss</option>
+                        </select>`;
+              }
+            },
+            {
+              data: null,
+              defaultContent: '',
+              orderable: false
+              // Add any action buttons if necessary
+            }
+          ],
+          drawCallback: function(settings) {
+            // This will run every time the table is drawn/re-drawn
+            // Here we can disable the inputs
+            $('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"], select[name$="[transaction_type]"]').prop('disabled', true);
+          }
         });
 
-        // Disable certain input fields
-        $('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"], select[name$="[transaction_type]"]').prop('disabled', true);
-
-        // Handle remove product click
-        $('#productsTable').on('click', '.remove-product', function() {
+        // Handle remove product click with delegated event handling
+        $('#new-order-products-table').on('click', '.remove-product', function() {
           var row = $(this).closest('tr');
           var productId = row.find('input[name$="[product_id]"]').val();
-
-          // Remove the row using DataTables API
           table.row(row).remove().draw(false);
-
-          // Disable the corresponding fields in the form
-          $('input[name$="[order_products_attributes]['+ productId +'][quantity_ordered]"], input[name$="[order_products_attributes]['+ productId +'][shipping_cost]"], select[name$="[order_products_attributes]['+ productId +'][transaction_type]"]').prop('disabled', true);
+          // Disable inputs for removed product (if needed)
         });
 
-        // Handle checkbox change
-        $('#productsTable').on('change', 'input[type="checkbox"]', function() {
+        // Handle checkbox change with delegated event handling
+        $('#new-order-products-table').on('change', 'input[type="checkbox"]', function() {
           var checkbox = $(this);
           var fields = checkbox.closest('tr').find('input[name$="[quantity_ordered]"], input[name$="[shipping_cost]"], select[name$="[transaction_type]"]');
           fields.prop('disabled', !checkbox.prop('checked'));
         });
-          });
-
-          function initMap() {
-            var input = document.getElementById('receiving_address');
-
-            if (!input) {
-              console.error("Could not find the 'receiving_address' input field.");
-              return;
-            }
-
-            if (!window.google || !window.google.maps || !window.google.maps.places) {
-              console.error("Google Maps API or Places library not loaded.");
-              return;
-            }
-
-            var autocomplete = new google.maps.places.Autocomplete(input, { types: ['geocode'], apiKey: '<%= ENV.fetch("GMAPS_KEY") %>' });
-
-            autocomplete.addListener('place_changed', function() {
-              var place = autocomplete.getPlace();
-              console.log(place); // Log the place details to check if it's working as expected
-            });
-          }
+      });
     </script>
 
-    <!--    <div class="row">
-      <div id="productsTable" class="col">-->
     <div class="card shadow mb-4">
       <div class="card-header py-3">
         <div class="d-flex justify-content-between align-items-center">
@@ -111,56 +141,26 @@
       </div>
       <div class="card-body">
         <div class="table-responsive">
-          <table class="table datatable-bordered" id="productsTable" width="100%" cellspacing="0">
+          <table class="table datatable-bordered" id="new-order-products-table" width="100%" cellspacing="0">
             <thead class="datatable-header">
               <tr>
-                <th class="sortable" data-mdb-sort="check-box"></th>
-                <th class="sortable" data-mdb-sort="product_id">ID</th>
-                <th class="sortable" data-mdb-sort="name">Name</th>
-                <th class="sortable" data-mdb-sort="sku">SKU</th>
-                <th class="sortable" data-mdb-sort="price">Price</th>
-                <th class="sortable" data-mdb-sort="quantity">Units</th>
-                <th class="sortable" data-mdb-sort="supplier">Supplier</th>
-                <th class="sortable" data-mdb-sort="quantity_ordered">Quantity Ordered</th>
-                <th class="sortable" data-mdb-sort="shipping_cost">Shipping</th>
-                <th class="sortable" data-mdb-sort="transaction_type">Type</th>
                 <th></th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>SKU</th>
+                <th>Price</th>
+                <th>Stock Quantity</th>
+                <th>Supplier</th>
+                <th>Quantity Ordered</th>
+                <th>Shipping Cost</th>
+                <th>Transaction Type</th>
+                <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
-              <% @products.each do |product| %>
-                <% existing_order_product = @order.order_products.find_by(product_id: product.id) %>
-                <%= form.fields_for :order_products, existing_order_product || product.order_products.new do |order_product_fields| %>
-                  <tr>
-                    <td><%= order_product_fields.check_box :product_id, { checked: existing_order_product.present? }, product.id, nil %></td>
-                    <td><%= product.id %></td>
-                    <td><%= link_to product.name, product %></td>
-                    <td><%= product.sku %></td>
-                    <td>$<%= number_with_precision(product.price, precision: 2) %></td>
-                    <td><%= product.stock_quantity %></td>
-                    <td><%= product.supplier ? link_to(product.supplier.name, product.supplier) : '' %></td>
-                    <td><%= order_product_fields.number_field :quantity_ordered, value: existing_order_product&.quantity_ordered %></td>
-                    <td><%= order_product_fields.number_field :shipping_cost, value: existing_order_product&.shipping_cost %></td>
-                    <td>
-                      <%= order_product_fields.select :transaction_type, ['sale_to_customer', 'purchase_from_supplier', 'refund_to_customer', 'return_to_supplier', 'stock_loss'].map { |type| [type.gsub('_', ' ').capitalize, type] }, {}, required: true %>
-                    </td>
-
-                    <td>
-                      <% if existing_order_product %>
-                        <%= link_to 'Delete', remove_product_order_path(@order, product_id: existing_order_product.product_id), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-                      <% else %>
-                        <!-- Handle the case when existing_order_product is nil -->
-                      <% end %>
-                    </td>
-                  </tr>
-                <% end %>
-              <% end %>
-            </tbody>
           </table>
         </div>
       </div>
     </div>
-
 
     <div>
       <%= form.submit %>

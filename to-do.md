@@ -21,7 +21,7 @@ IMPORTANT
 
 LESS IMPORTANT
 -----------------------------------------------------------------------
-    -----------------------------------------------------------------------
+    ----------------------------------------------------------------------
     Suppliers
     Possible integration of hypothetical supplier_shipments table
 -----------------------------------------------------------------------
@@ -39,3 +39,14 @@ Table margins!!!
 
 
 Fix orders#index Total:$null issue for new additions
+
+
+make orders#form table more conditional so that column for deleting products only shows for 'edit' action and not 'create' action
+
+
+Re-arrange button navigation to be above tables
+
+
+Research possibility of SQL injection vulnerabilities
+
+Two columns for Categories#index page?
