@@ -1,4 +1,3 @@
-///workspaces/Inventory-Management-System/startbootstrap-sb-admin-2-master/vendor/jquery-easing/jquery.easing.js
 /*
  * jQuery Easing v1.4.1 - http://gsgd.co.uk/sandbox/jquery/easing/
  * Open source under the BSD License.

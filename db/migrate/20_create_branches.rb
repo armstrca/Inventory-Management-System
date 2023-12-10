@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/db/migrate/20_create_branches.rb
 # db/migrate/[timestamp]_create_branches.rb
 class CreateBranches < ActiveRecord::Migration[7.0]
   def change

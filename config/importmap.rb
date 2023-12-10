@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/config/importmap.rb
 # Pin npm packages by running ./bin/importmap
 
 pin "application", preload: true

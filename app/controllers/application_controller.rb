@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
   helper ApplicationHelper

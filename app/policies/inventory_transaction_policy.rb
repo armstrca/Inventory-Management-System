@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/app/policies/inventory_transaction_policy.rb
 #/workspaces/Inventory-Management-System/app/policies/inventory_transactions_policy.rb
 #/workspaces/Inventory-Management-System/app/policies/category_policy.rb
 class InventoryTransactionPolicy < ApplicationPolicy

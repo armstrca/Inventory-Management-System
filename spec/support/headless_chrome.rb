@@ -1,4 +1,3 @@
-#/workspaces/Inventory-Management-System/spec/support/headless_chrome.rb
 require "webdrivers/chromedriver"
 
 Capybara.register_driver :headless_chrome do |app|
