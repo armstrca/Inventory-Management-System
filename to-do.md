@@ -2,6 +2,22 @@
 -----------------------------------------------------------------------
 IMPORTANT
 -----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+    Miscellaneous
+-----------------------------------------------------------------------
+    Custom 404/500/etc. error handling to agree with front-end
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+
+LESS IMPORTANT
+-----------------------------------------------------------------------
+----------------------------------------------------------------------
+    Suppliers
+    New join table...supplier_shipments?
+    Possible integration of hypothetical supplier_shipments table
+    Give each supplier a datatable of their own products
+-----------------------------------------------------------------------
 
 ----Storage_location stuff
 -----------------------------------------------------------------------
@@ -9,23 +25,6 @@ IMPORTANT
   Products#show should show where each batch of products is stored & how many are in each location
   Allow CRUD of storage_location
 -----------------------------------------------------------------------
------------------------------------------------------------------------
-
-    Miscellaneous
------------------------------------------------------------------------
-    Need controllers/routes for this stuff:
-    Error handling for new orders, new suppliers, new categories, fix existing error handling for new products, inventory_transactions
-    New join table...supplier_shipments?
------------------------------------------------------------------------
------------------------------------------------------------------------
-
-LESS IMPORTANT
------------------------------------------------------------------------
-    ----------------------------------------------------------------------
-    Suppliers
-    Possible integration of hypothetical supplier_shipments table
------------------------------------------------------------------------
-
 
 Post-deployment thoughts:
 
@@ -47,6 +46,8 @@ make orders#form table more conditional so that column for deleting products onl
 Re-arrange button navigation to be above tables
 
 
-Research possibility of SQL injection vulnerabilities
+Research possibility of SQL injection vulnerabilities (Arel?)
 
 Two columns for Categories#index page?
+
+All Orders, Incoming, and Outgoing tables are incorrectly counting in the "Showing x to y of z entries" section

@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/controllers/orders_controller.rb
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
 
@@ -76,6 +77,7 @@ class OrdersController < ApplicationController
       if @order.save
         @order.calculate_total
         @order.update_product_stock_quantities
+        @order.save
         format.html { redirect_to order_url(@order), notice: "Order successfully created." }
         format.json { render :show, status: :created, location: @order }
       else

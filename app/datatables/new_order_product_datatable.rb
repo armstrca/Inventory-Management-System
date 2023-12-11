@@ -1,5 +1,5 @@
+#/workspaces/Inventory-Management-System/app/datatables/new_order_product_datatable.rb
 # app/datatables/new_order_datatable.rb
-
 class NewOrderProductDatatable < ApplicationDatatable
   delegate :params, :link_to, :number_to_currency, to: :@view
 
@@ -12,8 +12,6 @@ class NewOrderProductDatatable < ApplicationDatatable
   end
 
   private
-
-
 
   def data
     # If we are editing an existing order, pre-fetch its order_products

@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/remove_generated_comments.rb
 
 def remove_generated_comments(file_path)
   # Read the existing content of the file

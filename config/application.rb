@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/config/application.rb
 require_relative "boot"
 
 require "rails/all"

@@ -1,3 +1,4 @@
+#/workspaces/Inventory-Management-System/app/policies/user_policy.rb
 class UserPolicy < ApplicationPolicy
   def show?
     user.admin? || user.manager? || user.staff?
