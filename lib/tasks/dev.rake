@@ -61,7 +61,7 @@ namespace :dev do
       role: "admin",
       bio: Faker::Lorem.paragraph,
       company_id: 1,
-      branch_id: 1,
+      branch_id: 3,
     )
     if u1.persisted?
       puts u1.inspect
@@ -76,7 +76,7 @@ namespace :dev do
       role: "staff",
       bio: Faker::Lorem.paragraph,
       company_id: 1,
-      branch_id: 1,
+      branch_id: 3,
     )
     if u2.persisted?
       puts u2.inspect
@@ -91,7 +91,7 @@ namespace :dev do
       role: "manager",
       bio: Faker::Lorem.paragraph,
       company_id: 1,
-      branch_id: 1,
+      branch_id: 3,
     )
     if u3.persisted?
       puts u3.inspect
@@ -106,7 +106,7 @@ namespace :dev do
       role: "admin",
       bio: Faker::Lorem.paragraph,
       company_id: 1,
-      branch_id: 1,
+      branch_id: 3,
     )
     if u4.persisted?
       puts u4.inspect
@@ -145,6 +145,7 @@ namespace :dev do
     else
       puts users_data.errors.full_messages
     end
+
     categories_data = 10.times.map do
       {
         name: Faker::Commerce.department,
@@ -214,6 +215,15 @@ namespace :dev do
     orders_data = 600.times.map do
       sending_address = addresses.sample
       receiving_address = addresses.sample
+
+      # Ensure that sending_address and receiving_address are not both StorageLocation.address
+      if rand(2).zero?
+        sending_address = addresses.sample
+        receiving_address = addresses.reject { |addr| addr == sending_address }.sample
+      else
+        receiving_address = addresses.sample
+        sending_address = addresses.reject { |addr| addr == receiving_address }.sample
+      end
 
       {
         expected_delivery: Faker::Date.forward(days: 30),

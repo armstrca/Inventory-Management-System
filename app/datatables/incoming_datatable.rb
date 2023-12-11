@@ -144,10 +144,10 @@ class IncomingDatatable < ApplicationDatatable
   end
 
   def total_entries
-    Order.count # or any other way you count your total entries
+    Order.incoming.count # or any other way you count your total entries
   end
 
   def count
-    Order.count # or any other way you count your total entries
+    Order.incoming.count # or any other way you count your total entries
   end
 end
