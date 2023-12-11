@@ -335,58 +335,20 @@ form.navbar-search .form-control {
 @media (max-width: 768px) {
 
   .sending_address,
-  .sending_address {
-    display: none;
-  }
-
   .tracking,
-  .tracking {
-    display: none;
-  }
-
   .receiving_address,
-  .receiving_address {
-    display: none;
-  }
-
   .units,
-  .units {
-    display: none;
-  }
-  
   .topbar #sidebarToggleTop,
   .shipping,
-  .shipping {
-    display: none;
-  }
-
   .products,
-  .products {
-    display: none;
-  }
-
   .status,
-  .status {
-    display: none;
-  }
-
   .email-column,
-  .email-column {
-    display: none;
-  }
-
   .description,
-  .description {
-    display: none;
-  }
-
-  .address,
   .address {
     display: none;
   }
-
-
 }
+
 
 .table-responsive {
   overflow-x: auto;
