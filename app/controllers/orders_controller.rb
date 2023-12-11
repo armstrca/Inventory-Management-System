@@ -76,7 +76,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @order.save
         @order.calculate_total
-        @order.update_product_stock_quantities
+        StockUpdateService.new(@order).update_stock! # Call the service to update stock
         @order.save
         format.html { redirect_to order_url(@order), notice: "Order successfully created." }
         format.json { render :show, status: :created, location: @order }
@@ -105,7 +105,7 @@ class OrdersController < ApplicationController
           # Additional logic to update existing order products
           existing_order_product_ids = @order.order_products.pluck(:product_id)
           @order.calculate_total
-          @order.update_product_stock_quantities
+          StockUpdateService.new(@order).update_stock!
 
           if processed_order_params[:order_products_attributes].present?
             submitted_order_products = processed_order_params[:order_products_attributes].values
@@ -135,7 +135,7 @@ class OrdersController < ApplicationController
                   transaction_type: submitted_product[:transaction_type],
                 )
                 @order.calculate_total
-                @order.update_product_stock_quantities
+                StockUpdateService.new(@order).update_stock!
               end
             end
           end

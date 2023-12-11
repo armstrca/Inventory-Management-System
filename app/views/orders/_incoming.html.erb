@@ -20,16 +20,16 @@ $(document).ready(function () {
       }
     },
     columns: [
-      { data: 'id' },
-      { data: 'expected_delivery' },
-      { data: 'status' },
-      { data: 'sending_address' },
-      { data: 'receiving_address' },
-      { data: 'description' },
-      { data: 'product_id' },
-      { data: 'quantity_ordered' },
-      { data: 'shipping_cost' },
-      { data: 'order_total' }
+          { data: 'id' },
+          { data: 'expected_delivery' },
+          { data: 'status', className: 'status' },
+          { data: 'sending_address', className: 'sending_address' },
+          { data: 'receiving_address', className: 'receiving_address' },
+          { data: 'description', className: 'tracking' },
+          { data: 'product_id', className: 'products'},
+          { data: 'quantity_ordered', className: 'units' },
+          { data: 'shipping_cost', className: 'shipping' },
+          { data: 'order_total' }
       // Add more columns as needed
     ],
     columnDefs: [
@@ -60,7 +60,7 @@ $(document).ready(function () {
     },
   });
      $('#incomingTable tbody').on('click', 'tr', function() {
-     var data = ordersTable.row(this).data();
+     var data = incomingTable.row(this).data();
      console.log(data); // This will log the data object to the console.
      window.location.href = '/orders/' + data.id;
      });

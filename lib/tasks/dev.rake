@@ -1,7 +1,7 @@
 # /workspaces/Inventory-Management-System/lib/tasks/dev.rake
 # unless Rails.env.production?
 namespace :dev do
-  Rails.env = "production"
+  # Rails.env = "production"
   desc "Drops, creates, migrates, and adds sample data to database"
   task reset: [
          :environment,
@@ -50,23 +50,23 @@ namespace :dev do
     end
     branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: 1, created_at: Time.current, updated_at: Time.current } }
 
-    b1 = Branch.create(
-      id: 1,
-      name: "Branch 1",
-      company_id: 1,
-    )
+    # b1 = Branch.create(
+    #   id: 1,
+    #   name: "Branch 1",
+    #   company_id: 1,
+    # )
 
-    b2 = Branch.create(
-      id: 2,
-      name: "Branch 2",
-      company_id: 1,
-    )
+    # b2 = Branch.create(
+    #   id: 2,
+    #   name: "Branch 2",
+    #   company_id: 1,
+    # )
 
-    b3 = Branch.create(
-      id: 3,
-      name: "Branch 3",
-      company_id: 1,
-    )
+    # b3 = Branch.create(
+    #   id: 3,
+    #   name: "Branch 3",
+    #   company_id: 1,
+    # )
 
     Branch.insert_all!(branches)
     if branches.last.present?
@@ -129,21 +129,7 @@ namespace :dev do
     else
       puts u3.errors.full_messages
     end
-    u4 = User.create(
-      first_name: "Anna",
-      last_name: "Knittington",
-      email: "anna@cute.girl",
-      password: "forever",
-      role: "admin",
-      bio: Faker::Lorem.paragraph,
-      company_id: 1,
-      branch_id: Branch.first.id,
-    )
-    if u4.persisted?
-      puts u4.inspect
-    else
-      puts u4.errors.full_messages
-    end
+
     users_data = 50.times.map do
       user = User.new(password: "password")
       {
@@ -233,7 +219,7 @@ namespace :dev do
     roles = %w(admin staff manager)
     statuses = %w(delivered processing in_transit)
     transaction_types = %w(sale_to_customer purchase_from_supplier refund_to_customer return_to_supplier stock_loss)
-    orders_data = 600.times.map do
+    orders_data = 500.times.map do
       sending_address = addresses.sample
       receiving_address = addresses.sample
 
@@ -281,7 +267,7 @@ namespace :dev do
     Product.insert_all!(products_data)
 
     product_ids = Product.pluck(:id)
-    order_products_data = 2000.times.map do
+    order_products_data = 3000.times.map do
       {
         quantity_ordered: Faker::Number.between(from: 2, to: 20),
         shipping_cost: Faker::Number.between(from: 1, to: 30),
@@ -297,7 +283,7 @@ namespace :dev do
     #Update orders and product stock quantities
     Order.all.each do |order|
       order.calculate_total
-      order.update_product_stock_quantities
+      StockUpdateService.new(order).update_stock!
       order.save!
     end
 

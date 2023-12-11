@@ -36,6 +36,7 @@ class Order < ApplicationRecord
   belongs_to :supplier, optional: true
 
   accepts_nested_attributes_for :order_products, allow_destroy: true
+  after_save :calculate_total
 
   def calculate_total
     puts "Calculating total for order #{id}"
@@ -52,7 +53,9 @@ class Order < ApplicationRecord
 
   def update_product_stock_quantities
     order_products.each do |order_product|
+      # add to stock_quantity
       update_product_stock(order_product.product, order_product.quantity_ordered) if order_product.transaction_type == "purchase_from_supplier" || order_product.transaction_type == "refund_to_customer"
+      # subtract from stock_quantity
       update_product_stock(order_product.product, -order_product.quantity_ordered) if order_product.transaction_type == "sale_to_customer" || order_product.transaction_type == "stock_loss" || order_product.transaction_type == "return_to_supplier"
     end
   end
@@ -72,9 +75,9 @@ class Order < ApplicationRecord
     order_product_total
   end
 
-  def update_product_stock(product, quantity)
-    product.update!(stock_quantity: product.stock_quantity + quantity)
-  end
+  # def update_product_stock(product, quantity)
+  #   product.update!(stock_quantity: product.stock_quantity + quantity)
+  # end
 
   scope :incoming, -> { where(type: 'incoming') }
   scope :outgoing, -> { where(type: 'outgoing') }

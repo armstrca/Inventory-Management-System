@@ -45,7 +45,17 @@ class Product < ApplicationRecord
   include Ransackable
 
   def calculate_dynamic_stock_quantity
-    order_products.sum(:quantity_ordered)
+    starting_stock = product.stock_quantity
+    starting_stock + order_products.sum do |order_product|
+      case order_product.transaction_type
+      when "purchase_from_supplier", "refund_to_customer"
+        order_product.quantity_ordered
+      when "sale_to_customer", "return_to_supplier", "stock_loss"
+        -order_product.quantity_ordered
+      else
+        0
+      end
+    end
   end
 
   def supplier_name

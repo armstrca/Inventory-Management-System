@@ -24,13 +24,13 @@
         columns: [
           { data: 'id' },
           { data: 'expected_delivery' },
-          { data: 'status' },
-          { data: 'sending_address' },
-          { data: 'receiving_address' },
-          { data: 'description' },
-          { data: 'product_id' },
-          { data: 'quantity_ordered' },
-          { data: 'shipping_cost' },
+          { data: 'status', className: 'status' },
+          { data: 'sending_address', className: 'sending_address' },
+          { data: 'receiving_address', className: 'receiving_address' },
+          { data: 'description', className: 'tracking' },
+          { data: 'product_id', className: 'products'},
+          { data: 'quantity_ordered', className: 'units' },
+          { data: 'shipping_cost', className: 'shipping' },
           { data: 'order_total' }
           // Add more columns as needed
         ],

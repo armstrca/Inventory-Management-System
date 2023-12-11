@@ -58,9 +58,9 @@ class IncomingDatatable < ApplicationDatatable
     }
 
     # If you want to search by product_id, consider adding a join and a condition like:
-    # queries << "order_product.product_id LIKE :search_value"
-    # queries << "order_products.quantity_ordered LIKE :search_value"
-    # queries << "order_products.shipping_cost LIKE :search_value"
+    queries << "order_product.product_id LIKE :search_value"
+    queries << "order_products.quantity_ordered LIKE :search_value"
+    queries << "order_products.shipping_cost LIKE :search_value"
 
     queries.join(' OR ')
   end

@@ -28,7 +28,7 @@ class OrderProduct < ApplicationRecord
   include Ransackable
   validate :validate_quantity_ordered
 
-  after_save :update_product_stock_quantity
+  # after_save :update_product_stock_quantity
 
   def destroy
     super
