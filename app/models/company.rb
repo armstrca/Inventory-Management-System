@@ -12,7 +12,6 @@ class Company < ApplicationRecord
   has_many :branches
   has_many :users
   has_many :products
-  has_many :inventory_transactions
   has_many :order_products
   has_many :reports
   has_many :storage_locations

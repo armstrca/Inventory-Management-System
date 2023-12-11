@@ -1,6 +1,7 @@
 # /workspaces/Inventory-Management-System/lib/tasks/dev.rake
 # unless Rails.env.production?
 namespace :dev do
+  Rails.env = "production"
   desc "Drops, creates, migrates, and adds sample data to database"
   task reset: [
          :environment,
@@ -35,6 +36,7 @@ namespace :dev do
     puts User.first.inspect
     Branch.destroy_all
     puts "deleted"
+    puts Branch.first.inspect
     Company.destroy_all
     puts "deleted"
   end
@@ -47,12 +49,41 @@ namespace :dev do
       puts company.errors.full_messages
     end
     branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: 1, created_at: Time.current, updated_at: Time.current } }
+
+    b1 = Branch.create(
+      id: 1,
+      name: "Branch 1",
+      company_id: 1,
+    )
+
+    b2 = Branch.create(
+      id: 2,
+      name: "Branch 2",
+      company_id: 1,
+    )
+
+    b3 = Branch.create(
+      id: 3,
+      name: "Branch 3",
+      company_id: 1,
+    )
+
     Branch.insert_all!(branches)
     if branches.last.present?
       puts branches.last.inspect
     else
       puts branches.errors.full_messages
     end
+
+  end
+
+  desc "Fill the database tables with sample data 1"
+  task sample_data_1: :environment do
+    company = Company.first
+    branch_ids = Branch.pluck(:id)
+    roles = %w(admin staff manager)
+    statuses = %w(delivered processing in_transit)
+    transaction_types = %w(sale_to_customer purchase_from_supplier refund_to_customer return_to_supplier stock_loss)
     u1 = User.create(
       first_name: "Alice",
       last_name: "Smith",
@@ -61,7 +92,7 @@ namespace :dev do
       role: "admin",
       bio: Faker::Lorem.paragraph,
       company_id: 1,
-      branch_id: 3,
+      branch_id: Branch.first.id,
     )
     if u1.persisted?
       puts u1.inspect
@@ -76,7 +107,7 @@ namespace :dev do
       role: "staff",
       bio: Faker::Lorem.paragraph,
       company_id: 1,
-      branch_id: 3,
+      branch_id: Branch.first.id,
     )
     if u2.persisted?
       puts u2.inspect
@@ -91,7 +122,7 @@ namespace :dev do
       role: "manager",
       bio: Faker::Lorem.paragraph,
       company_id: 1,
-      branch_id: 3,
+      branch_id: Branch.first.id,
     )
     if u3.persisted?
       puts u3.inspect
@@ -106,23 +137,13 @@ namespace :dev do
       role: "admin",
       bio: Faker::Lorem.paragraph,
       company_id: 1,
-      branch_id: 3,
+      branch_id: Branch.first.id,
     )
     if u4.persisted?
       puts u4.inspect
     else
       puts u4.errors.full_messages
     end
-  end
-
-  desc "Fill the database tables with sample data 1"
-  task sample_data_1: :environment do
-    company = Company.first
-    branch_ids = Branch.pluck(:id)
-    roles = %w(admin staff manager)
-    statuses = %w(delivered processing in_transit)
-    transaction_types = %w(sale_to_customer purchase_from_supplier refund_to_customer return_to_supplier stock_loss)
-
     users_data = 50.times.map do
       user = User.new(password: "password")
       {

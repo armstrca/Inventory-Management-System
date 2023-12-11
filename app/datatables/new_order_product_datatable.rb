@@ -1,7 +1,7 @@
 #/workspaces/Inventory-Management-System/app/datatables/new_order_product_datatable.rb
 class NewOrderProductDatatable < ApplicationDatatable
   delegate :params, :link_to, :number_to_currency, to: :@view
-
+  include Kaminari::PageScopeMethods
   def as_json(options = {})
     {
       recordsTotal: count,

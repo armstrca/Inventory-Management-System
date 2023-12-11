@@ -6,7 +6,6 @@ class SearchController < ApplicationController
     @products = @results[:products] || []
     @categories = @results[:categories] || []
     @subcategories = @results[:subcategories] || []
-    @inventory_transactions = @results[:inventory_transactions] || []
     @order_products = @results[:order_products] || []
     @orders = @results[:orders] || []
     @storage_locations = @results[:storage_locations] || []
@@ -23,9 +22,6 @@ class SearchController < ApplicationController
 
     # Search in 'categories' model
     results[:categories] = Category.ransack(name_or_description_cont: @q).result.to_a
-
-    # Search in 'inventory_transactions' model
-    results[:inventory_transactions] = InventoryTransaction.ransack(transaction_type_cont: @q).result.to_a
 
     # Search in 'products' model
     results[:products] = Product.ransack(name_or_description_cont: @q).result.to_a

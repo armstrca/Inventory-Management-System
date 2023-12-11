@@ -4,6 +4,7 @@ require "application_datatable"
 
 class OutgoingDatatable < ApplicationDatatable
   delegate :params, to: :@view
+  include Kaminari::PageScopeMethods
 
   def as_json(options = {})
     {

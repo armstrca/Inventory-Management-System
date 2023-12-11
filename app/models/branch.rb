@@ -22,7 +22,6 @@ class Branch < ApplicationRecord
   belongs_to :company
   has_many :users
   has_many :products
-  has_many :inventory_transactions
   has_many :order_products
   has_many :reports
   has_many :storage_locations

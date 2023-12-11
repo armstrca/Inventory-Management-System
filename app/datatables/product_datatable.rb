@@ -3,6 +3,7 @@ require "application_datatable"
 
 class ProductDatatable < ApplicationDatatable
   delegate :params, to: :@view
+  include Kaminari::PageScopeMethods
 
   def as_json(options = {})
     {

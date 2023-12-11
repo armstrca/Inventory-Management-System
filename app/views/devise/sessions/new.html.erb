@@ -73,16 +73,15 @@
   <body class="bg-gradient-white">
     <div class="container">
       <!-- Outer Row -->
-      <div class="row justify-content-center">
+      <div class="row justify-content-center ">
         <div class="col-xl-10 col-lg-12 col-md-9">
           <div class="card o-hidden border-0 box-shadow my-5">
-            <div class="card-body p-0">
+            <div class="card-body p-0 ">
               <!-- Nested Row within Card Body -->
               <div class="row">
                 <div class="col-lg-6 d-none d-lg-block"
-                style="background-image: url('<%= asset_path('PXL_20230623_222617841.PORTRAIT.jpg') %>'); background-size: cover; background-position: center top; margin-top: -200px;">
+                style="background-image: url('<%= asset_path('scorpird.svg') %>'); background-size: fill; background-repeat: no-repeat;background-position: center; filter: brightness(1) invert(0) grayscale(0);">
                 </div>
-
                 <div class="col-lg-6">
                   <div class="p-5">
                     <div class="text-center">
@@ -94,6 +93,7 @@
                         </span>
                       </h1>
                     </div>
+                    <div class="text-center" style="padding-bottom: 20px; font-weight: bold;">Consolidate shipping, product inventory, sales, <br>and purchasing records with Invy!</div>
                     <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "user" }) do |f| %>
                       <div class="form-group">
                         <%= f.input :email, label: 'Email', required: false, class: "form-control form-control-user",

@@ -3,7 +3,7 @@ require "application_datatable"
 
 class OrderDatatable < ApplicationDatatable
   delegate :params, to: :@view
-
+  include Kaminari::PageScopeMethods
   def as_json(options = {})
     {
       recordsTotal: count,

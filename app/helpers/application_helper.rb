@@ -8,8 +8,6 @@ module ApplicationHelper
     case result
     when Category
       category_path(result)
-    when InventoryTransaction
-      inventory_transaction_path(result)
     # Add similar cases for other models
     when Report
       report_path(result)

@@ -1,10 +1,9 @@
 #/workspaces/Inventory-Management-System/app/datatables/incoming_datatable.rb
-# /workspaces/Inventory-Management-System/app/datatables/order_datatable.rb
 require "application_datatable"
 
 class IncomingDatatable < ApplicationDatatable
   delegate :params, to: :@view
-
+  include Kaminari::PageScopeMethods
   def as_json(options = {})
     {
       recordsTotal: count,
