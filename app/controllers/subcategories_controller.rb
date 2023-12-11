@@ -4,7 +4,7 @@ class SubcategoriesController < ApplicationController
 
   # GET /subcategories or /subcategories.json
   def index
-    @subcategories = Subcategory.all.includes(:category)
+    @subcategories = Subcategory.includes(:category, products: [:supplier]).all
     authorize @subcategory
   end
 

@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for invy on 2023-12-11T17:57:58Z
+# fly.toml app configuration file generated for invy on 2023-12-11T23:04:58Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -10,7 +10,7 @@ console_command = "/rails/bin/rails console"
 [build]
 
 [deploy]
-  release_command = "bin/rails db:prepare dev:destroy_all dev:create_users dev:sample_data_1 dev:sample_data_2 assets:precompile"
+  release_command = "bin/rails db:prepare assets:precompile"
 
 [http_service]
   internal_port = 3000
@@ -23,7 +23,7 @@ console_command = "/rails/bin/rails console"
 [[vm]]
   cpu_kind = "shared"
   cpus = 1
-  memory_mb = 2048
+  memory_mb = 1024
 
 [[statics]]
   guest_path = "/rails/public"

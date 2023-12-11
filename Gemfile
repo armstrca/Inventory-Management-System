@@ -3,9 +3,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.1"
 
-# gem "pagy"
-# gem 'cssbundling-rails', '>= 1.3.3'
-
 gem "pundit"
 gem 'simple_form'
 
@@ -26,7 +23,7 @@ gem "turbo-rails"
 # gem "rails_admin"
 gem "stimulus-rails"
 gem "jbuilder"
-
+gem 'kaminari'
 gem "redis", "~> 4.0"
 
 gem "font-awesome-sass", "~> 6.4.2"

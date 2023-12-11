@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
   # GET /orders or /orders.json
 
   def index
-    @orders = Order.all
+    @orders = Order.includes(:order_products).all
     authorize @orders
     respond_to do |format|
       format.html
@@ -36,11 +36,11 @@ class OrdersController < ApplicationController
 
   # GET /orders/1 or /orders/1.json
   def show
-    @order = Order.find(params[:id])
-    @incoming_orders = Order.incoming
-    @outgoing_orders = Order.outgoing
+    @order = Order.includes(order_products: [product: [:category, :subcategory, :supplier]]).find(params[:id])
+    @incoming_orders = Order.incoming # Make sure to preload necessary associations if used in the view.
+    @outgoing_orders = Order.outgoing # Make sure to preload necessary associations if used in the view.
     authorize @order
-    @products = Product.all
+    @products = @order.products
   end
 
   # GET /orders/new
@@ -57,7 +57,7 @@ class OrdersController < ApplicationController
   end
 
   def edit
-    @order = Order.find(params[:id])
+    @order = Order.includes(order_products: [product: [:category, :subcategory, :supplier]]).find(params[:id])
     @order.order_products.build if @order.order_products.empty? # Build a new OrderProduct if none exist
     authorize @order
     @products = Product.all
