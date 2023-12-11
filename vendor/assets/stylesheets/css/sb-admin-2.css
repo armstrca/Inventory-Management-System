@@ -10335,8 +10335,8 @@ a:focus {
 
 .sidebar .nav-item .nav-link {
   text-align: center;
-  padding: 0.75rem 1rem;
-  width: 6.5rem;
+  /* padding: 0.75rem 1rem; */
+  width: 5rem;
 }
 
 .sidebar .nav-item .nav-link span {
@@ -10481,7 +10481,7 @@ a:focus {
   text-align: center;
   padding: 0 1rem;
   font-weight: 400;
-  font-size: 1.3rem;
+  font-size: 1rem;
 }
 
 .sidebar .sidebar-card {
@@ -10540,11 +10540,11 @@ a:focus {
     display: block;
     width: 100%;
     text-align: left;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     width: 14rem;
   }
   .sidebar .nav-item .nav-link i {
-    font-size: 1.3rem;
+    font-size: 1rem;
     margin-right: 0.35rem;
   }
   .sidebar .nav-item .nav-link span {
