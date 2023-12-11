@@ -1,16 +1,17 @@
 # /workspaces/Inventory-Management-System/lib/tasks/dev.rake
-
 # unless Rails.env.production?
 namespace :dev do
-  # desc "Drops, creates, migrates, and adds sample data to database"
-  # task reset: [
-  #        :environment,
-  #        "db:schema:cache:clear",
-  #        "db:drop",
-  #        "db:create",
-  #        "db:migrate",
-  #        "dev:sample_data",
-  #      ]
+  desc "Drops, creates, migrates, and adds sample data to database"
+  task reset: [
+         :environment,
+         "db:schema:cache:clear",
+         "db:drop",
+         "db:create",
+         "db:migrate",
+         "dev:create_users",
+         "dev:sample_data_1",
+         "dev:sample_data_2",
+       ]
 
   desc "Destroy all database data"
   task destroy_all: :environment do
@@ -21,21 +22,21 @@ namespace :dev do
     puts "deleted"
     Order.destroy_all
     puts "deleted"
-    # Supplier.destroy_all
-    # puts "deleted"
-    # StorageLocation.destroy_all
-    # puts "deleted"
-    # Subcategory.destroy_all
-    # puts "deleted"
-    # Category.destroy_all
-    # puts "deleted"
-    # User.destroy_all
-    # puts "deleted"
-    # puts User.first.inspect
-    # Branch.destroy_all
-    # puts "deleted"
-    # Company.destroy_all
-    # puts "deleted"
+    Supplier.destroy_all
+    puts "deleted"
+    StorageLocation.destroy_all
+    puts "deleted"
+    Subcategory.destroy_all
+    puts "deleted"
+    Category.destroy_all
+    puts "deleted"
+    User.destroy_all
+    puts "deleted"
+    puts User.first.inspect
+    Branch.destroy_all
+    puts "deleted"
+    Company.destroy_all
+    puts "deleted"
   end
   desc "Create users"
   task create_users: :environment do
@@ -117,24 +118,12 @@ namespace :dev do
   desc "Fill the database tables with sample data 1"
   task sample_data_1: :environment do
     company = Company.first
-    # if company.present?
-    #   puts company.inspect
-    # else
-    #   puts company.errors.full_messages
-    # end
-    # branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: 1, created_at: Time.current, updated_at: Time.current } }
-    # Branch.insert_all!(branches)
-    # if branches.last.present?
-    #   puts branches.last.inspect
-    # else
-    #   puts branches.errors.full_messages
-    # end
     branch_ids = Branch.pluck(:id)
     roles = %w(admin staff manager)
     statuses = %w(delivered processing in_transit)
     transaction_types = %w(sale_to_customer purchase_from_supplier refund_to_customer return_to_supplier stock_loss)
 
-    users_data = 300.times.map do
+    users_data = 50.times.map do
       user = User.new(password: "password")
       {
         email: Faker::Internet.unique.email,
@@ -149,66 +138,7 @@ namespace :dev do
         updated_at: Time.current,
       }
     end
-    # u1 = User.create(
-    #   first_name: "Alice",
-    #   last_name: "Smith",
-    #   email: "alice@smith.com",
-    #   password: "password",
-    #   role: "admin",
-    #   bio: Faker::Lorem.paragraph,
-    #   company_id: 1,
-    #   branch_id: 1,
-    # )
-    # if u1.persisted?
-    #   puts u1.inspect
-    # else
-    #   puts u1.errors.full_messages
-    # end
-    # u2 = User.create(
-    #   first_name: "Staffy",
-    #   last_name: "Staffy",
-    #   email: "staff@staff.staff",
-    #   password: "password",
-    #   role: "staff",
-    #   bio: Faker::Lorem.paragraph,
-    #   company_id: 1,
-    #   branch_id: 1,
-    # )
-    # if u2.persisted?
-    #   puts u2.inspect
-    # else
-    #   puts u2.errors.full_messages
-    # end
-    # u3 = User.create(
-    #   first_name: "Mangey",
-    #   last_name: "Manager",
-    #   email: "manager@mangey.manga",
-    #   password: "password",
-    #   role: "manager",
-    #   bio: Faker::Lorem.paragraph,
-    #   company_id: 1,
-    #   branch_id: 1,
-    # )
-    # if u3.persisted?
-    #   puts u3.inspect
-    # else
-    #   puts u3.errors.full_messages
-    # end
-    # u4 = User.create(
-    #   first_name: "Anna",
-    #   last_name: "Knittington",
-    #   email: "anna@cute.girl",
-    #   password: "forever",
-    #   role: "admin",
-    #   bio: Faker::Lorem.paragraph,
-    #   company_id: 1,
-    #   branch_id: 1,
-    # )
-    # if u4.persisted?
-    #   puts u4.inspect
-    # else
-    #   puts u4.errors.full_messages
-    # end
+
     User.insert_all!(users_data)
     if users_data.last.present?
       puts users_data.last.inspect
