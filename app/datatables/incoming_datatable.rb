@@ -108,7 +108,6 @@ class IncomingDatatable < ApplicationDatatable
   end
 
   def searchable_columns
-    # Define the columns that are searchable in the DataTable
     @searchable_columns ||= [
       :id,
       :expected_delivery,
@@ -120,12 +119,10 @@ class IncomingDatatable < ApplicationDatatable
       :order_total,
       :quantity_ordered,
       :shipping_cost,
-    # ... add other searchable columns
     ]
   end
 
   def order_columns
-    # Define the columns that are sortable in the DataTable
     @order_columns ||= [
       :id,
       :expected_delivery,
@@ -137,16 +134,14 @@ class IncomingDatatable < ApplicationDatatable
       :order_total,
       :quantity_ordered,
       :shipping_cost,
-
-    # ... add other orderable columns
     ]
   end
 
   def total_entries
-    Order.incoming.count # or any other way you count your total entries
+    Order.incoming.count
   end
 
   def count
-    Order.incoming.count # or any other way you count your total entries
+    Order.incoming.count
   end
 end

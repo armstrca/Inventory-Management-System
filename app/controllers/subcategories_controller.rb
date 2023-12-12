@@ -67,7 +67,6 @@ class SubcategoriesController < ApplicationController
       product.update(subcategory: nil)
     end
 
-    # Now, destroy the subcategory
     @subcategory.destroy
 
     respond_to do |format|

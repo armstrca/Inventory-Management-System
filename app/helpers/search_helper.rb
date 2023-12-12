@@ -26,10 +26,8 @@ module SearchHelper
       end
     when "Order"
       ["id", "Description", "Expected_Delivery", "Receiving_Address", "Sending_Address", "Products", "Status"]
-    when "InventoryTransaction"
-      ["id", "Quantity", "Transaction_Type"]
-    # when "Category"
-    #   ["id", "Name", "Subcategory", "Description"]
+    when "Category"
+      ["id", "Name", "Subcategory", "Description"]
     else
       model_results.first.attributes.keys
     end

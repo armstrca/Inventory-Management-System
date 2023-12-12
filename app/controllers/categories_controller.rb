@@ -1,9 +1,7 @@
 #/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb
 class CategoriesController < ApplicationController
   before_action :set_category, only: %i[show edit update destroy]
-  # before_action :set_form_variables, only: %i[new edit]
 
-  # before_action :authorize_category, except: %i[index show]
 
   # GET /categories or /categories.json
   def index

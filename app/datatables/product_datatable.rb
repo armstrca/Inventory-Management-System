@@ -101,9 +101,9 @@ class ProductDatatable < ApplicationDatatable
       'products.sku',
       'products.price',
       'products.stock_quantity',
-      'categories.name', # Alias not needed, just use the column name
-      'subcategories.name', # Alias not needed, just use the column name
-      'suppliers.name', # Alias not needed, just use the column name
+      'categories.name', 
+      'subcategories.name', 
+      'suppliers.name', 
     ]
   end
 
