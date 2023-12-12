@@ -11,7 +11,7 @@ More features to come:
 - Specialization for perishable products - will alert you when food is about to expire/has already expired
 - Possible automated tracking/notifications for recalled products
 
-!Important!
-- A note about orders#edit:
- 'Delete' functionality will be added to the orders#edit page for individual order_products, but for now that should be done from the order#show page.
-  If you intend to update the information for a pre-existing order_product, for now you should delete it from the #show view first, then re-add it with the correct information as a new order_product.
+!Important!<br>
+A note about orders#edit:
+- 'Delete' functionality will be added to the orders#edit page for individual order_products, but for now that should be done from the order#show page.
+-  If you intend to update the information for a pre-existing order_product, for now you should delete it from the #show view first, then re-add it with the correct information as a new order_product.
