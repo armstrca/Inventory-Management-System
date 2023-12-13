@@ -11,7 +11,39 @@ More features to come:
 - Specialization for perishable products - will alert you when food is about to expire/has already expired
 - Possible automated tracking/notifications for recalled products
 
-!Important!<br>
-A note about orders#edit:
+## !!!Important!!!!<br>
+### A note about orders#edit:
 - 'Delete' functionality will be added to the orders#edit page for individual order_products, but for now that should be done from the order#show page.
 -  If you intend to update the information for a pre-existing order_product, for now you should delete it from the #show view first, then re-add it with the correct information as a new order_product.
+##
+### Dependencies
+
+* The front-end is made with Bootstrap, StartBootstrap's SB-Admin-2 template especially, and heavily uses DataTables
+* Several edit fields are dependent on the Google Maps API, and are currently coded through an ENV_fetch call. You will need your own key to get those pages to work properly.
+
+### Installing
+
+* Clone this repository, `bundle install`, `rake db:migrate`, and have fun.
+
+### Executing program
+
+* `Rails server` and `bin/dev` will launch the live preview
+* `Dev.rake` contains several `sample_data` tasks that have been partitioned to save memory during deployment to production. Running these tasks will provide a good demo of the app's functionality.
+
+
+
+
+## Authors
+
+Calvin Armstrong
+
+
+## Version History
+
+* 0.1
+    * Initial Release
+
+
+## Acknowledgments
+
+* [awesome-readme](https://github.com/matiassingers/awesome-readme)
