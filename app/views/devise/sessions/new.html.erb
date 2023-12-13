@@ -75,12 +75,12 @@
       <!-- Outer Row -->
       <div class="row justify-content-center ">
         <div class="col-xl-10 col-lg-12 col-md-9">
-          <div class="card o-hidden border-0 box-shadow my-5">
+          <div class="card o-hidden border-0 box-shadow my-5" style="height: fit-content;">
             <div class="card-body p-0 ">
               <!-- Nested Row within Card Body -->
               <div class="row">
-                <div class="col-lg-6 d-none d-lg-block"
-                style="background-image: url('<%= asset_path('scorpird.svg') %>'); background-size: fill; background-repeat: no-repeat;background-position: center; filter: brightness(1) invert(0) grayscale(0);">
+                <div class="col-lg-6 d-none d-lg-block" style="position: relative; overflow: hidden;">
+                  <%= video_tag("invy_screencast.mp4", controls: true, autoplay: true, loop: true, muted: true, style: "position: relative; top: 0; left: 0; object-fit: fit; width: 100%; height: 100%;") %>
                 </div>
                 <div class="col-lg-6">
                   <div class="p-5">
@@ -93,7 +93,8 @@
                         </span>
                       </h1>
                     </div>
-                    <div class="text-center" style="padding-bottom: 20px; font-weight: bold;">Consolidate shipping, product inventory, sales, <br>and purchasing records with Invy!</div>
+                    <div class="text-center" style="padding-bottom: 20px; font-weight: bold;">Consolidate shipping, product inventory, sales, <br>
+                      and purchasing records with Invy!</div>
                     <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "user" }) do |f| %>
                       <div class="form-group">
                         <%= f.input :email, label: 'Email', required: false, class: "form-control form-control-user",
