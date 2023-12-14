@@ -3,12 +3,12 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.1"
 gem "pundit"
-gem 'simple_form'
+gem "simple_form"
 gem "bootstrap_sb_admin_base_v2"
 gem "bootstrap"
 gem "bullet", group: "development"
 gem "ransack"
-gem 'mini_racer', platforms: :ruby
+gem "mini_racer", platforms: :ruby
 gem "importmap-rails"
 # gem 'blazer'
 # gem 'ahoy_matey'
@@ -16,7 +16,7 @@ gem "turbo-rails"
 # gem "rails_admin"
 gem "stimulus-rails"
 gem "jbuilder"
-gem 'kaminari'
+gem "kaminari"
 gem "redis", "~> 4.0"
 gem "font-awesome-sass", "~> 6.4.2"
 gem "bootsnap", require: false
@@ -27,7 +27,6 @@ gem "puma", "~> 5.0"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "sassc-rails"
 gem "jquery-rails"
-gem "rack-mini-profiler"
 gem "memory_profiler"
 gem "ajax-datatables-rails"
 gem "rails-datatables"
@@ -38,6 +37,11 @@ gem "stackprof"
 gem "dockerfile-rails", ">= 1.5", :group => :development
 gem "sentry-ruby", "~> 5.13"
 gem "sentry-rails", "~> 5.13"
+gem "rubocop-rails-accessibility"
+gem "rubocop-performance", require: false
+gem "rubocop-rails", require: false
+gem 'rubocop', require: false
+gem 'rubocop-shopify'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
@@ -46,8 +50,8 @@ end
 group :development do
   gem "web-console"
   gem "rails_live_reload"
-  gem 'rails_best_practices'
-  gem 'reek'
+  gem "rails_best_practices"
+  gem "reek"
   gem "rack-mini-profiler"
   gem "spring"
 end

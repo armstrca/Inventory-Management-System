@@ -10,7 +10,7 @@ def display_file_content(file_path, output_file)
 end
 
 # Specify the root directory of your repository
-repository_root = "/workspaces/Inventory-Management-System/app"
+repository_root = "/workspaces/Inventory-Management-System/app/views"
 
 # Specify the output file
 output_file = "/workspaces/Inventory-Management-System/app/app_repository.txt"
@@ -18,9 +18,9 @@ output_file = "/workspaces/Inventory-Management-System/app/app_repository.txt"
 allowed_file_types = [".txt", ".md", ".rb", ".js", ".html", ".rake", ".log", ".json", ".lock", ".toml", ".ru", ".html.erb", ".erb"]  # Add or remove file extensions as needed
 
 
-excluded_items = ["/workspaces/Inventory-Management-System/app/assets/images", "/workspaces/Inventory-Management-System/app/assets/pagy", "/workspaces/Inventory-Management-System/app/channels", "/workspaces/Inventory-Management-System/app/mailers", "/workspaces/Inventory-Management-System/app/views/pagy", "/workspaces/Inventory-Management-System/app/views/errors", "/workspaces/Inventory-Management-System/app/views/roles", "/workspaces/Inventory-Management-System/app/views/reports", "/workspaces/Inventory-Management-System/app/views/theme", "/workspaces/Inventory-Management-System/app/policies", "/workspaces/Inventory-Management-System/app/views/devise", "/workspaces/Inventory-Management-System/app/views/shared", "/workspaces/Inventory-Management-System/app/views/search",  ]  # Add or remove items as needed
+excluded_items = ["/workspaces/Inventory-Management-System/app/assets/images", "/workspaces/Inventory-Management-System/app/assets/pagy", "/workspaces/Inventory-Management-System/app/channels", "/workspaces/Inventory-Management-System/app/mailers", "/workspaces/Inventory-Management-System/app/policies", "/workspaces/Inventory-Management-System/app/views/devise", "/workspaces/Inventory-Management-System/app/views/shared", "/workspaces/Inventory-Management-System/app/views/search",  ]  # Add or remove items as needed
 
-additional_items = ["/workspaces/Inventory-Management-System/lib/tasks/dev.rake", "/workspaces/Inventory-Management-System/db"]  # Add or remove items as needed
+additional_items = []  # Add or remove items as needed
 
 # Combine files to display: files from the root directory, excluded items, and additional items
 files_to_display = (Dir.glob(File.join(repository_root, "**", "*"), File::FNM_DOTMATCH)
