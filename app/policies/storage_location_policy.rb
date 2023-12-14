@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/policies/storage_location_policy.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/policies/storage_location_policy.rb
 class StorageLocationPolicy < ApplicationPolicy
   def create?
     user.admin?

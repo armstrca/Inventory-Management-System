@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/policies/order_product_policy.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/policies/order_product_policy.rb
 class OrderProductPolicy < ApplicationPolicy
   def create?
     user.staff? || user.admin? || user.manager?
@@ -21,7 +23,7 @@ class OrderProductPolicy < ApplicationPolicy
   end
 
   def destroy?
-    !(user.staff?) # Staff cannot delete order products
+    !user.staff? # Staff cannot delete order products
   end
 
   def permitted_attributes_for_create

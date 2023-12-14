@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/helpers/search_helper.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/helpers/search_helper.rb
 module SearchHelper
   def get_columns_for_model(model, products)
     case model.to_s
@@ -19,9 +21,9 @@ module SearchHelper
           product.sku.to_s,
           number_with_precision(product.price, precision: 2).to_s,
           product.stock_quantity.to_s,
-          product.category ? product.category.name.to_s : '',
-          product.subcategory ? product.subcategory.name.to_s : '',
-          product.supplier ? product.supplier.name.to_s : ''
+          product.category ? product.category.name.to_s : "",
+          product.subcategory ? product.subcategory.name.to_s : "",
+          product.supplier ? product.supplier.name.to_s : "",
         ]
       end
     when "Order"

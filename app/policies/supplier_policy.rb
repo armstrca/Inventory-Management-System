@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/policies/supplier_policy.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/policies/supplier_policy.rb
 class SupplierPolicy < ApplicationPolicy
   def create?
     user.admin?

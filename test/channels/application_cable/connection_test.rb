@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/test/channels/application_cable/connection_test.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/test/channels/application_cable/connection_test.rb
 require "test_helper"
 
 class ApplicationCable::ConnectionTest < ActionCable::Connection::TestCase

@@ -1,5 +1,7 @@
-#/workspaces/Inventory-Management-System/config/initializers/rails_db.rb
-if Object.const_defined?('RailsDb')
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/config/initializers/rails_db.rb
+if Object.const_defined?("RailsDb")
   RailsDb.setup do |config|
     # # enabled or not
     # config.enabled = Rails.env.development?

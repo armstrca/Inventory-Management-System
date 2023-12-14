@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/models/branch.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/models/branch.rb
 # == Schema Information
 #
 # Table name: branches

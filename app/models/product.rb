@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/models/product.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/models/product.rb
 # == Schema Information
 #
 # Table name: products

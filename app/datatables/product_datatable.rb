@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/datatables/product_datatable.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/datatables/product_datatable.rb
 require "application_datatable"
 
 class ProductDatatable < ApplicationDatatable
@@ -39,7 +41,7 @@ class ProductDatatable < ApplicationDatatable
 
   def fetch_records(counting = false)
     products = Product.joins(:category, :subcategory, :supplier)
-                      .select('products.*, categories.name AS category_name, subcategories.name AS subcategory_name, suppliers.name AS supplier_name')
+      .select("products.*, categories.name AS category_name, subcategories.name AS subcategory_name, suppliers.name AS supplier_name")
 
     # When counting, we don't need to sort or paginate
     unless counting
@@ -63,26 +65,26 @@ class ProductDatatable < ApplicationDatatable
       # Use the original column names without 'AS' aliases
       "#{column} LIKE :search_value"
     end
-    queries.join(' OR ')
+    queries.join(" OR ")
   end
 
   def sort_column
-    columns = %w[
-      products.id
-      products.name
-      products.description
-      products.sku
-      products.price
-      products.stock_quantity
-      categories.name
-      subcategories.name
-      suppliers.name
+    columns = [
+      "products.id",
+      "products.name",
+      "products.description",
+      "products.sku",
+      "products.price",
+      "products.stock_quantity",
+      "categories.name",
+      "subcategories.name",
+      "suppliers.name",
     ]
-    columns[params[:order]['0'][:column].to_i]
+    columns[params[:order]["0"][:column].to_i]
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:order]['0'][:dir]) ? params[:order]['0'][:dir] : 'asc'
+    ["asc", "desc"].include?(params[:order]["0"][:dir]) ? params[:order]["0"][:dir] : "asc"
   end
 
   def page
@@ -95,15 +97,15 @@ class ProductDatatable < ApplicationDatatable
 
   def searchable_columns
     @searchable_columns ||= [
-      'products.id',
-      'products.name',
-      'products.description',
-      'products.sku',
-      'products.price',
-      'products.stock_quantity',
-      'categories.name', 
-      'subcategories.name', 
-      'suppliers.name', 
+      "products.id",
+      "products.name",
+      "products.description",
+      "products.sku",
+      "products.price",
+      "products.stock_quantity",
+      "categories.name",
+      "subcategories.name",
+      "suppliers.name",
     ]
   end
 

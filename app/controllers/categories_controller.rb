@@ -1,7 +1,8 @@
-#/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb
-class CategoriesController < ApplicationController
-  before_action :set_category, only: %i[show edit update destroy]
+# frozen_string_literal: true
 
+# /workspaces/Inventory-Management-System/app/controllers/categories_controller.rb
+class CategoriesController < ApplicationController
+  before_action :set_category, only: [:show, :edit, :update, :destroy]
 
   # GET /categories or /categories.json
   def index
@@ -12,61 +13,60 @@ class CategoriesController < ApplicationController
   def show
     @category = Category.find(params[:id])
     @products = @category.products.includes(:category, :subcategory, :supplier)
-    authorize @category
+    authorize(@category)
   end
-
 
   # GET /categories/new
   def new
     @category = Category.new
-    authorize @category
+    authorize(@category)
   end
 
   # GET /categories/1/edit
   def edit
-    authorize @category
+    authorize(@category)
   end
 
   # POST /categories or /categories.json
   def create
     @category = Category.new(category_params)
-    authorize @category
+    authorize(@category)
 
     respond_to do |format|
       if @category.save
-        format.html { redirect_to category_url(@category), notice: "Category was successfully created." }
-        format.json { render :show, status: :created, location: @category }
+        format.html { redirect_to(category_url(@category), notice: "Category was successfully created.") }
+        format.json { render(:show, status: :created, location: @category) }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.html { render(:new, status: :unprocessable_entity) }
+        format.json { render(json: @category.errors, status: :unprocessable_entity) }
       end
     end
   end
 
   # PATCH/PUT /categories/1 or /categories/1.json
   def update
-    authorize @category
+    authorize(@category)
     respond_to do |format|
       if @category.update(category_params)
-        format.html { redirect_to category_url(@category), notice: "Category was successfully updated." }
-        format.json { render :show, status: :ok, location: @category }
+        format.html { redirect_to(category_url(@category), notice: "Category was successfully updated.") }
+        format.json { render(:show, status: :ok, location: @category) }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
+        format.html { render(:edit, status: :unprocessable_entity) }
+        format.json { render(json: @category.errors, status: :unprocessable_entity) }
       end
     end
   end
 
   # DELETE /categories/1 or /categories/1.json
   def destroy
-    authorize @category
+    authorize(@category)
     @category.products.each do |product|
       product.update(category: nil)
     end
     @category.destroy
     respond_to do |format|
-      format.html { redirect_to categories_url, notice: "Category was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to(categories_url, notice: "Category was successfully destroyed.") }
+      format.json { head(:no_content) }
     end
   end
 
@@ -83,6 +83,6 @@ class CategoriesController < ApplicationController
   end
 
   def authorize_category
-    authorize Category
+    authorize(Category)
   end
 end

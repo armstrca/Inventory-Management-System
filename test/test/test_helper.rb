@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/test/test/test_helper.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/test/test/test_helper.rb
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"

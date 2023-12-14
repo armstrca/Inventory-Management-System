@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/models/subcategory.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/models/subcategory.rb
 # == Schema Information
 #
 # Table name: subcategories

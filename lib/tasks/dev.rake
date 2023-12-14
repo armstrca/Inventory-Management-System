@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 # /workspaces/Inventory-Management-System/lib/tasks/dev.rake
 # unless Rails.env.production?
 namespace :dev do
   # Rails.env = "production"
   desc "Drops, creates, migrates, and adds sample data to database"
   task reset: [
-         :environment,
-         "db:schema:cache:clear",
-         "db:drop",
-         "db:create",
-         "db:migrate",
-         "dev:create_users",
-         "dev:sample_data_1",
-         "dev:sample_data_2",
-       ]
+    :environment,
+    "db:schema:cache:clear",
+    "db:drop",
+    "db:create",
+    "db:migrate",
+    "dev:create_users",
+    "dev:sample_data_1",
+    "dev:sample_data_2",
+  ]
 
   desc "Destroy all database data"
   task destroy_all: :environment do
@@ -48,7 +50,9 @@ namespace :dev do
     else
       puts company.errors.full_messages
     end
-    branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: 1, created_at: Time.current, updated_at: Time.current } }
+    branches = 3.times.map do |i|
+      { name: "Branch #{i + 1}", company_id: 1, created_at: Time.current, updated_at: Time.current }
+    end
 
     # b1 = Branch.create(
     #   id: 1,
@@ -74,16 +78,21 @@ namespace :dev do
     else
       puts branches.errors.full_messages
     end
-
   end
 
   desc "Fill the database tables with sample data 1"
   task sample_data_1: :environment do
     company = Company.first
     branch_ids = Branch.pluck(:id)
-    roles = %w(admin staff manager)
-    statuses = %w(delivered processing in_transit)
-    transaction_types = %w(sale_to_customer purchase_from_supplier refund_to_customer return_to_supplier stock_loss)
+    roles = ["admin", "staff", "manager"]
+    statuses = ["delivered", "processing", "in_transit"]
+    transaction_types = [
+      "sale_to_customer",
+      "purchase_from_supplier",
+      "refund_to_customer",
+      "return_to_supplier",
+      "stock_loss",
+    ]
     u1 = User.create(
       first_name: "Alice",
       last_name: "Smith",
@@ -216,9 +225,15 @@ namespace :dev do
     storage_location_ids = StorageLocation.pluck(:id)
     addresses = StorageLocation.pluck(:address).sample(10) + 5.times.map { Faker::Address.full_address }
     branch_ids = Branch.pluck(:id)
-    roles = %w(admin staff manager)
-    statuses = %w(delivered processing in_transit)
-    transaction_types = %w(sale_to_customer purchase_from_supplier refund_to_customer return_to_supplier stock_loss)
+    roles = ["admin", "staff", "manager"]
+    statuses = ["delivered", "processing", "in_transit"]
+    transaction_types = [
+      "sale_to_customer",
+      "purchase_from_supplier",
+      "refund_to_customer",
+      "return_to_supplier",
+      "stock_loss",
+    ]
     orders_data = 500.times.map do
       sending_address = addresses.sample
       receiving_address = addresses.sample
@@ -280,7 +295,7 @@ namespace :dev do
     end
     OrderProduct.insert_all!(order_products_data)
 
-    #Update orders and product stock quantities
+    # Update orders and product stock quantities
     Order.all.each do |order|
       order.calculate_total
       StockUpdateService.new(order).update_stock!

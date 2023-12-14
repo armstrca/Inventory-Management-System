@@ -1,13 +1,15 @@
-#/workspaces/Inventory-Management-System/config/environments/development.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/config/environments/development.rb
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
   # Allow server to be hosted on any URL
   config.hosts.clear
   # Allow better_errors to work in online IDE
   config.web_console.whitelisted_ips = "0.0.0.0/0.0.0.0"
-  BetterErrors::Middleware.allow_ip! "0.0.0.0/0.0.0.0"
+  BetterErrors::Middleware.allow_ip!("0.0.0.0/0.0.0.0")
   # Auto-connect to database when rails console opens
   console do
     ActiveRecord::Base.connection
@@ -35,7 +37,6 @@ Rails.application.configure do
     Bullet.raise = false # Raise an error if N+1 query occurs
   end
 
-
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join("tmp/caching-dev.txt").exist?
@@ -44,7 +45,7 @@ Rails.application.configure do
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      "Cache-Control" => "public, max-age=#{2.days.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.to_i}",
     }
   else
     config.action_controller.perform_caching = false

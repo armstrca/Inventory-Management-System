@@ -1,5 +1,7 @@
-#/workspaces/Inventory-Management-System/app/policies/registrations_controller_policy.rb
-#/workspaces/Inventory-Management-System/app/policies/user_policy.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/policies/registrations_controller_policy.rb
+# /workspaces/Inventory-Management-System/app/policies/user_policy.rb
 class RegistrationsControllerPolicy < ApplicationPolicy
   def show?
     user.admin? || user.manager? || user.staff?

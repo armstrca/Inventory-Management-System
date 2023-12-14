@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/models/user.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/models/user.rb
 # == Schema Information
 #
 # Table name: users
@@ -33,8 +35,11 @@
 #
 class User < ApplicationRecord
   # Devise modules
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable,
+    :registerable,
+    :recoverable,
+    :rememberable,
+    :validatable
 
   # Associations
   belongs_to :company
@@ -47,8 +52,9 @@ class User < ApplicationRecord
   # Validations
   validates :first_name, presence: { message: "First name is required" }
   validates :last_name, presence: { message: "Last name is required" }
-  validates :email, presence: { message: "Email is required" },
-                    format: { with: URI::MailTo::EMAIL_REGEXP, message: "Invalid email format" }
+  validates :email,
+    presence: { message: "Email is required" },
+    format: { with: URI::MailTo::EMAIL_REGEXP, message: "Invalid email format" }
   validates :role, presence: { message: "Role is required" }
 
   # Custom validation method
@@ -66,7 +72,7 @@ class User < ApplicationRecord
   end
 
   # Role-related methods
-  ROLES = %w[admin manager staff].freeze
+  ROLES = ["admin", "manager", "staff"].freeze
 
   def self.admins
     where(role: "admin")
@@ -94,7 +100,14 @@ class User < ApplicationRecord
 
   # Image-related methods
   def image_url
-    image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true) : ActionController::Base.helpers.asset_path("default_user_image.jpg")
+    if image.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(
+        image,
+        only_path: true,
+      )
+    else
+      ActionController::Base.helpers.asset_path("default_user_image.jpg")
+    end
   end
 
   def delete_image=(value)

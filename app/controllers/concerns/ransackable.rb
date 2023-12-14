@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/controllers/concerns/ransackable.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/controllers/concerns/ransackable.rb
 # app/models/concerns/ransackable.rb
 module Ransackable
   extend ActiveSupport::Concern
@@ -7,6 +9,7 @@ module Ransackable
     def self.ransackable_associations(auth_object = nil)
       column_names
     end
+
     def self.ransackable_attributes(auth_object = nil)
       column_names
     end

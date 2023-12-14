@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/config/initializers/wrap_parameters.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/config/initializers/wrap_parameters.rb
 # Be sure to restart your server when you modify this file.
 
 # This file contains settings for ActionController::ParamsWrapper which

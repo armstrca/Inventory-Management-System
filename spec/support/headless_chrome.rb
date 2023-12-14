@@ -1,7 +1,9 @@
-#/workspaces/Inventory-Management-System/spec/support/headless_chrome.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/spec/support/headless_chrome.rb
 require "webdrivers/chromedriver"
 
-Capybara.register_driver :headless_chrome do |app|
+Capybara.register_driver(:headless_chrome) do |app|
   options = Selenium::WebDriver::Chrome::Options.new
   options.add_argument("--headless")
   options.add_argument("--disable-gpu")
@@ -11,7 +13,7 @@ Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.new(
     app,
     browser: :chrome,
-    options: options
+    options: options,
   )
 end
 

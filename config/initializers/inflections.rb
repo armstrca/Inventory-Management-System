@@ -1,4 +1,5 @@
-#/workspaces/Inventory-Management-System/config/initializers/inflections.rb
+# frozen_string_literal: true
+# /workspaces/Inventory-Management-System/config/initializers/inflections.rb
 # Be sure to restart your server when you modify this file.
 
 # Add new inflection rules using the following format. Inflections

@@ -1,8 +1,7 @@
-#/workspaces/Inventory-Management-System/app/helpers/application_helper.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/helpers/application_helper.rb
 module ApplicationHelper
-
-
-
   def generate_path(result)
     case result
     when Category

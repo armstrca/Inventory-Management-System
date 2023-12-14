@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/policies/subcategory_policy.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/policies/subcategory_policy.rb
 class SubcategoryPolicy < ApplicationPolicy
   def create?
     user.admin?

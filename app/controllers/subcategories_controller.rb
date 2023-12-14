@@ -1,43 +1,45 @@
-#/workspaces/Inventory-Management-System/app/controllers/subcategories_controller.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/controllers/subcategories_controller.rb
 class SubcategoriesController < ApplicationController
-  before_action :set_subcategory, only: %i[ show edit update destroy ]
+  before_action :set_subcategory, only: [:show, :edit, :update, :destroy]
 
   # GET /subcategories or /subcategories.json
   def index
     @subcategories = Subcategory.includes(:category, products: [:supplier]).all
-    authorize @subcategory
+    authorize(@subcategory)
   end
 
   # GET /subcategories/1 or /subcategories/1.json
   def show
     @subcategory = Subcategory.find(params[:id])
-    authorize @subcategory
+    authorize(@subcategory)
     # @products = @category.products.includes(:subcategory)
   end
 
   # GET /subcategories/new
   def new
     @subcategory = Subcategory.new
-    authorize @subcategory
+    authorize(@subcategory)
   end
 
   # GET /subcategories/1/edit
   def edit
     @subcategory = Subcategory.find(params[:id])
-    authorize @subcategory
+    authorize(@subcategory)
   end
 
   # POST /subcategories or /subcategories.json
   def create
     @subcategory = Subcategory.new(subcategory_params)
-    authorize @subcategory
+    authorize(@subcategory)
     respond_to do |format|
       if @subcategory.save
-        format.html { redirect_to subcategory_url(@subcategory), notice: "Subcategory was successfully created." }
-        format.json { render :show, status: :created, location: @subcategory }
+        format.html { redirect_to(subcategory_url(@subcategory), notice: "Subcategory was successfully created.") }
+        format.json { render(:show, status: :created, location: @subcategory) }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @subcategory.errors, status: :unprocessable_entity }
+        format.html { render(:new, status: :unprocessable_entity) }
+        format.json { render(json: @subcategory.errors, status: :unprocessable_entity) }
       end
     end
   end
@@ -45,21 +47,21 @@ class SubcategoriesController < ApplicationController
   # PATCH/PUT /subcategories/1 or /subcategories/1.json
   def update
     @subcategory = Subcategory.find(params[:id])
-    authorize @subcategory
+    authorize(@subcategory)
     respond_to do |format|
       if @subcategory.update(subcategory_params)
-        format.html { redirect_to subcategory_url(@subcategory), notice: "Subcategory was successfully updated." }
-        format.json { render :show, status: :ok, location: @subcategory }
+        format.html { redirect_to(subcategory_url(@subcategory), notice: "Subcategory was successfully updated.") }
+        format.json { render(:show, status: :ok, location: @subcategory) }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @subcategory.errors, status: :unprocessable_entity }
+        format.html { render(:edit, status: :unprocessable_entity) }
+        format.json { render(json: @subcategory.errors, status: :unprocessable_entity) }
       end
     end
   end
 
   # DELETE /subcategories/1 or /subcategories/1.json
   def destroy
-    authorize @subcategory
+    authorize(@subcategory)
     @subcategory.update(category_id: nil)
     @subcategory.update(category: nil)
     # Disassociate products from the subcategory
@@ -70,8 +72,8 @@ class SubcategoriesController < ApplicationController
     @subcategory.destroy
 
     respond_to do |format|
-      format.html { redirect_to subcategories_url, notice: "Subcategory was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to(subcategories_url, notice: "Subcategory was successfully destroyed.") }
+      format.json { head(:no_content) }
     end
   end
 

@@ -1,8 +1,10 @@
-#/workspaces/Inventory-Management-System/app/models/concerns/user/roleable.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/models/concerns/user/roleable.rb
 module User::Roleable
   extend ActiveSupport::Concern
 
-  ROLES = %w[admin manager staff].freeze
+  ROLES = ["admin", "manager", "staff"].freeze
 
   included do
     scope :admin, -> { where(role: "admin") }

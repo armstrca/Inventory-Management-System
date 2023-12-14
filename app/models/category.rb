@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/models/category.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/models/category.rb
 # == Schema Information
 #
 # Table name: categories

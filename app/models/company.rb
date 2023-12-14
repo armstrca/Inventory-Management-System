@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/models/company.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/models/company.rb
 # == Schema Information
 #
 # Table name: companies
