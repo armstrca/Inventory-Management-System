@@ -25,12 +25,12 @@ More features to come:
 
 * Clone this repository, `bundle install`, `rake db:migrate`, and have fun.
 
-### Executing program
+### Executing the program
 
 * `Rails server` and `bin/dev` will launch the live preview
 * `Dev.rake` contains several `sample_data` tasks that have been partitioned to save memory during deployment to production. Running these tasks will provide a good demo of the app's functionality.
-
-
+* Here's the entity relationship diagram as of 12/13/2023:
+![Entity Relationship Diagram](erd.png)
 
 
 ## Authors
