@@ -4,7 +4,7 @@
 require "clipboard"
 
 def display_file_content(file_path)
-  puts "#{file_path}"
+  puts file_path
   puts "```"
   content = File.read(file_path)
   puts content

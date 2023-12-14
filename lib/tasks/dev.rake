@@ -82,17 +82,9 @@ namespace :dev do
 
   desc "Fill the database tables with sample data 1"
   task sample_data_1: :environment do
-    company = Company.first
+    Company.first
     branch_ids = Branch.pluck(:id)
     roles = ["admin", "staff", "manager"]
-    statuses = ["delivered", "processing", "in_transit"]
-    transaction_types = [
-      "sale_to_customer",
-      "purchase_from_supplier",
-      "refund_to_customer",
-      "return_to_supplier",
-      "stock_loss",
-    ]
     u1 = User.create(
       first_name: "Alice",
       last_name: "Smith",
@@ -218,14 +210,13 @@ namespace :dev do
 
   desc "Fill the database tables with sample data 2"
   task sample_data_2: :environment do
-    company = Company.first
+    Company.first
     branch_ids = Branch.pluck(:id)
     category_ids = Category.pluck(:id)
-    subcategory_ids = Subcategory.pluck(:id)
-    storage_location_ids = StorageLocation.pluck(:id)
+    Subcategory.pluck(:id)
+    StorageLocation.pluck(:id)
     addresses = StorageLocation.pluck(:address).sample(10) + 5.times.map { Faker::Address.full_address }
     branch_ids = Branch.pluck(:id)
-    roles = ["admin", "staff", "manager"]
     statuses = ["delivered", "processing", "in_transit"]
     transaction_types = [
       "sale_to_customer",

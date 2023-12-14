@@ -70,7 +70,7 @@ class OrdersController < ApplicationController
     puts "Order params: #{order_params.inspect}"
     @order = Order.new(order_params)
     order_product_attributes = order_params[:order_products_attributes]
-    selected_product_ids = order_product_attributes.values.map do |product|
+    order_product_attributes.values.map do |product|
       product[:product_id]
     end if order_product_attributes.present?
 
@@ -107,7 +107,7 @@ class OrdersController < ApplicationController
       ActiveRecord::Base.transaction do
         if processed_order_params[:order_products_attributes].present? && @order.update!(processed_order_params)
           # Additional logic to update existing order products
-          existing_order_product_ids = @order.order_products.pluck(:product_id)
+          @order.order_products.pluck(:product_id)
           @order.calculate_total
           StockUpdateService.new(@order).update_stock!
 
