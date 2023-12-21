@@ -22,19 +22,5 @@ class StorageLocationPolicy < ApplicationPolicy
     user.admin?
   end
 
-  def permitted_attributes_for_create
-    if user.admin? || user.manager?
-      # Define permitted attributes for create action
-    else
-      []
-    end
-  end
 
-  def permitted_attributes_for_update
-    if user.admin? || user.manager?
-      # Define permitted attributes for update action
-    else
-      []
-    end
-  end
 end

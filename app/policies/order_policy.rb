@@ -42,19 +42,5 @@ class OrderPolicy < ApplicationPolicy
     user.admin? || user.manager?
   end
 
-  def permitted_attributes_for_create
-    if user.staff?
-      # Define permitted attributes for create action
-    else
-      []
-    end
-  end
 
-  def permitted_attributes_for_update
-    if user.staff?
-      # Define permitted attributes for update action
-    else
-      []
-    end
-  end
 end

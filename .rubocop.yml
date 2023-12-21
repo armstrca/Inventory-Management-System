@@ -1,7 +1,10 @@
-inherit_gem:
-  rubocop-shopify: rubocop.yml
 require:
   - rubocop-rails-accessibility
+
+inherit_gem:
+  rubocop-github:
+    - config/default.yml
+    - config/rails.yml
 
 AllCops:
   TargetRubyVersion: 2.7
@@ -10,3 +13,6 @@ AllCops:
     - 'gemfiles/vendor/**/*'
   DisplayCopNames: true
   SuggestExtensions: false
+
+Rails:
+  Enabled: true

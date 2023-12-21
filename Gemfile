@@ -39,14 +39,15 @@ gem "stackprof"
 gem "dockerfile-rails", ">= 1.5", group: :development
 gem "sentry-ruby", "~> 5.13"
 gem "sentry-rails", "~> 5.13"
-gem "rubocop-rails-accessibility"
 gem "rubocop-performance", require: false
 gem "rubocop-rails", require: false
 gem "rubocop", require: false
 gem "rubocop-shopify"
+gem "rubocop-github"
 
 group :development, :test do
   gem "debug", platforms: [:mri, :mingw, :x64_mingw]
+  gem "rubocop-rails-accessibility"
 end
 
 group :development do
