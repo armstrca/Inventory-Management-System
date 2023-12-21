@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/config/puma.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/config/puma.rb
 # Puma can serve each request in a thread from an internal thread pool.
 # The `threads` method setting takes two numbers: a minimum and maximum.
 # Any libraries that use thread pools should be configured to match
@@ -17,8 +19,7 @@ worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
 # Bind to all available interfaces on the specified port
-bind "tcp://0.0.0.0:#{ENV.fetch('PORT') { 3000 }}"
-
+bind "tcp://0.0.0.0:#{ENV.fetch("PORT") { 3000 }}"
 
 # Specifies the `environment` that Puma will run in.
 #

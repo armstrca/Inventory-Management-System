@@ -1,7 +1,9 @@
-#/workspaces/Inventory-Management-System/app/controllers/users_controller.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/controllers/users_controller.rb
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update destroy]
-  before_action :set_form_variables, only: %i[edit]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_form_variables, only: [:edit]
   before_action :authenticate_user!, except: [:forgot_password]
 
   rescue_from ActiveRecord::RecordNotUnique, with: :email_not_unique
@@ -14,7 +16,7 @@ class UsersController < ApplicationController
   # GET /users/1 or /users/1.json
   def show
     @user = User.find(params[:id])
-    authorize @user
+    authorize(@user)
   end
 
   # GET /users/new
@@ -31,50 +33,50 @@ class UsersController < ApplicationController
   end
 
   def forgot_password
-    authorize User
+    authorize(User)
   end
 
   # GET /users/1/edit
   def edit
     @user = User.find(params[:id])
-    authorize @user # Add authorization check
+    authorize(@user) # Add authorization check
     @action = "Update User" # Set the action for the button
   end
 
   def update
     @user = User.find(params[:id])
-    authorize @user
+    authorize(@user)
 
     puts "delete_image value: #{user_params[:delete_image]}"
 
     respond_to do |format|
-      if user_params[:password].blank?
-        result = @user.update_without_password(user_params_without_password)
+      result = if user_params[:password].blank?
+        @user.update_without_password(user_params_without_password)
       else
-        result = @user.update(user_params)
+        @user.update(user_params)
       end
 
       if result
-        format.html { redirect_to user_url(@user), notice: "User was successfully updated." }
-        format.json { render :show, status: :ok, location: @user }
+        format.html { redirect_to(user_url(@user), notice: "User was successfully updated.") }
+        format.json { render(:show, status: :ok, location: @user) }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { render(:edit, status: :unprocessable_entity) }
+        format.json { render(json: @user.errors, status: :unprocessable_entity) }
       end
     end
   end
 
   def create
     @user = User.new(user_params)
-    authorize @user
+    authorize(@user)
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to user_url(@user), notice: "User was successfully created." }
-        format.json { render :show, status: :created, location: @user }
+        format.html { redirect_to(user_url(@user), notice: "User was successfully created.") }
+        format.json { render(:show, status: :created, location: @user) }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.html { render(:new, status: :unprocessable_entity) }
+        format.json { render(json: @user.errors, status: :unprocessable_entity) }
       end
     end
   end
@@ -82,24 +84,52 @@ class UsersController < ApplicationController
   # DELETE /users/1 or /users/1.json
   def destroy
     @user = User.find(params[:id])
-    authorize @user
+    authorize(@user)
     @user.destroy
 
     respond_to do |format|
-      format.html { redirect_to users_url, notice: "User was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to(users_url, notice: "User was successfully destroyed.") }
+      format.json { head(:no_content) }
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:id, :email, :password, :password_confirmation, :delete_image, :first_name, :last_name, :role, :bio, :image, :delete_image, :company_id, :branch_id)
+    params.require(:user).permit(
+      :id,
+      :email,
+      :password,
+      :password_confirmation,
+      :delete_image,
+      :first_name,
+      :last_name,
+      :role,
+      :bio,
+      :image,
+      :delete_image,
+      :company_id,
+      :branch_id,
+    )
   end
 
   def user_params_without_password
     # Allow updating all user attributes except password-related ones
-    params.require(:user).permit(:id, :email, :password, :password_confirmation, :delete_image, :first_name, :last_name, :role, :bio, :image, :delete_image, :company_id, :branch_id)
+    params.require(:user).permit(
+      :id,
+      :email,
+      :password,
+      :password_confirmation,
+      :delete_image,
+      :first_name,
+      :last_name,
+      :role,
+      :bio,
+      :image,
+      :delete_image,
+      :company_id,
+      :branch_id,
+    )
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -108,7 +138,7 @@ class UsersController < ApplicationController
   end
 
   def authorize_user
-    authorize User
+    authorize(User)
   end
 
   def set_form_variables
@@ -117,14 +147,18 @@ class UsersController < ApplicationController
     @http_method = action_name == "new" ? :post : :patch
   end
 
-
   def email_not_unique
     respond_to do |format|
       format.html do
         flash.now[:error] = "Email address is already taken. Please choose a different one."
-        render :new, status: :unprocessable_entity
+        render(:new, status: :unprocessable_entity)
       end
-      format.json { render json: { error: "Email address is already taken. Please choose a different one." }, status: :unprocessable_entity }
+      format.json do
+        render(
+          json: { error: "Email address is already taken. Please choose a different one." },
+          status: :unprocessable_entity,
+        )
+      end
     end
   end
 

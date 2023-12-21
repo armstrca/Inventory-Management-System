@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/policies/errors_policy.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/policies/errors_policy.rb
 class ErrorsPolicy < ApplicationPolicy
   def not_found?
     # Assuming record is the resource you are checking permissions on

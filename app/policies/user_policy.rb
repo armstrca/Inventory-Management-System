@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/policies/user_policy.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/policies/user_policy.rb
 class UserPolicy < ApplicationPolicy
   def show?
     user.admin? || user.manager? || user.staff?
@@ -11,7 +13,6 @@ class UserPolicy < ApplicationPolicy
   def new?
     user.present? && (user.admin? || (user.manager? && !record.admin?))
   end
-
 
   def admin_new?
     user.admin? || (user.manager? && !record.admin?)

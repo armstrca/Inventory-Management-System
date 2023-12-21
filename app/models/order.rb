@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/models/order.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/models/order.rb
 # == Schema Information
 #
 # Table name: orders
@@ -54,22 +56,28 @@ class Order < ApplicationRecord
   def update_product_stock_quantities
     order_products.each do |order_product|
       # add to stock_quantity
-      update_product_stock(order_product.product, order_product.quantity_ordered) if order_product.transaction_type == "purchase_from_supplier" || order_product.transaction_type == "refund_to_customer"
+      update_product_stock(
+        order_product.product,
+        order_product.quantity_ordered,
+      ) if order_product.transaction_type == "purchase_from_supplier" || order_product.transaction_type == "refund_to_customer"
       # subtract from stock_quantity
-      update_product_stock(order_product.product, -order_product.quantity_ordered) if order_product.transaction_type == "sale_to_customer" || order_product.transaction_type == "stock_loss" || order_product.transaction_type == "return_to_supplier"
+      update_product_stock(
+        order_product.product,
+        -order_product.quantity_ordered,
+      ) if order_product.transaction_type == "sale_to_customer" || order_product.transaction_type == "stock_loss" || order_product.transaction_type == "return_to_supplier"
     end
   end
 
   def calculate_transaction_amount(order_product)
-    case order_product.transaction_type
+    order_product_total = case order_product.transaction_type
     # Positive price values and negative stock values
     when "sale_to_customer", "return_to_supplier"
-      order_product_total = order_product.product.price * order_product.quantity_ordered + order_product.shipping_cost
+      order_product.product.price * order_product.quantity_ordered + order_product.shipping_cost
       # Negative price values and positive stock values
     when "purchase_from_supplier", "refund_to_customer", "stock_loss"
-      order_product_total = -(order_product.product.price * order_product.quantity_ordered + order_product.shipping_cost)
+      -(order_product.product.price * order_product.quantity_ordered + order_product.shipping_cost)
     else
-      order_product_total = 0
+      0
     end
 
     order_product_total
@@ -79,8 +87,8 @@ class Order < ApplicationRecord
   #   product.update!(stock_quantity: product.stock_quantity + quantity)
   # end
 
-  scope :incoming, -> { where(type: 'incoming') }
-  scope :outgoing, -> { where(type: 'outgoing') }
+  scope :incoming, -> { where(type: "incoming") }
+  scope :outgoing, -> { where(type: "outgoing") }
 
   def self.incoming
     Order.where(receiving_address: StorageLocation.select(:address)).order(expected_delivery: :asc)

@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/controllers/search_controller.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/controllers/search_controller.rb
 class SearchController < ApplicationController
   def index
     @q = params[:q]

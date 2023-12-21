@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/db/seeds.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/db/seeds.rb
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
@@ -14,7 +16,9 @@ if company.persisted?
 else
   puts company.errors.full_messages
 end
-branches = 3.times.map { |i| { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current } }
+branches = 3.times.map do |i|
+  { name: "Branch #{i + 1}", company_id: company.id, created_at: Time.current, updated_at: Time.current }
+end
 Branch.insert_all!(branches)
 if branches.sample.persisted?
   puts branches.inspect

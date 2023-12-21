@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/datatables/new_order_product_datatable.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/datatables/new_order_product_datatable.rb
 class NewOrderProductDatatable < ApplicationDatatable
   delegate :params, :link_to, :number_to_currency, to: :@view
   include Kaminari::PageScopeMethods
@@ -28,11 +30,11 @@ class NewOrderProductDatatable < ApplicationDatatable
         price: number_to_currency(product.price),
         stock_quantity: product.stock_quantity,
         supplier: product.supplier_name,
-        checkbox: in_order ? 'checked' : '',
+        checkbox: in_order ? "checked" : "",
         quantity_ordered: in_order ? order_product.quantity_ordered : nil,
         shipping_cost: in_order ? order_product.shipping_cost : nil,
         transaction_type: in_order ? order_product.transaction_type : nil,
-        disabled: in_order ? 'disabled' : ''
+        disabled: in_order ? "disabled" : "",
       }
     end
   end
@@ -49,7 +51,7 @@ class NewOrderProductDatatable < ApplicationDatatable
     isNewOrder = params[:isNewOrder]
     orderId = params[:orderId]
 
-    products = Product.joins(:supplier).select('products.*, suppliers.name AS supplier_name')
+    products = Product.joins(:supplier).select("products.*, suppliers.name AS supplier_name")
 
     if isNewOrder == "false" && orderId.present?
       order = Order.find(orderId)
@@ -61,8 +63,8 @@ class NewOrderProductDatatable < ApplicationDatatable
 
       # Combine the above queries
       products = Product.from("(#{ordered_products.to_sql} UNION #{other_products.to_sql}) AS products")
-                        .joins(:supplier)
-                        .select('products.*, suppliers.name AS supplier_name')
+        .joins(:supplier)
+        .select("products.*, suppliers.name AS supplier_name")
     end
 
     unless counting
@@ -87,24 +89,24 @@ class NewOrderProductDatatable < ApplicationDatatable
       # Use the original column names without 'AS' aliases
       "#{column} LIKE :search_value"
     end
-    queries.join(' OR ')
+    queries.join(" OR ")
   end
 
   def sort_column
-    columns = %w[
-      products.id
-      products.name
-      products.description
-      products.sku
-      products.price
-      products.stock_quantity
-      products.supplier_name
+    columns = [
+      "products.id",
+      "products.name",
+      "products.description",
+      "products.sku",
+      "products.price",
+      "products.stock_quantity",
+      "products.supplier_name",
     ]
-    columns[params[:order]['0'][:column].to_i]
+    columns[params[:order]["0"][:column].to_i]
   end
 
   def sort_direction
-    %w[asc desc].include?(params[:order]['0'][:dir]) ? params[:order]['0'][:dir] : 'asc'
+    ["asc", "desc"].include?(params[:order]["0"][:dir]) ? params[:order]["0"][:dir] : "asc"
   end
 
   def page
@@ -117,12 +119,12 @@ class NewOrderProductDatatable < ApplicationDatatable
 
   def searchable_columns
     @searchable_columns ||= [
-      'products.id',
-      'products.name',
-      'products.description',
-      'products.sku',
-      'products.price',
-      'products.stock_quantity',
+      "products.id",
+      "products.name",
+      "products.description",
+      "products.sku",
+      "products.price",
+      "products.stock_quantity",
     ]
   end
 
@@ -133,5 +135,4 @@ class NewOrderProductDatatable < ApplicationDatatable
   def count
     fetch_records(true).count(:all)
   end
-
 end

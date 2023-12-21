@@ -1,6 +1,8 @@
-#/workspaces/Inventory-Management-System/app/controllers/reports_controller.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/controllers/reports_controller.rb
 class ReportsController < ApplicationController
-  before_action :set_report, only: %i[ show edit update destroy ]
+  before_action :set_report, only: [:show, :edit, :update, :destroy]
 
   # GET /reports or /reports.json
   def index
@@ -26,11 +28,11 @@ class ReportsController < ApplicationController
 
     respond_to do |format|
       if @report.save
-        format.html { redirect_to report_url(@report), notice: "Report was successfully created." }
-        format.json { render :show, status: :created, location: @report }
+        format.html { redirect_to(report_url(@report), notice: "Report was successfully created.") }
+        format.json { render(:show, status: :created, location: @report) }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @report.errors, status: :unprocessable_entity }
+        format.html { render(:new, status: :unprocessable_entity) }
+        format.json { render(json: @report.errors, status: :unprocessable_entity) }
       end
     end
   end
@@ -39,11 +41,11 @@ class ReportsController < ApplicationController
   def update
     respond_to do |format|
       if @report.update(report_params)
-        format.html { redirect_to report_url(@report), notice: "Report was successfully updated." }
-        format.json { render :show, status: :ok, location: @report }
+        format.html { redirect_to(report_url(@report), notice: "Report was successfully updated.") }
+        format.json { render(:show, status: :ok, location: @report) }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @report.errors, status: :unprocessable_entity }
+        format.html { render(:edit, status: :unprocessable_entity) }
+        format.json { render(json: @report.errors, status: :unprocessable_entity) }
       end
     end
   end
@@ -53,19 +55,20 @@ class ReportsController < ApplicationController
     @report.destroy
 
     respond_to do |format|
-      format.html { redirect_to reports_url, notice: "Report was successfully destroyed." }
-      format.json { head :no_content }
+      format.html { redirect_to(reports_url, notice: "Report was successfully destroyed.") }
+      format.json { head(:no_content) }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_report
-      @report = Report.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def report_params
-      params.require(:report).permit(:report_type, :date, :data_criteria, :company_id, :branch_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_report
+    @report = Report.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def report_params
+    params.require(:report).permit(:report_type, :date, :data_criteria, :company_id, :branch_id)
+  end
 end

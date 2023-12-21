@@ -1,8 +1,10 @@
-#/workspaces/Inventory-Management-System/display_file_content.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/display_file_content.rb
 require "clipboard"
 
 def display_file_content(file_path)
-  puts "#{file_path}"
+  puts file_path
   puts "```"
   content = File.read(file_path)
   puts content
@@ -38,20 +40,19 @@ files_to_display = [
   # "/workspaces/Inventory-Management-System/config/routes.rb",
 
   # POLICIES
-# "/workspaces/Inventory-Management-System/app/policies/application_policy.rb",
-# "/workspaces/Inventory-Management-System/app/policies/user_policy.rb",
+  # "/workspaces/Inventory-Management-System/app/policies/application_policy.rb",
+  # "/workspaces/Inventory-Management-System/app/policies/user_policy.rb",
 
-
-# VIEWS
-# "/workspaces/Inventory-Management-System/app/views/users/_form.html.erb",
-# "/workspaces/Inventory-Management-System/app/views/users/new.html.erb",
-# "/workspaces/Inventory-Management-System/app/views/users/_admin_form.html.erb",
-# "/workspaces/Inventory-Management-System/app/views/users/admin_new.html.erb",
-# "/workspaces/Inventory-Management-System/app/views/shared/_flash.html.erb",
-# "/workspaces/Inventory-Management-System/app/controllers/custom_devise/registrations_controller.rb",
-# "/workspaces/Inventory-Management-System/app/models/concerns/user/roleable.rb",
-# "/workspaces/Inventory-Management-System/config/initializers/devise.rb",
-# "/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb",
+  # VIEWS
+  # "/workspaces/Inventory-Management-System/app/views/users/_form.html.erb",
+  # "/workspaces/Inventory-Management-System/app/views/users/new.html.erb",
+  # "/workspaces/Inventory-Management-System/app/views/users/_admin_form.html.erb",
+  # "/workspaces/Inventory-Management-System/app/views/users/admin_new.html.erb",
+  # "/workspaces/Inventory-Management-System/app/views/shared/_flash.html.erb",
+  # "/workspaces/Inventory-Management-System/app/controllers/custom_devise/registrations_controller.rb",
+  # "/workspaces/Inventory-Management-System/app/models/concerns/user/roleable.rb",
+  # "/workspaces/Inventory-Management-System/config/initializers/devise.rb",
+  # "/workspaces/Inventory-Management-System/app/controllers/categories_controller.rb",
 
 ]
 

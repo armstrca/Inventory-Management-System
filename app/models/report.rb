@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/models/report.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/models/report.rb
 # == Schema Information
 #
 # Table name: reports

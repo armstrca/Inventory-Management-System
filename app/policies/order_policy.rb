@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/policies/order_policy.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/policies/order_policy.rb
 class OrderPolicy < ApplicationPolicy
   def create?
     user.staff? || user.admin? || user.manager?
@@ -17,11 +19,11 @@ class OrderPolicy < ApplicationPolicy
   end
 
   def incoming?
-   true
+    true
   end
 
   def outgoing?
-   true
+    true
   end
 
   def remove_product?
@@ -40,19 +42,5 @@ class OrderPolicy < ApplicationPolicy
     user.admin? || user.manager?
   end
 
-  def permitted_attributes_for_create
-    if user.staff?
-      # Define permitted attributes for create action
-    else
-      []
-    end
-  end
 
-  def permitted_attributes_for_update
-    if user.staff?
-      # Define permitted attributes for update action
-    else
-      []
-    end
-  end
 end

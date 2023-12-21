@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/models/order_product.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/models/order_product.rb
 # == Schema Information
 #
 # Table name: order_products
@@ -42,10 +44,10 @@ class OrderProduct < ApplicationRecord
 
   def validate_quantity_ordered
     if quantity_ordered.present? &&
-       (transaction_type == "sale_to_customer" ||
-        transaction_type == "return_to_supplier" ||
-        transaction_type == "stock_loss") &&
-       quantity_ordered > product.stock_quantity
+        (transaction_type == "sale_to_customer" ||
+         transaction_type == "return_to_supplier" ||
+         transaction_type == "stock_loss") &&
+        quantity_ordered > product.stock_quantity
       errors.add(:quantity_ordered, "cannot be greater than available stock quantity (#{product.stock_quantity})")
     end
   end

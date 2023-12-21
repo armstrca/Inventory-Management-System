@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/test/test/controllers/dashboard_controller_test.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/test/test/controllers/dashboard_controller_test.rb
 require "test_helper"
 
 class DashboardControllerTest < ActionDispatch::IntegrationTest

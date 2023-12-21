@@ -1,4 +1,6 @@
-#/workspaces/Inventory-Management-System/app/datatables/outgoing_datatable.rb
+# frozen_string_literal: true
+
+# /workspaces/Inventory-Management-System/app/datatables/outgoing_datatable.rb
 # /workspaces/Inventory-Management-System/app/datatables/order_datatable.rb
 require "application_datatable"
 
@@ -21,7 +23,7 @@ class OutgoingDatatable < ApplicationDatatable
       {
         id: order.id,
         expected_delivery: order.expected_delivery,
-        status: order.status.gsub('_', ' ').titleize,
+        status: order.status.gsub("_", " ").titleize,
         description: order.description,
         product_id: order.products.pluck(:id).join(", "),
         quantity_ordered: order.order_products.sum(:quantity_ordered),
@@ -40,7 +42,7 @@ class OutgoingDatatable < ApplicationDatatable
   end
 
   def fetch_records
-    orders = Order.outgoing.joins(:order_products).group('orders.id')
+    orders = Order.outgoing.joins(:order_products).group("orders.id")
     if params[:order].present?
       orders = orders.order(Arel.sql("#{sort_column} #{sort_direction}"))
     end
@@ -55,41 +57,44 @@ class OutgoingDatatable < ApplicationDatatable
   def search_query
     # Construct a SQL query for searching multiple columns
     # Exclude 'product_id' from the search columns if it's not a direct column
-    queries = searchable_columns.reject { |col| col == :product_id || col == :quantity_ordered || col == :shipping_cost }.map { |column|
+    queries = searchable_columns.reject do |col|
+                col == :product_id || col == :quantity_ordered || col == :shipping_cost
+              end.map do |column|
       "#{column} LIKE :search_value"
-    }
+    end
 
     # If you want to search by product_id, consider adding a join and a condition like:
     queries << "order_product.product_id LIKE :search_value"
     queries << "order_products.quantity_ordered LIKE :search_value"
     queries << "order_products.shipping_cost LIKE :search_value"
 
-    queries.join(' OR ')
+    queries.join(" OR ")
   end
 
   def sort_column
     # Define a whitelist of column names
-      # Temporarily hardcode the column name for testing
-  return 'orders.total' if params[:order]['0'][:column].to_i == 9
-    columns = %w[
-      orders.id
-      orders.expected_delivery
-      orders.status
-      orders.sending_address
-      orders.receiving_address
-      orders.description
-      orders.total
-      quantity_ordered
-      shipping_cost
+    # Temporarily hardcode the column name for testing
+    return "orders.total" if params[:order]["0"][:column].to_i == 9
+
+    columns = [
+      "orders.id",
+      "orders.expected_delivery",
+      "orders.status",
+      "orders.sending_address",
+      "orders.receiving_address",
+      "orders.description",
+      "orders.total",
+      "quantity_ordered",
+      "shipping_cost",
     ]
 
     # Use a hash to map the sortable columns to their corresponding SQL expressions
     column_expressions = {
-      'quantity_ordered' => 'SUM(order_products.quantity_ordered)',
-      'shipping_cost' => 'SUM(order_products.shipping_cost)'
+      "quantity_ordered" => "SUM(order_products.quantity_ordered)",
+      "shipping_cost" => "SUM(order_products.shipping_cost)",
     }
 
-    index = params[:order]['0'][:column].to_i
+    index = params[:order]["0"][:column].to_i
     column_name = columns[index]
 
     # Use the SQL expression if it exists, otherwise use the column name directly
@@ -98,7 +103,7 @@ class OutgoingDatatable < ApplicationDatatable
 
   def sort_direction
     # Define a whitelist of valid sort directions
-    %w[asc desc].include?(params[:order]['0'][:dir]) ? params[:order]['0'][:dir] : 'asc'
+    ["asc", "desc"].include?(params[:order]["0"][:dir]) ? params[:order]["0"][:dir] : "asc"
   end
 
   def page

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -24,7 +26,7 @@ gem "rails", "~> 7.0.5"
 gem "sprockets-rails"
 gem "pg", "~> 1.1"
 gem "puma", "~> 5.0"
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "sassc-rails"
 gem "jquery-rails"
 gem "memory_profiler"
@@ -34,17 +36,18 @@ gem "actionpack-action_caching"
 gem "responders"
 gem "jquery-datatables-rails", "~> 3.4"
 gem "stackprof"
-gem "dockerfile-rails", ">= 1.5", :group => :development
+gem "dockerfile-rails", ">= 1.5", group: :development
 gem "sentry-ruby", "~> 5.13"
 gem "sentry-rails", "~> 5.13"
-gem "rubocop-rails-accessibility"
 gem "rubocop-performance", require: false
 gem "rubocop-rails", require: false
-gem 'rubocop', require: false
-gem 'rubocop-shopify'
+gem "rubocop", require: false
+gem "rubocop-shopify"
+gem "rubocop-github"
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "debug", platforms: [:mri, :mingw, :x64_mingw]
+  gem "rubocop-rails-accessibility"
 end
 
 group :development do
