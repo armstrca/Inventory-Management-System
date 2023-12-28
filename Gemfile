@@ -52,7 +52,7 @@ end
 
 group :development do
   gem "web-console"
-  gem "rails_live_reload"
+  # gem "rails_live_reload" (disabled only for local - doesn't seem to work on local)
   gem "rails_best_practices"
   gem "reek"
   gem "rack-mini-profiler"
