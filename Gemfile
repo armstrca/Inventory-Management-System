@@ -22,7 +22,7 @@ gem "kaminari"
 gem "redis", "~> 4.0"
 gem "font-awesome-sass", "~> 6.4.2"
 gem "bootsnap", require: false
-gem "rails", "~> 7.0.5"
+gem "rails", "~> 7.0.8"
 gem "sprockets-rails"
 gem "pg", "~> 1.1"
 gem "puma", "~> 5.0"
