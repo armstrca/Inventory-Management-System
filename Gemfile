@@ -19,6 +19,10 @@ gem "turbo-rails"
 gem "stimulus-rails"
 gem "jbuilder"
 gem "kaminari"
+gem 'ruby-lsp'
+gem "rubocop-packaging"
+gem "rubocop-rspec"
+gem "rubocop-thread_safety"
 gem "redis", "~> 4.0"
 gem "font-awesome-sass", "~> 6.4.2"
 gem "bootsnap", require: false

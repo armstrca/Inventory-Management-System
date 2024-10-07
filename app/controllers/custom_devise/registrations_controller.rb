@@ -35,7 +35,6 @@ module CustomDevise
       end
     end
 
-    # Other actions...
 
     protected
 
